@@ -1,80 +1,52 @@
-import React, {Component, PureComponent} from 'react';
+import React, {useRef} from 'react';
 import {
   View,
   Text,
-  SafeAreaView,
   StatusBar,
   StyleSheet,
-  Animated,
-  Image,
-  LogBox,
   TouchableOpacity,
-  ScrollView,
-  Dimensions,
+  ImageBackground,
 } from 'react-native';
 
 //Constant Files
 import {CommonColors} from '../Constants/ColorConstant';
-import {IMG} from '../Constants/ImageConstant';
 import {SetFontSize} from '../Constants/FontSize';
 import {ConstantKeys} from '../Constants/ConstantKey';
 
 //Third Party
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {CommonActions} from '@react-navigation/native';
-import {Neomorph, Shadow, NeomorphFlex} from 'react-native-neomorph-shadows';
+import {CommonActions, useNavigation} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 
 import AppIntroSlider from 'react-native-app-intro-slider';
-import FastImage from 'react-native-fast-image';
+import {images} from '../Assets/Images/images';
 
 const slides = [
   {
     key: 1,
     title: 'Welcome to Clique',
     text: 'The first thing you will need\nis your Clique card.',
-    image: IMG.InitialFlow.CardLeft,
+    image: images.onboarding1,
   },
   {
     key: 2,
     title: 'Take Your Card',
     text: 'Scan your card with your\nphone to activate it',
-    image: IMG.InitialFlow.CardRight,
+    image: images.onboarding2,
   },
   {
     key: 3,
     title: 'Put it Behind Your Phone',
     text: 'Scan your card with your\nphone to activate it',
-    image: IMG.InitialFlow.CardCenter,
-  },
-  {
-    key: 4,
-    title: 'Create Your Profile',
-    text: 'Fill up all your information add\nsync your social media profile',
-    image: IMG.InitialFlow.CardRight,
-  },
-  {
-    key: 5,
-    title: 'Connect With Your Friends',
-    text: 'Youre ready to connect with your\nfriends and meet new people',
-    image: IMG.InitialFlow.CardLeft,
+    image: images.onboarding3,
   },
 ];
 
-export default class Tutorial extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  componentDidMount() {
-    LogBox.ignoreAllLogs = true;
-  }
-
-  // Helper Functions
-  goToLogin() {
-    const props = this.props;
-    props.navigation.dispatch(
+const Tutorial = () => {
+  const introRef = useRef();
+  const navigation = useNavigation();
+  const goToLogin = () => {
+    navigation.dispatch(
       CommonActions.reset({
         index: 0,
         routes: [
@@ -87,11 +59,11 @@ export default class Tutorial extends Component {
         ],
       }),
     );
-  }
+  };
 
-  goToRegister() {
-    const props = this.props;
-    props.navigation.dispatch(
+  const goToRegister = () => {
+    const props = props;
+    navigation.dispatch(
       CommonActions.reset({
         index: 0,
         routes: [
@@ -104,130 +76,91 @@ export default class Tutorial extends Component {
         ],
       }),
     );
-  }
+  };
 
-  async storeIsSkipValue(isLogin) {
+  const storeIsSkipValue = async (isLogin) => {
     try {
       await AsyncStorage.setItem(ConstantKeys.IS_SKIP_TUTORIAL, 'true');
 
       if (isLogin) {
-        this.goToLogin();
+        goToLogin();
       } else {
-        this.goToRegister();
+        goToRegister();
       }
     } catch (e) {
       // saving error
     }
-  }
-
-  //Action Methods
-  btnStartNowTap = async () => {
-    requestAnimationFrame(() => {
-      this.storeIsSkipValue();
-    });
   };
 
-  _renderItem = ({item}) => {
+  const _renderItem = ({item}) => {
     return (
-      <View style={styles.slide}>
-        <View style={{alignItems: 'center', justifyContent: 'center'}}>
-          <Image
-            source={IMG.InitialFlow.Clique}
-            style={{
-              resizeMode: 'contain',
-              marginTop: 40,
-              width: 130,
-              height: 65,
-            }}
-          />
-        </View>
-
-        <View
-          style={{
-            height: '40%',
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginTop: 20,
-          }}>
-          <Image
-            source={item.image}
-            style={{flex: 1, resizeMode: 'contain', width: '100%'}}
-          />
-        </View>
-
-        <View style={{alignItems: 'center', marginTop: 20}}>
-          <Text style={styles.txtIntoTitle}>{item.title}</Text>
-
-          <Text style={styles.txtIntroDesc}>{item.text}</Text>
-        </View>
-      </View>
-    );
-  };
-
-  render() {
-    let Background = IMG.OtherFlow.Background;
-    return (
-      <SafeAreaView
-        style={{flex: 1, backgroundColor: CommonColors.primaryColor}}>
-        <View style={{flex: 1, backgroundColor: CommonColors.primaryColor}}>
-          <StatusBar
-            barStyle={'light-content'}
-            backgroundColor={CommonColors.primaryColor}
-          />
-
-          <FastImage
-            source={Background}
-            resizeMode={FastImage.resizeMode.cover}
-            style={{
-              width: Dimensions.get('window').width,
-              height: Dimensions.get('window').height,
-            }}
-          />
-
-          <View style={{position: 'absolute', width: '100%', height: '100%'}}>
-            <AppIntroSlider
-              renderItem={this._renderItem}
-              data={slides}
-              showNextButton={false}
-              showDoneButton={false}
-              activeDotStyle={{backgroundColor: CommonColors.PurpleColor}}
-              dotStyle={{backgroundColor: CommonColors.GhostColor}}
-            />
-
+      <ImageBackground source={item.image} style={styles.slide}>
+        <View style={{paddingBottom: 40}}>
+          <TouchableOpacity onPress={() => storeIsSkipValue(false)}>
             <LinearGradient
               colors={[CommonColors.gradientStart, CommonColors.gradientEnd]}
               start={{x: 0, y: 0}}
               end={{x: 1, y: 0}}
               style={styles.btnSignUp}>
-              <TouchableOpacity
-                style={{
-                  flex: 1,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-                onPress={() => this.storeIsSkipValue(false)}>
-                <Text style={styles.txtSignUp}>Sign Up</Text>
-              </TouchableOpacity>
+              <Text style={styles.txtSignUp}>Sign Up</Text>
             </LinearGradient>
+          </TouchableOpacity>
 
-            <Text style={styles.txtAlreadyAccount}>
-              Already have an account?{' '}
-              <Text
-                style={styles.txtLogin}
-                onPress={() => this.storeIsSkipValue(true)}>
-                Log In
-              </Text>
+          <Text style={styles.txtAlreadyAccount}>
+            Already have an account?{' '}
+            <Text
+              style={styles.txtLogin}
+              onPress={() => storeIsSkipValue(true)}>
+              Log In
             </Text>
-          </View>
+          </Text>
         </View>
-      </SafeAreaView>
+      </ImageBackground>
     );
-  }
-}
+  };
+
+  const _renderPagination = (activeIndex) => {
+    return (
+      <View style={styles.paginationContainer}>
+        <View style={styles.paginationDots}>
+          {slides.length > 1 &&
+            slides.map((a, i) => (
+              <TouchableOpacity
+                style={[
+                  styles.dot,
+                  i === activeIndex
+                    ? {backgroundColor: '#945FEC', width: 23}
+                    : {backgroundColor: '#E4D6FD'},
+                ]}
+                onPress={() => introRef.current?.goToSlide(i, true)}
+              />
+            ))}
+        </View>
+      </View>
+    );
+  };
+  return (
+    <View style={{flex: 1}}>
+      <StatusBar
+        barStyle={'light-content'}
+        backgroundColor={CommonColors.primaryColor}
+      />
+      <AppIntroSlider
+        ref={introRef}
+        renderItem={_renderItem}
+        data={slides}
+        showNextButton={false}
+        showDoneButton={false}
+        renderPagination={_renderPagination}
+      />
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   slide: {
     flex: 1,
+    justifyContent: 'flex-end',
     // backgroundColor: CommonColors.primaryColor,
   },
   image: {
@@ -256,13 +189,12 @@ const styles = StyleSheet.create({
     marginBottom: 25,
     fontFamily: ConstantKeys.Averta_REGULAR,
     fontSize: SetFontSize.ts14,
-    color: CommonColors.whiteColor,
+    color: CommonColors.secondaryText,
   },
   txtLogin: {
     fontFamily: ConstantKeys.Averta_BOLD,
     fontSize: SetFontSize.ts14,
-    color: CommonColors.whiteColor,
-    textDecorationLine: 'underline',
+    color: CommonColors.secondaryText,
   },
   viewClique: {
     backgroundColor: '#F2F0F7',
@@ -292,4 +224,22 @@ const styles = StyleSheet.create({
     fontFamily: ConstantKeys.Averta_REGULAR,
     color: CommonColors.whiteColor,
   },
+  paginationContainer: {
+    position: 'absolute',
+    bottom: 30,
+    alignSelf: 'center',
+  },
+  paginationDots: {
+    height: 16,
+    marginTop: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  dot: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    marginHorizontal: 2,
+  },
 });
+export default Tutorial;

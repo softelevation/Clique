@@ -280,16 +280,16 @@ function ProfileStackScreen() {
 }
 
 // Use For Hide Tab bar
-shouldTabBarVisible = (route) => {
-  try {
-    return route.state.index < 1;
-  } catch (e) {
-    return true;
-  }
-};
 
 //Dashboard Stacks
 function DashboardStack() {
+  const shouldTabBarVisible = (route) => {
+    try {
+      return route.state.index < 1;
+    } catch (e) {
+      return true;
+    }
+  };
   return (
     <Tab.Navigator
       tabBarOptions={{

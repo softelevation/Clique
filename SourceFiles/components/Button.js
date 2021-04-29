@@ -158,7 +158,7 @@ const Button = ({
           {isLoading ? (
             <ActivityIndicator size="small" color="#ffffff" />
           ) : (
-            <Text center bold h1 size={size || 17} color={'white'}>
+            <Text center regular h1 size={size || 17} color={'white'}>
               {children}
             </Text>
           )}

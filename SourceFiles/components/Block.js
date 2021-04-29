@@ -1,5 +1,7 @@
 import React from 'react';
 import {StyleSheet, View, Animated, SafeAreaView} from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
+import {CommonColors} from '../Constants/ColorConstant';
 import {light} from './theme/colors';
 
 const componentStyles = () => {
@@ -79,6 +81,7 @@ const Block = ({
   borderColor,
   borderColorDeafult,
   alignSelf,
+  linear,
   ...rest
 }) => {
   const styles = componentStyles();
@@ -297,6 +300,17 @@ const Block = ({
       <SafeAreaView {...rest} style={blockStyles}>
         {children}
       </SafeAreaView>
+    );
+  }
+  if (linear) {
+    return (
+      <LinearGradient
+        colors={[CommonColors.gradientEnd, CommonColors.gradientStart]}
+        start={{x: 0, y: 0}}
+        end={{x: 1, y: 0}}
+        style={blockStyles}>
+        {children}
+      </LinearGradient>
     );
   }
   return (

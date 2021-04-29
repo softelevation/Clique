@@ -20,6 +20,8 @@ import LinearGradient from 'react-native-linear-gradient';
 
 import AppIntroSlider from 'react-native-app-intro-slider';
 import {images} from '../Assets/Images/images';
+import {Button} from '../components';
+import {wp} from '../components/responsive';
 
 const slides = [
   {
@@ -95,16 +97,13 @@ const Tutorial = () => {
   const _renderItem = ({item}) => {
     return (
       <ImageBackground source={item.image} style={styles.slide}>
-        <View style={{paddingBottom: 40}}>
-          <TouchableOpacity onPress={() => storeIsSkipValue(false)}>
-            <LinearGradient
-              colors={[CommonColors.gradientStart, CommonColors.gradientEnd]}
-              start={{x: 0, y: 0}}
-              end={{x: 1, y: 0}}
-              style={styles.btnSignUp}>
-              <Text style={styles.txtSignUp}>Sign Up</Text>
-            </LinearGradient>
-          </TouchableOpacity>
+        <View style={{paddingBottom: 40, marginHorizontal: wp(5)}}>
+          <Button
+            onPress={() => storeIsSkipValue(false)}
+            linear
+            color="primary">
+            Sign Up
+          </Button>
 
           <Text style={styles.txtAlreadyAccount}>
             Already have an account?{' '}

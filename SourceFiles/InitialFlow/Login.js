@@ -1,29 +1,20 @@
 import React, {Component} from 'react';
 import {
-  View,
   StyleSheet,
-  StatusBar,
-  TouchableOpacity,
   ScrollView,
-  TextInput,
   Keyboard,
-  Dimensions,
   Alert,
   ImageBackground,
 } from 'react-native';
 
 //Constant Files
 import {CommonColors} from '../Constants/ColorConstant';
-import {IMG} from '../Constants/ImageConstant';
 import {SetFontSize} from '../Constants/FontSize';
 import {ConstantKeys} from '../Constants/ConstantKey';
 import LoadingView from '../Constants/LoadingView';
 import Webservice from '../Constants/API';
 import {APIURL} from '../Constants/APIURL';
 import Snackbar from 'react-native-snackbar';
-import CountryPicker from 'rn-country-picker';
-import LinearGradient from 'react-native-linear-gradient';
-import FastImage from 'react-native-fast-image';
 import {images} from '../Assets/Images/images';
 import {Block, Button, Input, Text} from '../components';
 import {hp, wp} from '../components/responsive';
@@ -118,6 +109,13 @@ export default class Login extends Component {
   };
 
   // Action Methods
+  btnForgotPasswordTap = () => {
+    requestAnimationFrame(() => {
+      this.props.navigation.navigate('ForgotPassword', {isFromTutorial: false});
+    });
+  };
+
+  // Action Methods
   btnSignUpTap = () => {
     requestAnimationFrame(() => {
       this.props.navigation.navigate('RegisterName', {isFromTutorial: false});
@@ -185,7 +183,13 @@ export default class Login extends Component {
             <Button style={{marginTop: hp(2)}} color="primary">
               Login
             </Button>
-            <Text margin={[hp(1), 0]} size={14} white regular right>
+            <Text
+              margin={[hp(1), 0]}
+              size={14}
+              white
+              regular
+              right
+              onPress={() => this.btnForgotPasswordTap()}>
               Forgot Password ?
             </Text>
             {/* <View

@@ -18,4 +18,5 @@ export const light = {
   success: '#22bb33',
   pending: '#f0ad4e',
   info: '#aaaaaa',
+  purple: 'rgb(111,58,200)',
 };

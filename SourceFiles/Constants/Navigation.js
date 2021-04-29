@@ -31,6 +31,9 @@ import RegisterProfilePic from '../InitialFlow/RegisterProfilePic';
 import RegisterBio from '../InitialFlow/RegisterBio';
 import RegisterSocialMedia from '../InitialFlow/RegisterSocialMedia';
 import Congratulation from '../InitialFlow/Congratulation';
+import ForgotPassword from '../forgot/index';
+import ForgotPasswordTwo from '../ForgotFlow/ForgotPasswordTwo';
+import ForgotPasswordThree from '../ForgotFlow/ForgotPasswordThree';
 
 //Dashborad Flow Files
 import Dashboard from '../DashboardFlow/Dashboard';
@@ -81,7 +84,8 @@ function InitialFlow() {
   return (
     <Stack.Navigator
       initialRouteName="AutoLogin"
-      screenOptions={{gestureEnabled: false}}>
+      // screenOptions={{gestureEnabled: false}}
+    >
       <Stack.Screen
         name="Login"
         component={Login}
@@ -135,6 +139,23 @@ function InitialFlow() {
       <Stack.Screen
         name="Congratulation"
         component={Congratulation}
+        options={{headerShown: false}}
+      />
+
+      <Stack.Screen
+        name="ForgotPassword"
+        component={ForgotPassword}
+        options={{headerShown: false}}
+      />
+
+      <Stack.Screen
+        name="ForgotPasswordTwo"
+        component={ForgotPasswordTwo}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="ForgotPasswordThree"
+        component={ForgotPasswordThree}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

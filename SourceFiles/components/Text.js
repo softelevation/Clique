@@ -53,6 +53,7 @@ const componentStyles = () => {
     grey: {color: light.subtitleColor},
     errorColor: {color: light.warning},
     linkColor: {color: light.link},
+    purple: {color: light.purple},
     // // fonts
     h1: {fontSize: h1},
     h2: {fontSize: h2},
@@ -112,6 +113,7 @@ const CustomText = ({
   errorColor,
   link,
   thin,
+  purple,
   ...props
 }) => {
   const styles = componentStyles();
@@ -197,6 +199,7 @@ const CustomText = ({
     uppercase && styles.uppercase,
     underline && styles.underline,
     errorColor && styles.errorColor,
+    purple && styles.purple,
     margin && {...handleMargins()},
     style, // rewrite predefined styles
   ];

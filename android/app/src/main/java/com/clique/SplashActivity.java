@@ -1,4 +1,4 @@
-package com.clique;
+package com.cliqueapp;
 
 import android.content.Intent;
 import android.os.Bundle;

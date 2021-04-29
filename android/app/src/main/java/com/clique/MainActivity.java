@@ -1,4 +1,4 @@
-package com.clique;
+package com.cliqueapp;
 
 import com.facebook.react.ReactActivity;
 

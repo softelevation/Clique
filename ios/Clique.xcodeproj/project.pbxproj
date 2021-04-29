@@ -710,7 +710,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.cliquenfc.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cliqueappnfc.app;
 				PRODUCT_NAME = Clique;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -735,7 +735,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.cliquenfc.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cliqueappnfc.app;
 				PRODUCT_NAME = Clique;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";

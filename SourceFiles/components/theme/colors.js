@@ -10,7 +10,7 @@ export const light = {
   primary: '#ffffff',
   secondary: '#000000',
   headerColor: '#505862',
-  subtitleColor: '#8A8E99',
+  subtitleColor: '#707070',
   warning: '#EE3254',
   link: '#0044CC',
   facebook: '#3870DE',

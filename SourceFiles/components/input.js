@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
-import {StyleSheet, TextInput} from 'react-native';
+import {StyleSheet, TextInput, TouchableOpacity} from 'react-native';
 import ResponsiveImage from 'react-native-responsive-image';
 import {hp, wp} from './responsive';
 import Block from './Block';
 import Button from './Button';
 import Text from './Text';
 import {AvertaRegular, t1} from './theme/fontsize';
+import {ImageComponent} from '.';
 
 const componentStyles = () => {
   return StyleSheet.create({
@@ -31,6 +32,15 @@ const componentStyles = () => {
       top: 16,
       right: 8,
     },
+    primaryInput: {
+      paddingVertical: hp(1.5),
+      paddingHorizontal: wp(2),
+      fontSize: 16,
+      color: '#F2EDFA',
+      fontFamily: AvertaRegular,
+      backgroundColor: 'transparent',
+      borderRadius: 16,
+    },
   });
 };
 
@@ -51,6 +61,8 @@ const Input = ({
   center,
   placeholderTextColor,
   transparent,
+  color,
+  primary,
   ...rest
 }) => {
   const styles = componentStyles();
@@ -78,17 +90,16 @@ const Input = ({
       return null;
     }
     return (
-      <Button
-        style={styles.toggle}
+      <TouchableOpacity
         onPress={() => setToggleSecure({toggleSecure: !toggleSecure})}>
-        {/* {rightLabel || (
-          <Icon
-            color={'#000'}
-            size={14}
-            name={!toggleSecure ? 'md-eye' : 'md-eye-off'}
+        {rightLabel || (
+          <ImageComponent
+            height={30}
+            width={30}
+            name={!toggleSecure ? 'eye' : 'eye'}
           />
-        )} */}
-      </Button>
+        )}
+      </TouchableOpacity>
     );
   };
 
@@ -98,12 +109,15 @@ const Input = ({
     }
 
     return (
-      <ResponsiveImage
-        source={rightLabel}
-        initHeight="20"
-        initWidth="20"
-        style={[styles.toggle, rightStyle]}
-      />
+      <TouchableOpacity
+        style={{marginTop: hp(0.5)}}
+        onPress={() => setToggleSecure(!toggleSecure)}>
+        <ImageComponent
+          height={30}
+          width={30}
+          name={!toggleSecure ? 'eye' : 'eye'}
+        />
+      </TouchableOpacity>
     );
   };
 
@@ -119,6 +133,7 @@ const Input = ({
 
   const inputStyles = [
     styles.input,
+    color && {color: color},
     !editable && {
       backgroundColor: '#000',
       color: '#fff',
@@ -126,6 +141,59 @@ const Input = ({
     },
     style,
   ];
+  const primaryInputStyles = [
+    styles.primaryInput,
+    color && {color: color},
+    !editable && {
+      backgroundColor: '#000',
+      color: '#fff',
+      borderColor: '#000',
+    },
+    style,
+  ];
+
+  if (primary) {
+    return (
+      <Block
+        flex={false}
+        borderColor={error ? 'red' : 'transparent'}
+        borderWidth={error ? 1 : 0}
+        margin={[hp(1), 0]}>
+        {renderLabel()}
+        <Block
+          row
+          center
+          padding={[0, wp(2)]}
+          space={'between'}
+          style={{width: wp(90), backgroundColor: '#fff', borderRadius: 16}}>
+          <TextInput
+            placeholder={placeholder}
+            style={[
+              primaryInputStyles,
+              rightLabel ? {width: wp(77)} : {width: wp(85)},
+            ]}
+            secureTextEntry={isSecure}
+            autoComplete="off"
+            autoCapitalize="none"
+            editable={editable}
+            autoCorrect={false}
+            keyboardType={inputType}
+            placeholderTextColor={
+              placeholderTextColor ? placeholderTextColor : '#F2EDFA'
+            }
+            {...rest}
+          />
+          {errorText && error && (
+            <Text size={12} errorColor>
+              {errorText}
+            </Text>
+          )}
+          {renderToggle()}
+          {renderRight()}
+        </Block>
+      </Block>
+    );
+  }
   return (
     <Block
       flex={false}

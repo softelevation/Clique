@@ -32,8 +32,8 @@ import RegisterBio from '../InitialFlow/RegisterBio';
 import RegisterSocialMedia from '../InitialFlow/RegisterSocialMedia';
 import Congratulation from '../InitialFlow/Congratulation';
 import ForgotPassword from '../forgot/index';
-import ForgotPasswordTwo from '../ForgotFlow/ForgotPasswordTwo';
-import ForgotPasswordThree from '../ForgotFlow/ForgotPasswordThree';
+import ForgotMail from '../forgot/mail/index';
+import RecoverPassword from '../forgot/recover/index';
 
 //Dashborad Flow Files
 import Dashboard from '../DashboardFlow/Dashboard';
@@ -149,13 +149,13 @@ function InitialFlow() {
       />
 
       <Stack.Screen
-        name="ForgotPasswordTwo"
-        component={ForgotPasswordTwo}
+        name="ForgotMail"
+        component={ForgotMail}
         options={{headerShown: false}}
       />
       <Stack.Screen
-        name="ForgotPasswordThree"
-        component={ForgotPasswordThree}
+        name="RecoverPassword"
+        component={RecoverPassword}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

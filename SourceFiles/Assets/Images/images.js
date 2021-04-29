@@ -8,11 +8,14 @@ export const images = {
   // Icons
   instagram: require('./icons/insta.png'),
   google: require('./icons/google.png'),
+  eye: require('./icons/eye.png'),
+  behance: require('./icons/behance.png'),
+  orangeCloud: require('./icons/orange_cloud.png'),
+
   // Forgot
   forgotBg: require('./forgot/forgot.png'),
   nameBg: require('./forgot/nameBg.png'),
   resetBell: require('./forgot/ic_reset.png'),
-  orangeCloud: require('./forgot/orange_cloud.png'),
   spotify: require('./forgot/ic_spotify.png'),
   applePay: require('./forgot/ic_applepay.png'),
   forgotBgThrird: require('./forgot/forgotpwdthree.png'),

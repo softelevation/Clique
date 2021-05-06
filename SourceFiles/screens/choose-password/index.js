@@ -40,7 +40,7 @@ const ChoosePassword = () => {
       <SafeAreaView />
       <ScrollView contentContainerStyle={styles.container} bounces={false}>
         <Block space="between" flex={false} row>
-          <TouchableOpacity onPress={() => this.btnBackTap()}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
             <LinearGradient
               colors={['#5542B6', '#7653DB']}
               style={styles.linear}>

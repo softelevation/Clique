@@ -19,4 +19,8 @@ export const images = {
   spotify: require('./forgot/ic_spotify.png'),
   applePay: require('./forgot/ic_applepay.png'),
   forgotBgThrird: require('./forgot/forgotpwdthree.png'),
+  MinUserIcon: require('./InitialFlowIcons/ic_minUser.png'),
+  BackIcon: require('./OtherImages/ic_back.png'),
+  MinEmailIcon: require('./InitialFlowIcons/ic_minEmail.png'),
+  CameraIcon: require('./OtherImages/ic_camera.png'),
 };

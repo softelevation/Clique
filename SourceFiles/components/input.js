@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, TextInput, TouchableOpacity} from 'react-native';
+import {Alert, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
 import ResponsiveImage from 'react-native-responsive-image';
 import {hp, wp} from './responsive';
 import Block from './Block';
@@ -7,6 +7,7 @@ import Button from './Button';
 import Text from './Text';
 import {AvertaRegular, t1} from './theme/fontsize';
 import {ImageComponent} from '.';
+import Neomorph from '../common/shadow-src/Neomorph';
 
 const componentStyles = () => {
   return StyleSheet.create({
@@ -41,6 +42,14 @@ const componentStyles = () => {
       backgroundColor: 'transparent',
       borderRadius: 16,
     },
+    neomorph: {
+      borderRadius: 16,
+      shadowRadius: 1,
+      backgroundColor: '#fff',
+      marginTop: hp(0.3),
+      marginHorizontal: wp(1),
+      padding: 3,
+    },
   });
 };
 
@@ -63,6 +72,8 @@ const Input = ({
   transparent,
   color,
   primary,
+  rightIcon,
+  neomorph,
   ...rest
 }) => {
   const styles = componentStyles();
@@ -117,6 +128,20 @@ const Input = ({
           width={30}
           name={!toggleSecure ? 'eye' : 'eye'}
         />
+      </TouchableOpacity>
+    );
+  };
+
+  const renderRightIcon = () => {
+    if (!rightIcon) {
+      return null;
+    }
+
+    return (
+      <TouchableOpacity
+        style={{marginTop: hp(0.5), marginRight: wp(2)}}
+        onPress={() => setToggleSecure(!toggleSecure)}>
+        <ImageComponent height={30} width={30} name={rightIcon} />
       </TouchableOpacity>
     );
   };
@@ -194,12 +219,49 @@ const Input = ({
       </Block>
     );
   }
+  if (neomorph) {
+    return (
+      <Neomorph style={styles.neomorph}>
+        <Block
+          row
+          center
+          padding={[0, wp(2)]}
+          space={'between'}
+          style={{width: wp(91), backgroundColor: '#F2F0F7', borderRadius: 16}}>
+          <TextInput
+            placeholder={placeholder}
+            style={[
+              primaryInputStyles,
+              rightIcon ? {width: wp(77)} : {width: wp(85)},
+            ]}
+            secureTextEntry={isSecure}
+            autoComplete="off"
+            autoCapitalize="none"
+            editable={editable}
+            autoCorrect={false}
+            keyboardType={inputType}
+            placeholderTextColor={
+              placeholderTextColor ? placeholderTextColor : '#F2F0F7'
+            }
+            {...rest}
+          />
+          {errorText && error && (
+            <Text size={12} errorColor>
+              {errorText}
+            </Text>
+          )}
+          {renderToggle()}
+          {secure ? renderRight() : renderRightIcon()}
+        </Block>
+      </Neomorph>
+    );
+  }
   return (
     <Block
       flex={false}
       borderColor={error ? 'red' : 'transparent'}
       borderWidth={error ? 1 : 0}
-      margin={[hp(1), 0]}>
+      margin={[hp(0.3), wp(1)]}>
       {renderLabel()}
       <TextInput
         placeholder={placeholder}

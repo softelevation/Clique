@@ -50,6 +50,7 @@ import SyncToCard from '../DashboardFlow/SyncToCard';
 import TempProfile from '../DashboardFlow/TempProfile';
 import EditProfile from '../DashboardFlow/EditProfile';
 import AddJob from '../DashboardFlow/AddJob';
+import ChoosePassword from '../screens/choose-password';
 
 //Constant Variable for navigation
 const Stack = createStackNavigator();
@@ -156,6 +157,11 @@ function InitialFlow() {
       <Stack.Screen
         name="RecoverPassword"
         component={RecoverPassword}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="ChoosePassword"
+        component={ChoosePassword}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

@@ -51,6 +51,9 @@ import TempProfile from '../DashboardFlow/TempProfile';
 import EditProfile from '../DashboardFlow/EditProfile';
 import AddJob from '../DashboardFlow/AddJob';
 import ChoosePassword from '../screens/choose-password';
+import OwnProducts from '../screens/own-products';
+import ScanCard from '../screens/own-products/scan-card';
+import ActivatedCard from '../screens/own-products/activated-card';
 
 //Constant Variable for navigation
 const Stack = createStackNavigator();
@@ -83,87 +86,28 @@ function TutorialFlow() {
 // Initial Flow Navigator
 function InitialFlow() {
   return (
-    <Stack.Navigator
-      initialRouteName="AutoLogin"
-      // screenOptions={{gestureEnabled: false}}
-    >
-      <Stack.Screen
-        name="Login"
-        component={Login}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="AutoLogin"
-        component={AutoLogin}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="OTPView"
-        component={OTPView}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="RegisterName"
-        component={RegisterName}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="RegisterMobile"
-        component={RegisterMobile}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="RegisterOTPView"
-        component={RegisterOTPView}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="RegisterEmail"
-        component={RegisterEmail}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="RegisterProfilePic"
-        component={RegisterProfilePic}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="RegisterBio"
-        component={RegisterBio}
-        options={{headerShown: false}}
-      />
+    <Stack.Navigator initialRouteName="AutoLogin" headerMode="none">
+      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="AutoLogin" component={AutoLogin} />
+      <Stack.Screen name="OTPView" component={OTPView} />
+      <Stack.Screen name="RegisterName" component={RegisterName} />
+      <Stack.Screen name="RegisterMobile" component={RegisterMobile} />
+      <Stack.Screen name="RegisterOTPView" component={RegisterOTPView} />
+      <Stack.Screen name="RegisterEmail" component={RegisterEmail} />
+      <Stack.Screen name="RegisterProfilePic" component={RegisterProfilePic} />
+      <Stack.Screen name="RegisterBio" component={RegisterBio} />
       <Stack.Screen
         name="RegisterSocialMedia"
         component={RegisterSocialMedia}
-        options={{headerShown: false}}
       />
-      <Stack.Screen
-        name="Congratulation"
-        component={Congratulation}
-        options={{headerShown: false}}
-      />
-
-      <Stack.Screen
-        name="ForgotPassword"
-        component={ForgotPassword}
-        options={{headerShown: false}}
-      />
-
-      <Stack.Screen
-        name="ForgotMail"
-        component={ForgotMail}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="RecoverPassword"
-        component={RecoverPassword}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name="ChoosePassword"
-        component={ChoosePassword}
-        options={{headerShown: false}}
-      />
+      <Stack.Screen name="Congratulation" component={Congratulation} />
+      <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+      <Stack.Screen name="ForgotMail" component={ForgotMail} />
+      <Stack.Screen name="RecoverPassword" component={RecoverPassword} />
+      <Stack.Screen name="ChoosePassword" component={ChoosePassword} />
+      <Stack.Screen name="OwnProducts" component={OwnProducts} />
+      <Stack.Screen name="ScanCard" component={ScanCard} />
+      <Stack.Screen name="ActivatedCard" component={ActivatedCard} />
     </Stack.Navigator>
   );
 }

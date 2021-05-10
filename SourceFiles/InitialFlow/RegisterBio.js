@@ -46,7 +46,7 @@ export default class RegisterName extends Component {
       isloading: false,
       NameBorderColor: CommonColors.GhostColor,
       RegisterData: JSON.parse(props.route.params.data),
-      txtBio: '',
+      txtBio: 'Hi, My Name is Bharat',
     };
   }
 
@@ -74,7 +74,7 @@ export default class RegisterName extends Component {
       var dict = this.state.RegisterData;
       if (this.state.txtBio != '') {
         dict.bio = this.state.txtBio;
-        this.props.navigation.navigate('RegisterSocialMedia', {
+        this.props.navigation.navigate('OwnProducts', {
           data: JSON.stringify(dict),
         });
       } else {
@@ -88,7 +88,7 @@ export default class RegisterName extends Component {
       var dict = this.state.RegisterData;
       dict.bio = '';
 
-      this.props.navigation.navigate('RegisterSocialMedia', {
+      this.props.navigation.navigate('OwnProducts', {
         data: JSON.stringify(dict),
       });
     });
@@ -168,6 +168,7 @@ export default class RegisterName extends Component {
             <Block flex={false} margin={[hp(1), 0, 0]}>
               <Input
                 neomorph
+                value={this.state.txtBio}
                 color="#707070"
                 placeholder={'Tell us about yourself!'}
                 placeholderTextColor={'#707070'}

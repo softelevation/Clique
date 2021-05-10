@@ -11,6 +11,18 @@ export const images = {
   eye: require('./icons/eye.png'),
   behance: require('./icons/behance.png'),
   orangeCloud: require('./icons/orange_cloud.png'),
+  country_back_icon: require('./icons/ic_back_black.png'),
+  country_down_icon: require('./icons/ic_drop_down.png'),
+  country_search_icon: require('./icons/ic_search.png'),
+  inActiveCard_icon: require('./icons/inactiveCard.png'),
+  ActiveCard_icon: require('./icons/activeCard.png'),
+  inActiveNfc_icon: require('./icons/inActiveNfc.png'),
+  ActiveNfc_icon: require('./icons/activeNfc.png'),
+  verified_icon: require('./icons/verified.png'),
+  not_verified_icon: require('./icons/notverifed.png'),
+  close_icon: require('./icons/close.png'),
+  scanner_icon: require('./icons/scanner_img.png'),
+  activatdCard_icon: require('./icons/activatedCard.png'),
 
   // Forgot
   forgotBg: require('./forgot/forgot.png'),

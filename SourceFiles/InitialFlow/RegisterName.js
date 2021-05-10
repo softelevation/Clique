@@ -23,7 +23,7 @@ export default class RegisterName extends Component {
     super(props);
     this.state = {
       isloading: false,
-      txtFullName: '',
+      txtFullName: 'Bharat',
       isDisable: true,
       NameBorderColor: CommonColors.GhostColor,
       isFromTutorial: props.route.params.isFromTutorial,
@@ -137,6 +137,7 @@ export default class RegisterName extends Component {
             <Block flex={false} margin={[hp(1), 0, 0]}>
               <Input
                 neomorph
+                value={this.state.txtFullName}
                 style={styles.input}
                 rightIcon="MinUserIcon"
                 color="#707070"

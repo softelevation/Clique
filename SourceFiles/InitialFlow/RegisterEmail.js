@@ -31,7 +31,7 @@ export default class RegisterEmail extends Component {
     super(props);
     this.state = {
       isloading: false,
-      txtEmail: '',
+      txtEmail: 'Bharat@gmail.com',
       isDisable: true,
       NameBorderColor: CommonColors.GhostColor,
       isFromAutoLogin: props.route.params.is_from_autoLogin,

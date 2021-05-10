@@ -92,7 +92,7 @@ export default class RegisterName extends Component {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.container}
           bounces={false}>
-          <Block space={'between'} row flex={false}>
+          <Block padding={[hp(2), 0, 0]} space={'between'} row flex={false}>
             {this.state.isFromTutorial === false ? (
               <TouchableOpacity onPress={() => this.btnBackTap()}>
                 <LinearGradient

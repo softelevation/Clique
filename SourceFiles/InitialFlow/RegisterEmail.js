@@ -156,7 +156,7 @@ export default class RegisterEmail extends Component {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{flexGrow: 1}}
           bounces={false}>
-          <Block space="between" flex={false} row>
+          <Block padding={[hp(2), 0, 0]} space="between" flex={false} row>
             <TouchableOpacity onPress={() => this.btnBackTap()}>
               <LinearGradient
                 colors={['#5542B6', '#7653DB']}

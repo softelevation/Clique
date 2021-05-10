@@ -261,7 +261,7 @@ const Input = ({
       flex={false}
       borderColor={error ? 'red' : 'transparent'}
       borderWidth={error ? 1 : 0}
-      margin={[hp(0.3), wp(1)]}>
+      margin={[hp(2), 0, 0]}>
       {renderLabel()}
       <TextInput
         placeholder={placeholder}

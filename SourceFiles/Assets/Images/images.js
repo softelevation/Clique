@@ -23,6 +23,7 @@ export const images = {
   close_icon: require('./icons/close.png'),
   scanner_icon: require('./icons/scanner_img.png'),
   activatdCard_icon: require('./icons/activatedCard.png'),
+  demouser: require('./icons/demouser.png'),
 
   // Forgot
   forgotBg: require('./forgot/forgot.png'),

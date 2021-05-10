@@ -50,7 +50,9 @@ const ActivatedCard = () => {
           </Block>
         </Block>
         <Block flex={false} padding={[0, wp(3)]}>
-          <Button color="primary">Back to Home</Button>
+          <Button onPress={() => navigate('Contacts')} color="primary">
+            Back to Home
+          </Button>
         </Block>
       </ScrollView>
     </Block>

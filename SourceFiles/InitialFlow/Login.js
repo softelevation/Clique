@@ -5,6 +5,7 @@ import {
   Keyboard,
   Alert,
   ImageBackground,
+  Dimensions,
 } from 'react-native';
 
 //Constant Files
@@ -156,7 +157,12 @@ export default class Login extends Component {
 
   render() {
     return (
-      <ImageBackground source={images.loginBg} style={styles.container}>
+      <ImageBackground
+        imageStyle={{
+          resizeMode: 'stretch', // works only here!
+        }}
+        source={images.loginBg}
+        style={styles.container}>
         <ScrollView contentContainerStyle={{flexGrow: 1}} bounces={false}>
           <Block middle padding={[0, wp(3)]}>
             <Text center size={30} semibold white margin={[hp(4), 0]}>
@@ -164,22 +170,21 @@ export default class Login extends Component {
             </Text>
             <Input placeholder="Enter Email" />
             <Input placeholder="Password" />
-            <Block flex={false} margin={[hp(1), 0]}>
-              <Button
-                iconStyle={{marginTop: hp(0.8)}}
-                icon="instagram"
-                iconWithText
-                color="secondary">
-                Sign in with Instagram
-              </Button>
-              <Button
-                iconStyle={{marginTop: hp(0.8)}}
-                icon="google"
-                iconWithText
-                color="secondary">
-                Sign in with Google
-              </Button>
-            </Block>
+            <Block flex={false} margin={[hp(0.5), 0]} />
+            <Button
+              iconStyle={{marginTop: hp(0.8)}}
+              icon="instagram"
+              iconWithText
+              color="secondary">
+              Sign in with Instagram
+            </Button>
+            <Button
+              iconStyle={{marginTop: hp(0.8)}}
+              icon="google"
+              iconWithText
+              color="secondary">
+              Sign in with Google
+            </Button>
             <Button style={{marginTop: hp(2)}} color="primary">
               Login
             </Button>
@@ -192,78 +197,6 @@ export default class Login extends Component {
               onPress={() => this.btnForgotPasswordTap()}>
               Forgot Password ?
             </Text>
-            {/* <View
-              style={{
-                height: 50,
-                backgroundColor: CommonColors.fildBgColor,
-                borderRadius: 10,
-                flexDirection: 'row',
-                marginTop: 50,
-                marginRight: 20,
-                marginLeft: 20,
-              }}>
-              <CountryPicker
-                disable={false}
-                animationType={'slide'}
-                containerStyle={styles.viewCountrystyle}
-                pickerTitleStyle={styles.pickerTitleStyle}
-                selectedCountryTextStyle={styles.selectedCountryTextStyle}
-                countryNameTextStyle={styles.countryNameTextStyle}
-                searchBarPlaceHolder={'Search...'}
-                hideCountryFlag={true}
-                hideCountryCode={false}
-                searchBarStyle={styles.searchBarStyle}
-                countryCode={this.state.countryCode}
-                selectedValue={this._selectedCountry}
-              />
-
-              <TextInput
-                placeholder={'Mobile number'}
-                keyboardType={'number-pad'}
-                maxLength={15}
-                placeholderTextColor={CommonColors.whiteColor}
-                onBlur={() => this.onBlur()}
-                onFocus={() => this.onFocus()}
-                style={{
-                  flex: 1,
-                  height: 50,
-                  color: CommonColors.whiteColor,
-                  fontSize: SetFontSize.ts16,
-                  fontFamily: ConstantKeys.Averta_REGULAR,
-                  marginLeft: 5,
-                }}
-                value={this.state.txtMobileNo}
-                returnKeyType={'done'}
-                onChangeText={async (txtMobileNo) => {
-                  await this.setState({
-                    txtMobileNo: txtMobileNo.replace(/[^0-9]/g, ''),
-                  });
-
-                  if (this.state.txtMobileNo == '') {
-                    this.setState({isDisable: true});
-                  } else {
-                    this.setState({isDisable: false});
-                  }
-                }}
-              />
-            </View> */}
-
-            {/* <LinearGradient
-              colors={[CommonColors.gradientStart, CommonColors.gradientEnd]}
-              start={{x: 0, y: 0}}
-              end={{x: 1, y: 0}}
-              style={styles.btnLogin}>
-              <TouchableOpacity
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-                onPress={() => this.btnLoginTap()}>
-                <Text style={styles.txtLogin}>Send OTP</Text>
-              </TouchableOpacity>
-            </LinearGradient> */}
           </Block>
         </ScrollView>
 
@@ -300,7 +233,8 @@ export default class Login extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    width: '100%',
+    height: '100%',
   },
   btnLogin: {
     marginLeft: 20,

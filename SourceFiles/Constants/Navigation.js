@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, TouchableOpacity, Image, View, Text} from 'react-native';
+import {Image} from 'react-native';
 
 //Navigation Libraries
 import {NavigationContainer} from '@react-navigation/native';
@@ -10,13 +10,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 //Constants
 import {IMG} from '../Constants/ImageConstant';
 import {CommonColors} from '../Constants/ColorConstant';
-import {ConstantKeys} from '../Constants/ConstantKey';
-import {SetFontSize} from '../Constants/FontSize';
 import {navigationRef, isReadyRef} from './NavigationService';
-
-//Third Party
-// import Icon from 'react-native-vector-icons/FontAwesome';
-import LinearGradient from 'react-native-linear-gradient';
 
 //Initial Flow Files
 import Tutorial from '../InitialFlow/Tutorial';
@@ -31,9 +25,9 @@ import RegisterProfilePic from '../InitialFlow/RegisterProfilePic';
 import RegisterBio from '../InitialFlow/RegisterBio';
 import RegisterSocialMedia from '../InitialFlow/RegisterSocialMedia';
 import Congratulation from '../InitialFlow/Congratulation';
-import ForgotPassword from '../forgot/index';
-import ForgotMail from '../forgot/mail/index';
-import RecoverPassword from '../forgot/recover/index';
+import ForgotPassword from '../screens/forgot/index';
+import ForgotMail from '../screens/forgot/mail/index';
+import RecoverPassword from '../screens/forgot/recover/index';
 
 //Dashborad Flow Files
 import Dashboard from '../DashboardFlow/Dashboard';
@@ -54,6 +48,7 @@ import ChoosePassword from '../screens/choose-password';
 import OwnProducts from '../screens/own-products';
 import ScanCard from '../screens/own-products/scan-card';
 import ActivatedCard from '../screens/own-products/activated-card';
+import Contacts from '../screens/messages/contacts';
 
 //Constant Variable for navigation
 const Stack = createStackNavigator();
@@ -108,6 +103,7 @@ function InitialFlow() {
       <Stack.Screen name="OwnProducts" component={OwnProducts} />
       <Stack.Screen name="ScanCard" component={ScanCard} />
       <Stack.Screen name="ActivatedCard" component={ActivatedCard} />
+      <Stack.Screen name="Contacts" component={Contacts} />
     </Stack.Navigator>
   );
 }

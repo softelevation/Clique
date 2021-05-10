@@ -23,7 +23,7 @@ const OwnProducts = () => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.container}
         bounces={false}>
-        <Block padding={[0, wp(3)]} space="between" flex={false} row>
+        <Block padding={[hp(2), wp(3)]} space="between" flex={false} row>
           <TouchableOpacity onPress={() => goBack()}>
             <LinearGradient
               colors={['#5542B6', '#7653DB']}

@@ -1,18 +1,26 @@
 import React, {Component} from 'react';
-import {StyleSheet, ScrollView, SafeAreaView, Image} from 'react-native';
+import {
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+  ImageBackground,
+  SafeAreaView,
+  Image,
+} from 'react-native';
 
 //Constant Files
 import {CommonColors} from '../../Constants/ColorConstant';
-
 import {SetFontSize} from '../../Constants/FontSize';
 import {ConstantKeys} from '../../Constants/ConstantKey';
 import LoadingView from '../../Constants/LoadingView';
 import Snackbar from 'react-native-snackbar';
+import LinearGradient from 'react-native-linear-gradient';
 import {images} from '../../Assets/Images/images';
 import {Block, Button, ImageComponent, Input, Text} from '../../components';
 import {hp, wp} from '../../components/responsive';
+import {Neomorph} from 'react-native-neomorph-shadows';
 
-export default class ForgotPasswordTwo extends Component {
+export default class ForgotPassword extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,8 +32,6 @@ export default class ForgotPasswordTwo extends Component {
       countryCode: '91',
     };
   }
-
-  componentDidMount() {}
 
   showAlert(text) {
     Snackbar.show({
@@ -43,9 +49,18 @@ export default class ForgotPasswordTwo extends Component {
   };
 
   // Action Methods
-  btnSignUpTap = () => {
+  btnBackTap = () => {
     requestAnimationFrame(() => {
-      this.props.navigation.navigate('RegisterName', {isFromTutorial: false});
+      this.props.navigation.navigate('Login', {isFromTutorial: false});
+    });
+  };
+
+  // Action Methods
+  btnResetTap = () => {
+    requestAnimationFrame(() => {
+      this.props.navigation.navigate('ForgotMail', {
+        isFromTutorial: false,
+      });
     });
   };
 
@@ -62,20 +77,14 @@ export default class ForgotPasswordTwo extends Component {
     });
   }
 
-  setNewPwdClick = () => {
-    //    alert('aaa')
-    // requestAnimationFrame(() => {
-    this.props.navigation.navigate('RecoverPassword', {
-      isFromTutorial: false,
-    });
-    // });
-    //  this.props.navigation.navigate('ForgotPasswordThree', { isFromTutorial: false });
-  };
   render() {
     return (
       <Block linear>
         <SafeAreaView />
-        <ScrollView contentContainerStyle={{flexGrow: 1}} bounces={false}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{flexGrow: 1}}
+          bounces={false}>
           <Block flex={false} center>
             <ImageComponent
               resizeMode="contain"
@@ -85,44 +94,52 @@ export default class ForgotPasswordTwo extends Component {
             />
           </Block>
           <Block
-            backgroundColor={'#FDFFFF'}
+            color={'#F2EDFA'}
             borderTopRightRadius={30}
             borderTopLeftRadius={30}
-            middle
             padding={[0, wp(3)]}>
-            <Text
-              style={{
-                color: CommonColors.PurpleColor,
-                fontSize: SetFontSize.ts25,
-              }}
-              center
-              size={30}
-              color={CommonColors.PurpleColor}
-              semibold
-              white
-              margin={[hp(4), 0]}>
-              {"We've sent you \n an email"}
+            <Text center size={30} purple semibold margin={[hp(4), 0]}>
+              Forgot Password
             </Text>
 
-            <Image
-              style={{
-                alignSelf: 'center',
-                height: hp(40),
-                width: wp(80),
-                resizeMode: 'contain',
-              }}
-              source={images.resetBell}
+            <Input
+              neomorph
+              color="#F2F0F7"
+              placeholder="Email"
+              placeholderTextColor={'#707070'}
             />
 
-            <Text style={styles.txtSignUp}>
-              To activate your account you {'\n'}need to click on the link we've
-              {'\n'} sent to te**@clique.com
-            </Text>
+            <Block middle padding={[0, wp(3)]}>
+              <Image
+                style={{
+                  alignSelf: 'flex-end',
+                  marginTop: 10,
+                  marginRight: 20,
+                  height: hp(15),
+                  width: wp(18),
+                  resizeMode: 'contain',
+                }}
+                source={images.spotify}
+              />
+
+              <Image
+                style={{
+                  marginLeft: 20,
+                  height: hp(15),
+                  width: wp(20),
+                  resizeMode: 'contain',
+                }}
+                source={images.applePay}
+              />
+            </Block>
+            <Button onPress={() => this.btnResetTap()} linear color="primary">
+              Reset Password
+            </Button>
 
             <Text
               style={styles.txtAlreadyAccount}
-              onPress={() => this.setNewPwdClick()}>
-              Set a new password
+              onPress={() => this.btnBackTap()}>
+              Back to signin screen
             </Text>
           </Block>
         </ScrollView>
@@ -203,23 +220,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   txtSignUp: {
-    color: '#707070',
+    color: CommonColors.whiteColor,
     fontSize: SetFontSize.ts16,
     fontFamily: ConstantKeys.Averta_REGULAR,
-    textAlign: 'center',
-    marginTop: 10,
   },
 
   txtAlreadyAccount: {
     marginLeft: 20,
     marginRight: 20,
-    marginTop: 20,
+    marginTop: 15,
     textAlign: 'center',
     flexDirection: 'row',
     marginBottom: 25,
     fontFamily: ConstantKeys.Averta_REGULAR,
     fontSize: SetFontSize.ts14,
-    color: CommonColors.PurpleColor,
+    color: CommonColors.secondaryText,
     textDecorationLine: 'underline',
   },
 });

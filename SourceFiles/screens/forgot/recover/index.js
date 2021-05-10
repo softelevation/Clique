@@ -2,9 +2,9 @@ import React from 'react';
 import {ScrollView, SafeAreaView, FlatList, StyleSheet} from 'react-native';
 
 //Constant Files
-import {CommonColors} from '../../Constants/ColorConstant';
-import {Block, Button, ImageComponent, Input, Text} from '../../components';
-import {hp, wp} from '../../components/responsive';
+import {CommonColors} from '../../../Constants/ColorConstant';
+import {Block, Button, ImageComponent, Input, Text} from '../../../components';
+import {hp, wp} from '../../../components/responsive';
 import {Neomorph, Shadow} from 'react-native-neomorph-shadows';
 
 const RecoverPassword = () => {
@@ -53,7 +53,7 @@ const RecoverPassword = () => {
           color={'#F2EDFA'}
           borderTopRightRadius={30}
           borderTopLeftRadius={30}
-          padding={[0, wp(5), hp(2), wp(5)]}>
+          padding={[0, wp(3), hp(2), wp(3)]}>
           <ScrollView>
             <Text
               purple
@@ -64,36 +64,26 @@ const RecoverPassword = () => {
               margin={[hp(4), 0]}>
               Recover Password
             </Text>
-            <Neomorph
-              darkShadowColor="#fff" // <- set this
-              lightShadowColor="#fff" // <- this
-              style={styles.shadow}>
-              <Input
-                primary
-                style={styles.input}
-                rightLabel
-                secure
-                color="#707070"
-                placeholder="Password"
-                placeholderTextColor={'#707070'}
-              />
-            </Neomorph>
-            <Neomorph
-              darkShadowColor="#fff" // <- set this
-              lightShadowColor="#fff" // <- this
-              style={styles.shadow}>
-              <Input
-                primary
-                rightLabel
-                secure={true}
-                style={styles.input}
-                color="#707070"
-                placeholder="Confirm Password"
-                placeholderTextColor={'#707070'}
-              />
-            </Neomorph>
-
-            <Block row margin={[hp(1), 0]} flex={false}>
+            <Input
+              neomorph
+              rightLabel
+              secure
+              rightIcon
+              color="#707070"
+              placeholder="Password"
+              placeholderTextColor={'#707070'}
+            />
+            <Block flex={false} margin={[hp(0.8), 0]} />
+            <Input
+              neomorph
+              secure
+              rightIcon
+              rightLabel
+              color="#707070"
+              placeholder="Confirm Password"
+              placeholderTextColor={'#707070'}
+            />
+            <Block row margin={[hp(1), wp(2)]} flex={false}>
               <Text grey size={14}>
                 You’re almost there!
               </Text>

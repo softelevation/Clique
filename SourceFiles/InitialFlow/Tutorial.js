@@ -96,7 +96,12 @@ const Tutorial = () => {
 
   const _renderItem = ({item}) => {
     return (
-      <ImageBackground source={item.image} style={styles.slide}>
+      <ImageBackground
+        imageStyle={{
+          resizeMode: 'stretch', // works only here!
+        }}
+        source={item.image}
+        style={styles.slide}>
         <View style={{paddingBottom: 40, marginHorizontal: wp(5)}}>
           <Button
             onPress={() => storeIsSkipValue(false)}

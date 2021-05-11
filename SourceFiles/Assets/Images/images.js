@@ -24,6 +24,15 @@ export const images = {
   scanner_icon: require('./icons/scanner_img.png'),
   activatdCard_icon: require('./icons/activatedCard.png'),
   demouser: require('./icons/demouser.png'),
+  contact_icon: require('./icons/contact.png'),
+  location_icon: require('./icons/location.png'),
+  setting_icon: require('./icons/settings.png'),
+  message_icon: require('./icons/message.png'),
+  message_iconf: require('./icons/messagef.png'),
+  setting_iconf: require('./icons/settingf.png'),
+  location_iconf: require('./icons/locationf.png'),
+  contact_iconf: require('./icons/contactf.png'),
+  message_send_icon: require('./icons/sendMessage.png'),
 
   // Forgot
   forgotBg: require('./forgot/forgot.png'),

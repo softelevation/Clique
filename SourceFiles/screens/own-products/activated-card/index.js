@@ -50,7 +50,7 @@ const ActivatedCard = () => {
           </Block>
         </Block>
         <Block flex={false} padding={[0, wp(3)]}>
-          <Button onPress={() => navigate('Contacts')} color="primary">
+          <Button onPress={() => navigate('Dashboard')} color="primary">
             Back to Home
           </Button>
         </Block>

@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {
   View,
-  Text,
   SafeAreaView,
   StyleSheet,
   StatusBar,
@@ -30,8 +29,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import FastImage from 'react-native-fast-image';
 import Geolocation from '@react-native-community/geolocation';
 import ValidationMsg from '../Constants/ValidationMsg';
-import {Neomorph, Shadow, NeomorphFlex} from 'react-native-neomorph-shadows';
-import {BlurView} from '@react-native-community/blur';
+import {Text} from '../components';
+import {hp} from '../components/responsive';
 
 export default class Nearby extends Component {
   constructor(props) {
@@ -268,13 +267,12 @@ export default class Nearby extends Component {
           backgroundColor={CommonColors.appBarColor}
         />
         <SafeAreaView style={styles.container}>
-          <View style={{flex: 1, backgroundColor: CommonColors.primaryColor}}>
-            <View style={styles.headerView}>
-              <Text style={styles.headerText}>Nearby People</Text>
-            </View>
-
-            {this.state.isloading == false ? (
-              this.state.arrNearbyPeople.length != 0 ? (
+          <View style={{flex: 1}}>
+            <Text margin={[hp(5), 0]} center grey size={16}>
+              Looking for people near by ...
+            </Text>
+            {this.state.isloading === false ? (
+              this.state.arrNearbyPeople.length !== 0 ? (
                 <View style={{flex: 1}}>
                   <Text
                     style={{
@@ -370,19 +368,6 @@ export default class Nearby extends Component {
                 </View>
               )
             ) : (
-              // <jkp
-              //   source={require('../Assets/Images/Video/near.mp4')}
-              //   ref={(ref) => {
-              //     this.player = ref;
-              //   }}
-              //   resizeMode={'contain'}
-              //   repeat
-              //   style={{
-              //     width: '100%',
-              //     height: '100%',
-              //     position: 'absolute',
-              //   }}
-              // />
               <></>
             )}
           </View>
@@ -395,7 +380,7 @@ export default class Nearby extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: CommonColors.primaryColor,
+    backgroundColor: '#F2EDFA',
   },
   headerView: {
     height: 74,

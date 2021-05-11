@@ -31,7 +31,7 @@ import RecoverPassword from '../screens/forgot/recover/index';
 
 //Dashborad Flow Files
 import Dashboard from '../DashboardFlow/Dashboard';
-import Profile from '../DashboardFlow/Profile';
+// import Profile from '../DashboardFlow/Profile';
 import Nearby from '../DashboardFlow/Nearby';
 import Scan from '../DashboardFlow/Scan';
 import UserProfile from '../DashboardFlow/UserProfile';
@@ -49,6 +49,13 @@ import OwnProducts from '../screens/own-products';
 import ScanCard from '../screens/own-products/scan-card';
 import ActivatedCard from '../screens/own-products/activated-card';
 import Contacts from '../screens/messages/contacts';
+import {LinearGradient} from 'react-native-svg';
+import {Text} from '../components';
+import BottomTab from '../common/bottom-tab';
+import Chat from '../screens/messages';
+import Profile from '../screens/profile';
+import Pro from '../screens/pro';
+import Messages from '../screens/messages/chat';
 
 //Constant Variable for navigation
 const Stack = createStackNavigator();
@@ -245,132 +252,36 @@ function ProfileStackScreen() {
     </Stack.Navigator>
   );
 }
+function ChatStack() {
+  return (
+    <Stack.Navigator initialRouteName="Chat" headerMode="none">
+      <Stack.Screen name="Chat" component={Chat} />
+    </Stack.Navigator>
+  );
+}
 
 // Use For Hide Tab bar
 
 //Dashboard Stacks
-function DashboardStack() {
-  const shouldTabBarVisible = (route) => {
-    try {
-      return route.state.index < 1;
-    } catch (e) {
-      return true;
-    }
-  };
+function DashboardSubStack() {
   return (
     <Tab.Navigator
-      tabBarOptions={{
-        activeTintColor: CommonColors.whiteColor,
-        inactiveTintColor: CommonColors.inActiveColor,
-        // showLabel: false,
-        style: {
-          backgroundColor: CommonColors.appBarColor,
-          borderTopWidth: 0,
-        },
-      }}
-      initialRouteName="Dashboard">
-      <Tab.Screen
-        name="Dashboard"
-        component={DashboardStackScreen}
-        options={({route}) => ({
-          tabBarLabel: 'Home',
-          headerShown: false,
-          tabBarVisible: shouldTabBarVisible(route),
-          tabBarIcon: ({focused, color, size}) => (
-            <Image
-              source={focused ? IMG.TabFlow.HomeSelect : IMG.TabFlow.Home}
-              style={{
-                width: size,
-                height: size,
-                resizeMode: 'contain',
-                tintColor: color,
-              }}
-            />
-          ),
-        })}
-      />
-
-      <Tab.Screen
-        name="Nearby"
-        component={NearByStackScreen}
-        options={({route}) => ({
-          tabBarLabel: 'Near By',
-          headerShown: false,
-          tabBarVisible: shouldTabBarVisible(route),
-          tabBarIcon: ({focused, color, size}) => (
-            <Image
-              source={focused ? IMG.TabFlow.PinSelect : IMG.TabFlow.Pin}
-              style={{
-                width: size,
-                height: size,
-                resizeMode: 'contain',
-                tintColor: color,
-              }}
-            />
-          ),
-        })}
-      />
-      {/* <Tab.Screen name="PRO" component={NearByStackScreen}
-
-                options={({ route }) => ({
-                    tabBarLabel: 'Near By',
-                    headerShown: false,
-                    tabBarVisible : shouldTabBarVisible(route),
-                    tabBarIcon: ({ focused, color, size }) => (
-                        <LinearGradient colors={['rgb(105,97,255)', 'rgb(232,102,182)']}
-                                    style={{  position: 'absolute',
-                                            bottom: 20, // space from bottombar
-                                            height: 58, width: 58, borderRadius: 58, backgroundColor: '#5a95ff',
-                                            justifyContent: 'center', alignItems: 'center', shadowColor: CommonColors.blackColor,
-                                            shadowOffset:{width:0, height:3}, shadowOpacity: 0.4, shadowRadius:3, elevation:3
-                                        }}>
-                                    <Text style={{fontSize: SetFontSize.ts14, color: CommonColors.whiteColor, fontFamily: ConstantKeys.Averta_BOLD}}>PRO</Text>
-                        </LinearGradient>
-
-                    ),
-                })}
-            /> */}
-      <Tab.Screen
-        name="Scan"
-        component={ScanStackScreen}
-        options={({route}) => ({
-          tabBarLabel: 'Scan',
-          headerShown: false,
-          tabBarVisible: shouldTabBarVisible(route),
-          tabBarIcon: ({focused, color, size}) => (
-            <Image
-              source={focused ? IMG.TabFlow.ScanSelect : IMG.TabFlow.Scan}
-              style={{
-                width: size,
-                height: size,
-                resizeMode: 'contain',
-                tintColor: color,
-              }}
-            />
-          ),
-        })}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={ProfileStackScreen}
-        options={({route}) => ({
-          tabBarLabel: 'Profile',
-          headerShown: false,
-          tabBarVisible: shouldTabBarVisible(route),
-          tabBarIcon: ({focused, color, size}) => (
-            <Image
-              source={focused ? IMG.TabFlow.ProfileSelect : IMG.TabFlow.Profile}
-              style={{
-                width: size,
-                height: size,
-                resizeMode: 'contain',
-                tintColor: color,
-              }}
-            />
-          ),
-        })}
-      />
+      tabBar={(props) => <BottomTab {...props} />}
+      initialRouteName="Profile">
+      <Tab.Screen name="Profile" component={Profile} />
+      <Tab.Screen name="Nearby" component={NearByStackScreen} />
+      <Tab.Screen name="Pro" component={Pro} />
+      <Tab.Screen name="Chat" component={ChatStack} />
+      <Tab.Screen name="Setting" component={ProfileStackScreen} />
     </Tab.Navigator>
+  );
+}
+function DashboardStack() {
+  return (
+    <Stack.Navigator headerMode="none" initialRouteName="Profile">
+      <Tab.Screen name="Dashboard" component={DashboardSubStack} />
+      <Stack.Screen name="Messages" component={Messages} />
+    </Stack.Navigator>
   );
 }
 
@@ -383,7 +294,7 @@ const AppNavigator = createSwitchNavigator(
     Dashboard: DashboardStack,
   },
   {
-    initialRouteName: 'Tutorial',
+    initialRouteName: 'Dashboard',
   },
 );
 

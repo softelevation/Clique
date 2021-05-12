@@ -1,8 +1,8 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import { ShadowARTType } from './types';
-import { Surface, Shape, Group } from '@react-native-community/art';
-import { getPathWithRadius, transformShadowPropsForAndroid } from './helpers';
+import {ShadowARTType} from './types';
+import {Surface, Shape, Group} from '@react-native-community/art';
+import {getPathWithRadius, transformShadowPropsForAndroid} from './helpers';
 
 export default class InnerShadowART extends React.PureComponent {
   render() {
@@ -39,7 +39,7 @@ export default class InnerShadowART extends React.PureComponent {
     );
 
     return (
-      <Surface height={height} width={width} style={{ position: 'absolute' }}>
+      <Surface height={height} width={width} style={{position: 'absolute'}}>
         <Group x={-stroke / 2 - 1} y={-stroke / 2 - 1}>
           <Shape
             d={path}

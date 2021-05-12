@@ -1,12 +1,12 @@
 import React from 'react';
-import { ShadowFlexType } from './types';
-import { View, Platform } from 'react-native';
+import {ShadowFlexType} from './types';
+import {View, Platform} from 'react-native';
 import Shadow from './Shadow';
 
 export default class ShadowFlex extends React.PureComponent {
   constructor(props) {
     super(props);
-    const { style } = props;
+    const {style} = props;
     this.state = {
       shadowStyle: {
         shadowOffset: style?.shadowOffset,
@@ -23,8 +23,8 @@ export default class ShadowFlex extends React.PureComponent {
     };
   }
 
-  _onLayout = ({ nativeEvent }) => {
-    const { width, height } = nativeEvent.layout;
+  _onLayout = ({nativeEvent}) => {
+    const {width, height} = nativeEvent.layout;
     console.log(nativeEvent.layout);
     this.setState({
       shadowStyle: {
@@ -37,9 +37,9 @@ export default class ShadowFlex extends React.PureComponent {
   };
 
   render() {
-    const { style, children, ...otherProps } = this.props;
+    const {style, children, ...otherProps} = this.props;
     if (Platform.OS === 'android') {
-      const { layoutFinished, shadowStyle } = this.state;
+      const {layoutFinished, shadowStyle} = this.state;
       const {
         elevation,
         shadowOpacity,

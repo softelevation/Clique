@@ -8,7 +8,8 @@ import {hp, wp} from '../components/responsive';
 import ResponsiveImage from 'react-native-responsive-image';
 import {images} from '../Assets/Images/images';
 import LinearGradient from 'react-native-linear-gradient';
-import {CommonColors} from '../Constants/ColorConstant';
+import Neomorph from './shadow-src/Neomorph';
+import {Block} from '../components';
 // import images from '../assets';
 
 const styles = StyleSheet.create({
@@ -26,6 +27,39 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+    paddingBottom: hp(3),
+    paddingTop: hp(1),
+  },
+  neoFirstContainer: {
+    shadowRadius: 3,
+    backgroundColor: '#F2F0F7',
+    width: 50,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+  },
+  neoSubContainer: {
+    borderRadius: 10,
+    shadowRadius: 8,
+    backgroundColor: '#F2F0F7',
+    width: 50,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  linear: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 60,
+    width: 60,
+    borderRadius: 60,
+  },
+  proContainer: {
+    marginTop: -hp(4),
+  },
+  allContainer: {
+    marginTop: 0,
   },
 });
 
@@ -35,6 +69,19 @@ const tabImages = {
   Pro: '',
   Chat: 'message_icon',
   Setting: 'setting_icon',
+};
+
+const renderHeightWidth = (type) => {
+  switch (type) {
+    case 'Profile':
+      return 30;
+    case 'Nearby':
+      return 32;
+    case 'Chat':
+      return 32;
+    default:
+      return 32;
+  }
 };
 
 const BottomTab = ({state, descriptors, navigation}) => {
@@ -67,10 +114,8 @@ const BottomTab = ({state, descriptors, navigation}) => {
           <TouchableOpacity
             style={
               tabImages[label] === ''
-                ? {
-                    marginTop: -hp(3),
-                  }
-                : {marginTop: 0, alignItems: 'center'}
+                ? styles.proContainer
+                : styles.allContainer
             }
             accessibilityRole="button"
             testID={options.tabBarTestID}
@@ -80,28 +125,54 @@ const BottomTab = ({state, descriptors, navigation}) => {
             <>
               {label === 'Pro' && (
                 <LinearGradient
-                  style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    height: 60,
-                    width: 60,
-                    borderRadius: 60,
-                  }}
+                  style={styles.linear}
                   colors={['#E866B6', '#6961FF']}>
                   <Text size={14} white semibold>
                     PRO
                   </Text>
                 </LinearGradient>
               )}
-              <ResponsiveImage
-                source={
-                  isFocused
-                    ? images[`${tabImages[label]}f`]
-                    : images[tabImages[label]]
-                }
-                initHeight="40"
-                initWidth="40"
-              />
+              {tabImages[label] === '' ? (
+                <Block flex={false} padding={[0, 0, hp(1), 0]} />
+              ) : isFocused ? (
+                <Neomorph
+                  darkShadowColor="#000"
+                  inner
+                  lightShadowColor="#fff"
+                  style={styles.neoSubContainer}>
+                  <Block flex={false} margin={[hp(0.5), 0, 0]}>
+                    <ResponsiveImage
+                      source={
+                        isFocused
+                          ? images[`${tabImages[label]}f`]
+                          : images[tabImages[label]]
+                      }
+                      initHeight={renderHeightWidth(label)}
+                      initWidth={renderHeightWidth(label)}
+                    />
+                  </Block>
+                </Neomorph>
+              ) : (
+                !isFocused && (
+                  <Neomorph
+                    darkShadowColor="#000"
+                    inner
+                    lightShadowColor="#fff"
+                    style={styles.neoFirstContainer}>
+                    <Block flex={false} margin={[hp(0.5), 0, 0]}>
+                      <ResponsiveImage
+                        source={
+                          isFocused
+                            ? images[`${tabImages[label]}f`]
+                            : images[tabImages[label]]
+                        }
+                        initHeight={renderHeightWidth(label)}
+                        initWidth={renderHeightWidth(label)}
+                      />
+                    </Block>
+                  </Neomorph>
+                )
+              )}
             </>
           </TouchableOpacity>
         );

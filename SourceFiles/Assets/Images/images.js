@@ -33,6 +33,8 @@ export const images = {
   location_iconf: require('./icons/locationf.png'),
   contact_iconf: require('./icons/contactf.png'),
   message_send_icon: require('./icons/sendMessage.png'),
+  edit_icon: require('./icons/edit.png'),
+  share_icon: require('./icons/share.png'),
 
   // Forgot
   forgotBg: require('./forgot/forgot.png'),

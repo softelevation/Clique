@@ -35,6 +35,10 @@ export const images = {
   message_send_icon: require('./icons/sendMessage.png'),
   edit_icon: require('./icons/edit.png'),
   share_icon: require('./icons/share.png'),
+  behance_link_icon: require('./icons/behance_link.png'),
+  phone_link_icon: require('./icons/call.png'),
+  email_link_icon: require('./icons/email.png'),
+  link_icon: require('./icons/link.png'),
 
   // Forgot
   forgotBg: require('./forgot/forgot.png'),

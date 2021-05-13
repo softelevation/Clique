@@ -365,7 +365,7 @@ PODS:
     - React-Core
   - RNSnackbar (2.3.2):
     - React-Core
-  - RNSVG (12.1.0):
+  - RNSVG (12.1.1):
     - React
   - SDWebImage (5.11.1):
     - SDWebImage/Core (= 5.11.1)
@@ -620,7 +620,7 @@ SPEC CHECKSUMS:
   RNReanimated: e03f7425cb7a38dcf1b644d680d1bfc91c3337ad
   RNScreens: b6c9607e6fe47c1b6e2f1910d2acd46dd7ecea3a
   RNSnackbar: 2f790a7b5b685e9d3525968990ba3f82354b064c
-  RNSVG: ce9d996113475209013317e48b05c21ee988d42e
+  RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SDWebImageWebPCoder: d0dac55073088d24b2ac1b191a71a8f8d0adac21
   TOCropViewController: 3105367e808b7d3d886a74ff59bf4804e7d3ab38

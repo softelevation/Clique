@@ -10,6 +10,8 @@ import {images} from '../Assets/Images/images';
 import LinearGradient from 'react-native-linear-gradient';
 import Neomorph from './shadow-src/Neomorph';
 import {Block} from '../components';
+import NeuView from './neu-element/lib/NeuView';
+import NeuButton from './neu-element/lib/NeuButton';
 // import images from '../assets';
 
 const styles = StyleSheet.create({
@@ -135,11 +137,11 @@ const BottomTab = ({state, descriptors, navigation}) => {
               {tabImages[label] === '' ? (
                 <Block flex={false} padding={[0, 0, hp(1), 0]} />
               ) : isFocused ? (
-                <Neomorph
-                  darkShadowColor="#000"
-                  inner
-                  lightShadowColor="#fff"
-                  style={styles.neoSubContainer}>
+                <NeuButton
+                  color="#F2F0F7"
+                  width={40}
+                  height={40}
+                  borderRadius={10}>
                   <Block flex={false} margin={[hp(0.5), 0, 0]}>
                     <ResponsiveImage
                       source={
@@ -151,14 +153,15 @@ const BottomTab = ({state, descriptors, navigation}) => {
                       initWidth={renderHeightWidth(label)}
                     />
                   </Block>
-                </Neomorph>
+                </NeuButton>
               ) : (
                 !isFocused && (
-                  <Neomorph
-                    darkShadowColor="#000"
-                    inner
-                    lightShadowColor="#fff"
-                    style={styles.neoFirstContainer}>
+                  <NeuView
+                    color="#F2F0F7"
+                    height={40}
+                    width={40}
+                    borderRadius={10}
+                    inset>
                     <Block flex={false} margin={[hp(0.5), 0, 0]}>
                       <ResponsiveImage
                         source={
@@ -170,7 +173,7 @@ const BottomTab = ({state, descriptors, navigation}) => {
                         initWidth={renderHeightWidth(label)}
                       />
                     </Block>
-                  </Neomorph>
+                  </NeuView>
                 )
               )}
             </>

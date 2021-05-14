@@ -39,6 +39,8 @@ export const images = {
   phone_link_icon: require('./icons/call.png'),
   email_link_icon: require('./icons/email.png'),
   link_icon: require('./icons/link.png'),
+  add_icon: require('./icons/add.png'),
+  delete_icon: require('./icons/delete.png'),
 
   // Forgot
   forgotBg: require('./forgot/forgot.png'),

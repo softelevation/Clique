@@ -42,7 +42,6 @@ import JobDetail from '../DashboardFlow/JobDetail';
 import PurchaseCard from '../DashboardFlow/PurchaseCard';
 import SyncToCard from '../DashboardFlow/SyncToCard';
 import TempProfile from '../DashboardFlow/TempProfile';
-import EditProfile from '../DashboardFlow/EditProfile';
 import AddJob from '../DashboardFlow/AddJob';
 import ChoosePassword from '../screens/choose-password';
 import OwnProducts from '../screens/own-products';
@@ -56,6 +55,7 @@ import Chat from '../screens/messages';
 import Profile from '../screens/profile';
 import Pro from '../screens/pro';
 import Messages from '../screens/messages/chat';
+import EditProfile from '../screens/profile/edit';
 
 //Constant Variable for navigation
 const Stack = createStackNavigator();
@@ -239,11 +239,11 @@ function ProfileStackScreen() {
         component={TempProfile}
         options={{headerShown: false}}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="EditProfile"
         component={EditProfile}
         options={{headerShown: false}}
-      />
+      /> */}
       <Stack.Screen
         name="AddJob"
         component={AddJob}
@@ -279,8 +279,9 @@ function DashboardSubStack() {
 function DashboardStack() {
   return (
     <Stack.Navigator headerMode="none" initialRouteName="Profile">
-      <Tab.Screen name="Dashboard" component={DashboardSubStack} />
+      <Tab.Screen name="Profile" component={DashboardSubStack} />
       <Stack.Screen name="Messages" component={Messages} />
+      <Stack.Screen name="EditProfile" component={EditProfile} />
     </Stack.Navigator>
   );
 }
@@ -294,7 +295,7 @@ const AppNavigator = createSwitchNavigator(
     Dashboard: DashboardStack,
   },
   {
-    initialRouteName: 'Dashboard',
+    initialRouteName: 'DashboardStack',
   },
 );
 

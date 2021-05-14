@@ -1,18 +1,14 @@
 import React from 'react';
 import {View, StyleSheet, TouchableOpacity} from 'react-native';
-// import ResponsiveImage from 'react-native-responsive-image';
 import PropTypes from 'prop-types';
-
 import Text from '../components/Text';
 import {hp, wp} from '../components/responsive';
 import ResponsiveImage from 'react-native-responsive-image';
 import {images} from '../Assets/Images/images';
 import LinearGradient from 'react-native-linear-gradient';
-import Neomorph from './shadow-src/Neomorph';
 import {Block} from '../components';
 import NeuView from './neu-element/lib/NeuView';
 import NeuButton from './neu-element/lib/NeuButton';
-// import images from '../assets';
 
 const styles = StyleSheet.create({
   ButtonContainer: {
@@ -20,7 +16,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: '#FAF6FF',
-    paddingHorizontal: wp(3),
+    paddingHorizontal: wp(5),
     shadowColor: '#000',
     shadowOffset: {
       width: 0,

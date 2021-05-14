@@ -11,6 +11,7 @@ const NeuInput = (props) => {
     onChangeText = () => {},
     value = '',
     prefix: Prefix,
+    placeholderTextColor,
     ...rest
   } = props;
 
@@ -22,7 +23,7 @@ const NeuInput = (props) => {
   });
 
   return (
-    <NeuView {...rest} style={{...style, alignItems: 'stretch'}} inset>
+    <NeuView {...rest} style={{...style, alignItems: 'stretch'}}>
       <View
         style={{
           flexDirection: 'row',
@@ -46,6 +47,7 @@ const NeuInput = (props) => {
           onChangeText={onChangeText}
           placeholder={placeholder}
           value={value}
+          placeholderTextColor={placeholderTextColor}
         />
       </View>
     </NeuView>

@@ -3,19 +3,24 @@ import {
   FlatList,
   SafeAreaView,
   ScrollView,
+  StatusBar,
   StyleSheet,
   TouchableOpacity,
+  View,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {Block, Text, ImageComponent} from '../../components';
-import {hp, wp} from '../../components/responsive';
-import NeuView from '../../common/neu-element/lib/NeuView';
-import NeuButton from '../../common/neu-element/lib/NeuButton';
+import {Block, Text, ImageComponent, Button} from '../../../components';
+import {hp, wp} from '../../../components/responsive';
+import NeuView from '../../../common/neu-element/lib/NeuView';
+import NeuButton from '../../../common/neu-element/lib/NeuButton';
+import NeuInput from '../../../common/neu-element/lib/NeuInput';
 import {useNavigation} from '@react-navigation/core';
+import {Easing} from 'react-native-reanimated';
 
-const Profile = () => {
-  const {navigate} = useNavigation();
+const EditProfile = () => {
   const [activeOptions, setactiveOptions] = useState('Social');
+  const {goBack} = useNavigation();
+  const [name, setName] = useState('');
   const renderHeader = () => {
     return (
       <Block center padding={[hp(2), wp(3)]} space="between" flex={false} row>
@@ -23,15 +28,16 @@ const Profile = () => {
           {'      '}
         </Text>
         <Text white semibold size={18}>
-          {'My Profile'}
+          {'Edit your profile'}
         </Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => goBack()}>
           <LinearGradient colors={['#AF2DA5', '#BC60CB']} style={styles.linear}>
             <ImageComponent
               resizeMode="contain"
               height={14}
               width={14}
-              name={'share_icon'}
+              name={'close_icon'}
+              color="#F2EDFA"
             />
           </LinearGradient>
         </TouchableOpacity>
@@ -40,30 +46,22 @@ const Profile = () => {
   };
   const renderProfile = () => {
     return (
-      <Block center padding={[hp(2), wp(3)]} space="between" flex={false} row>
-        <Block flex={false} row>
-          <ImageComponent name="demouser" height={100} width={100} />
-          <Block margin={[0, 0, 0, wp(3)]} flex={false}>
-            <Text white bold size={24}>
-              Elisa Jones
-            </Text>
-            <Text margin={[hp(0.5), 0, 0]} size={14} white regular>
-              UX/UI Designer at Atom 6
-            </Text>
-            <Text margin={[hp(0.5), 0, 0]} size={16} semibold white>
-              320 Connections
-            </Text>
-          </Block>
-        </Block>
-        <TouchableOpacity onPress={() => navigate('EditProfile')}>
-          <LinearGradient colors={['#AF2DA5', '#BC60CB']} style={styles.linear}>
+      <Block alignSelf="center" padding={[0, wp(3)]} flex={false}>
+        <ImageComponent name="demouser" height={100} width={100} />
+        <TouchableOpacity
+          style={{
+            position: 'absolute',
+            top: 0,
+          }}>
+          <NeuView color="#F2F0F7" height={30} width={30} borderRadius={30}>
             <ImageComponent
               resizeMode="contain"
               height={18}
               width={18}
               name={'edit_icon'}
+              color="#6F3AC8"
             />
-          </LinearGradient>
+          </NeuView>
         </TouchableOpacity>
       </Block>
     );
@@ -130,64 +128,102 @@ const Profile = () => {
       </Block>
     );
   };
-  const _renderFooter = () => {
-    return (
-      <NeuButton
-        active
-        color="#eef2f9"
-        width={70}
-        height={70}
-        borderRadius={16}
-        style={{marginLeft: wp(3), marginTop: hp(1)}}>
-        <ImageComponent name="add_icon" height={30} width={30} />
-      </NeuButton>
-    );
-  };
   const renderSocialIcons = () => {
     return (
-      <FlatList
-        ListFooterComponent={_renderFooter}
-        contentContainerStyle={styles.containerStyle}
-        data={[
-          'phone_link_icon',
-          'email_link_icon',
-          'behance_link_icon',
-          'link_icon',
-        ]}
-        renderItem={({item}) => {
-          return (
-            <TouchableOpacity>
-              <ImageComponent name={item} height={90} width={90} />
-            </TouchableOpacity>
-          );
-        }}
-      />
+      <Block flex={false}>
+        <FlatList
+          contentContainerStyle={styles.containerStyle}
+          data={[
+            'phone_link_icon',
+            'email_link_icon',
+            'behance_link_icon',
+            'link_icon',
+          ]}
+          renderItem={({item}) => {
+            return (
+              <Block flex={false} row>
+                <ImageComponent name={item} height={95} width={95} />
+                <TouchableOpacity
+                  style={styles.deleteAccountButton}
+                  onPress={() => goBack()}>
+                  <ImageComponent
+                    resizeMode="contain"
+                    height={30}
+                    width={30}
+                    name={'delete_icon'}
+                  />
+                </TouchableOpacity>
+              </Block>
+            );
+          }}
+        />
+      </Block>
     );
   };
   return (
     <Block linear>
+      <StatusBar barStyle="light-content" />
       <SafeAreaView />
       {renderHeader()}
-      {renderProfile()}
+
       <ScrollView contentContainerStyle={styles.container} bounces={false}>
         <Block
+          style={{flexGrow: 1}}
           borderTopLeftRadius={20}
           borderTopRightRadius={20}
           padding={[hp(2), wp(3)]}
           color="#F2EDFA">
-          <Text grey regular size={16} center>
-            Swipe to choose a type of account{' '}
-          </Text>
+          {renderProfile()}
+          <Block margin={[hp(2), 0]} alignSelf="center" flex={false}>
+            <Text grey semibold center margin={[0, 0, hp(2)]}>
+              Name
+            </Text>
+            <NeuInput
+              width={wp(75)}
+              height={hp(5)}
+              borderRadius={16}
+              containerStyle={{paddingVetical: hp(1)}}
+              color="#eef2f9"
+              onChangeText={(a) => setName(a)}
+              value={name}
+              placeholder="Elisa Jones"
+              placeholderTextColor="grey"
+            />
+          </Block>
           {renderOptions()}
+          <Block margin={[hp(1), 0]} alignSelf="center" flex={false}>
+            <NeuInput
+              width={wp(75)}
+              height={hp(5)}
+              borderRadius={16}
+              containerStyle={{paddingVetical: hp(1)}}
+              color="#eef2f9"
+              onChangeText={(a) => setName(a)}
+              value={name}
+              placeholder="UX/UI Designer at Atom 6"
+              placeholderTextColor="grey"
+            />
+          </Block>
+          <Text grey semibold center margin={[hp(2), 0]}>
+            Accounts
+          </Text>
           {renderSocialIcons()}
         </Block>
       </ScrollView>
+      <Block color="#F2EDFA" padding={[0, wp(3)]}>
+        <Button color="primary" linear>
+          Save
+        </Button>
+      </Block>
     </Block>
   );
 };
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
+    backgroundColor: '#F2EDFA',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
   },
   linear: {
     height: 40,
@@ -217,5 +253,6 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   neoContainer: {flexDirection: 'row'},
+  deleteAccountButton: {position: 'absolute', top: 0, right: 0},
 });
-export default Profile;
+export default EditProfile;

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {
   FlatList,
   SafeAreaView,
@@ -7,15 +7,26 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {Block, Text, ImageComponent} from '../../components';
+import {
+  Block,
+  Text,
+  ImageComponent,
+  CustomButton,
+  Button,
+} from '../../components';
 import {hp, wp} from '../../components/responsive';
 import NeuView from '../../common/neu-element/lib/NeuView';
 import NeuButton from '../../common/neu-element/lib/NeuButton';
 import {useNavigation} from '@react-navigation/core';
+import {Modalize} from 'react-native-modalize';
+import NeoInputField from '../../components/neo-input';
 
 const Profile = () => {
   const {navigate} = useNavigation();
   const [activeOptions, setactiveOptions] = useState('Social');
+  const [toggle, setToggle] = useState(true);
+  const [action, setAction] = useState(null);
+  const modalizeRef = useRef();
   const renderHeader = () => {
     return (
       <Block center padding={[hp(2), wp(3)]} space="between" flex={false} row>
@@ -130,9 +141,14 @@ const Profile = () => {
       </Block>
     );
   };
+  const onOpen = () => {
+    modalizeRef.current?.open();
+    setAction('add_account');
+  };
   const _renderFooter = () => {
     return (
       <NeuButton
+        onPress={() => onOpen()}
         active
         color="#eef2f9"
         width={70}
@@ -164,6 +180,45 @@ const Profile = () => {
       />
     );
   };
+  const AddSocialIcons = () => {
+    return (
+      <FlatList
+        contentContainerStyle={[
+          styles.containerStyle,
+          {paddingVertical: hp(3)},
+        ]}
+        data={[
+          'phone_link_icon',
+          'email_link_icon',
+          'behance_link_icon',
+          'link_icon',
+          'link_icon',
+          'phone_link_icon',
+          'email_link_icon',
+          'behance_link_icon',
+          'behance_link_icon',
+          'link_icon',
+          'phone_link_icon',
+          'email_link_icon',
+          'email_link_icon',
+          'behance_link_icon',
+          'link_icon',
+          'phone_link_icon',
+        ]}
+        renderItem={({item}) => {
+          return (
+            <>
+              <TouchableOpacity
+                onPress={() => setAction('select_account')}
+                style={{paddingLeft: wp(1.5)}}>
+                <ImageComponent name={item} height={95} width={95} />
+              </TouchableOpacity>
+            </>
+          );
+        }}
+      />
+    );
+  };
   return (
     <Block linear>
       <SafeAreaView />
@@ -182,6 +237,53 @@ const Profile = () => {
           {renderSocialIcons()}
         </Block>
       </ScrollView>
+      <Modalize
+        // overlayStyle={modalizeStyle}
+        adjustToContentHeight={toggle}
+        tapGestureEnabled={false}
+        modalStyle={{backgroundColor: '#F2F0F7'}}
+        scrollViewProps={{
+          scrollEnabled: false,
+        }}
+        handleStyle={{backgroundColor: '#6B37C3', marginTop: hp(1)}}
+        handlePosition="inside"
+        ref={modalizeRef}>
+        {/* <AgentList data={strictValidArray(agentsData) && agentsData} /> */}
+        {action === 'add_account' && (
+          <>
+            <Block margin={[hp(4), 0, 0]} flex={false} center>
+              <Text grey size={16}>
+                Add New Account
+              </Text>
+            </Block>
+            {AddSocialIcons()}
+          </>
+        )}
+        {action === 'select_account' && (
+          <>
+            <Block margin={[hp(4), 0]} flex={false} center>
+              <ImageComponent name={'link_icon'} height={95} width={95} />
+              <Text purple semibold margin={[hp(1), 0]}>
+                Link
+              </Text>
+              <Block flex={false} margin={[hp(2), 0, 0]}>
+                <NeoInputField
+                  placeholder={'Instagram account'}
+                  fontColor="#707070"
+                  icon=""
+                  width={70}
+                />
+                <Block flex={false} margin={[hp(2), 0, 0]}>
+                  {renderOptions()}
+                </Block>
+                <Button linear color="primary">
+                  Save
+                </Button>
+              </Block>
+            </Block>
+          </>
+        )}
+      </Modalize>
     </Block>
   );
 };

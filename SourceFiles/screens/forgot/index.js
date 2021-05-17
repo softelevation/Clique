@@ -19,6 +19,7 @@ import {images} from '../../Assets/Images/images';
 import {Block, Button, ImageComponent, Input, Text} from '../../components';
 import {hp, wp} from '../../components/responsive';
 import {Neomorph} from 'react-native-neomorph-shadows';
+import NeoInputField from '../../components/neo-input';
 
 export default class ForgotPassword extends Component {
   constructor(props) {
@@ -102,12 +103,13 @@ export default class ForgotPassword extends Component {
               Forgot Password
             </Text>
 
-            <Input
-              neomorph
-              color="#F2F0F7"
-              placeholder="Email"
-              placeholderTextColor={'#707070'}
-            />
+            <Block center flex={false}>
+              <NeoInputField
+                placeholder={'Email'}
+                fontColor="#707070"
+                icon="MinEmailIcon"
+              />
+            </Block>
 
             <Block middle padding={[0, wp(3)]}>
               <Image

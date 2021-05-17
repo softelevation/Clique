@@ -6,6 +6,7 @@ import {CommonColors} from '../../../Constants/ColorConstant';
 import {Block, Button, ImageComponent, Input, Text} from '../../../components';
 import {hp, wp} from '../../../components/responsive';
 import {Neomorph, Shadow} from 'react-native-neomorph-shadows';
+import NeoInputField from '../../../components/neo-input';
 
 const RecoverPassword = () => {
   const renderValidationText = () => {
@@ -64,25 +65,21 @@ const RecoverPassword = () => {
               margin={[hp(4), 0]}>
               Recover Password
             </Text>
-            <Input
-              neomorph
-              rightLabel
-              secure
-              rightIcon
-              color="#707070"
-              placeholder="Password"
-              placeholderTextColor={'#707070'}
-            />
-            <Block flex={false} margin={[hp(0.8), 0]} />
-            <Input
-              neomorph
-              secure
-              rightIcon
-              rightLabel
-              color="#707070"
-              placeholder="Confirm Password"
-              placeholderTextColor={'#707070'}
-            />
+            <Block margin={[0, 0, hp(1)]} flex={false} center>
+              <NeoInputField
+                placeholder={'Password'}
+                fontColor="#707070"
+                icon="eye"
+                secure
+              />
+              <Block flex={false} margin={[hp(1), 0]} />
+              <NeoInputField
+                placeholder={'Confirm Password'}
+                fontColor="#707070"
+                icon="eye"
+                secure
+              />
+            </Block>
             <Block row margin={[hp(1), wp(2)]} flex={false}>
               <Text grey size={14}>
                 You’re almost there!

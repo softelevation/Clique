@@ -19,36 +19,35 @@ const OwnProducts = () => {
   return (
     <Block linear>
       <SafeAreaView />
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.container}
-        bounces={false}>
-        <Block padding={[hp(2), wp(3)]} space="between" flex={false} row>
-          <TouchableOpacity onPress={() => goBack()}>
-            <LinearGradient
-              colors={['#5542B6', '#7653DB']}
-              style={styles.linear}>
-              <ImageComponent
-                resizeMode="contain"
-                height={14}
-                width={14}
-                name={'BackIcon'}
-              />
-            </LinearGradient>
-          </TouchableOpacity>
 
-          <ImageComponent
-            resizeMode="contain"
-            height={140}
-            width={140}
-            name={'nameBg'}
-          />
-          <TouchableOpacity />
-        </Block>
-        <Block
-          color={'#F2EDFA'}
-          borderTopRightRadius={30}
-          borderTopLeftRadius={30}>
+      <Block padding={[hp(2), wp(3), 0]} space="between" flex={false} row>
+        <TouchableOpacity onPress={() => goBack()}>
+          <LinearGradient colors={['#5542B6', '#7653DB']} style={styles.linear}>
+            <ImageComponent
+              resizeMode="contain"
+              height={14}
+              width={14}
+              name={'BackIcon'}
+            />
+          </LinearGradient>
+        </TouchableOpacity>
+
+        <ImageComponent
+          resizeMode="contain"
+          height={140}
+          width={140}
+          name={'nameBg'}
+        />
+        <TouchableOpacity />
+      </Block>
+      <Block
+        color={'#F2EDFA'}
+        borderTopRightRadius={30}
+        borderTopLeftRadius={30}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.container}
+          bounces={false}>
           <HeaderPreLogin
             title="Create Account"
             subtitle="What Products Do You Have"
@@ -110,13 +109,13 @@ const OwnProducts = () => {
               </Block>
             </Block>
           </Block>
-          <Block margin={[0, wp(3), hp(3)]}>
-            <Button onPress={() => navigate('ScanCard')} linear color="primary">
-              Next
-            </Button>
-          </Block>
+        </ScrollView>
+        <Block flex={false} margin={[0, wp(3), hp(3)]}>
+          <Button onPress={() => navigate('ScanCard')} linear color="primary">
+            Next
+          </Button>
         </Block>
-      </ScrollView>
+      </Block>
     </Block>
   );
 };

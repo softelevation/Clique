@@ -24,6 +24,7 @@ import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import ImagePicker from 'react-native-image-crop-picker';
 import HeaderPreLogin from '../common/header';
 import Neomorph from '../common/shadow-src/Neomorph';
+import NeuView from '../common/neu-element/lib/NeuView';
 
 export default class RegisterProfilePic extends Component {
   constructor(props) {
@@ -274,18 +275,26 @@ export default class RegisterProfilePic extends Component {
               subtitle="Add a Profile Picture"
             />
             <Block margin={[hp(2), 0, 0]} center middle flex={false}>
-              <Neomorph style={styles.neoFirstContainer}>
+              <NeuView
+                color="#F2F0F7"
+                height={hp(20)}
+                width={wp(85)}
+                borderRadius={16}>
                 <TouchableOpacity onPress={() => this.btnSelectImage()}>
-                  <Neomorph style={styles.neoSubContainer}>
+                  <NeuView
+                    color="#F2F0F7"
+                    height={120}
+                    width={120}
+                    borderRadius={120}>
                     <ImageComponent
                       height={50}
                       width={50}
                       resizeMode="contain"
                       name={'CameraIcon'}
                     />
-                  </Neomorph>
+                  </NeuView>
                 </TouchableOpacity>
-              </Neomorph>
+              </NeuView>
             </Block>
             <Block bottom flex={1} margin={[0, wp(3), hp(4)]}>
               <Button onPress={() => this.btnNextTap()} linear color="primary">

@@ -17,6 +17,8 @@ import {hp, wp} from '../components/responsive';
 import {IMG} from '../Constants/ImageConstant';
 import ValidationMsg from '../Constants/ValidationMsg';
 import HeaderPreLogin from '../common/header';
+import NeuInput from '../common/neu-element/lib/NeuInput';
+import NeoInputField from '../components/neo-input';
 
 export default class RegisterName extends Component {
   constructor(props) {
@@ -134,18 +136,14 @@ export default class RegisterName extends Component {
               subtitle={"What's your name?"}
             />
 
-            <Block flex={false} margin={[hp(1), 0, 0]}>
-              <Input
-                neomorph
+            <Block center flex={false} margin={[hp(1), 0, 0]}>
+              <NeoInputField
                 value={this.state.txtFullName}
-                style={styles.input}
-                rightIcon="MinUserIcon"
-                color="#707070"
                 placeholder="Name"
-                placeholderTextColor={'#707070'}
                 onChangeText={(txtBio) => {
                   this.setState({txtFullName: txtBio});
                 }}
+                fontColor="#707070"
               />
             </Block>
 

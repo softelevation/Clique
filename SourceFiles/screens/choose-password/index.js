@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   ScrollView,
   SafeAreaView,
@@ -13,9 +13,15 @@ import {hp, wp} from '../../components/responsive';
 import LinearGradient from 'react-native-linear-gradient';
 import HeaderPreLogin from '../../common/header';
 import {useNavigation} from '@react-navigation/core';
+import NeoInputField from '../../components/neo-input';
 
 const ChoosePassword = () => {
   const navigation = useNavigation();
+  const [state, setState] = useState({
+    password: null,
+    confirm_pass: null,
+  });
+  const {password, confirm_pass} = state;
   const renderValidationText = () => {
     return (
       <Block flex={false} margin={[hp(2), wp(2), 0]}>
@@ -72,26 +78,35 @@ const ChoosePassword = () => {
               title="Create Account"
               subtitle="Choose your Password"
             />
-            <Input
-              neomorph
-              rightLabel
-              secure
-              rightIcon
-              color="#707070"
-              placeholder="Password"
-              placeholderTextColor={'#707070'}
-            />
-            <Block flex={false} margin={[hp(0.8), 0]} />
-            <Input
-              neomorph
-              secure
-              rightIcon
-              rightLabel
-              color="#707070"
-              placeholder="Confirm Password"
-              placeholderTextColor={'#707070'}
-            />
-
+            <Block flex={false} center>
+              <NeoInputField
+                placeholder={'Password'}
+                fontColor="#707070"
+                icon="eye"
+                onChangeText={(q) =>
+                  setState({
+                    ...state,
+                    password: q,
+                  })
+                }
+                value={password}
+                secure
+              />
+              <Block flex={false} margin={[hp(1), 0]} />
+              <NeoInputField
+                placeholder={'Confirm Password'}
+                fontColor="#707070"
+                icon="eye"
+                secure
+                onChangeText={(q) =>
+                  setState({
+                    ...state,
+                    confirm_pass: q,
+                  })
+                }
+                value={confirm_pass}
+              />
+            </Block>
             <Block row margin={[hp(1.5), wp(2)]} flex={false}>
               <Text grey size={14}>
                 You’re almost there!

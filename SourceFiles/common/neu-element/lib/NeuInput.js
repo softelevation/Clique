@@ -12,6 +12,7 @@ const NeuInput = (props) => {
     value = '',
     prefix: Prefix,
     placeholderTextColor,
+    secureTextEntry,
     ...rest
   } = props;
 
@@ -29,16 +30,6 @@ const NeuInput = (props) => {
           flexDirection: 'row',
           paddingHorizontal: 12,
         }}>
-        {Prefix && (
-          <View
-            style={{
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginRight: 6,
-            }}>
-            {Prefix}
-          </View>
-        )}
         <TextInput
           style={{
             ...styles.input,
@@ -48,7 +39,18 @@ const NeuInput = (props) => {
           placeholder={placeholder}
           value={value}
           placeholderTextColor={placeholderTextColor}
+          secureTextEntry={secureTextEntry}
         />
+        {Prefix && (
+          <View
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginLeft: 6,
+            }}>
+            {Prefix}
+          </View>
+        )}
       </View>
     </NeuView>
   );

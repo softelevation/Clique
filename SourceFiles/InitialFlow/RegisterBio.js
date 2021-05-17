@@ -38,6 +38,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import FastImage from 'react-native-fast-image';
 import {images} from '../Assets/Images/images';
 import HeaderPreLogin from '../common/header';
+import NeoInputField from '../components/neo-input';
 
 export default class RegisterName extends Component {
   constructor(props) {
@@ -120,61 +121,61 @@ export default class RegisterName extends Component {
     return (
       <Block linear>
         <SafeAreaView />
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.container}
-          bounces={false}>
-          <Block padding={[hp(2), wp(3)]} space="between" flex={false} row>
-            <TouchableOpacity onPress={() => this.btnBackTap()}>
-              <LinearGradient
-                colors={['#5542B6', '#7653DB']}
-                style={styles.linear}>
-                <ImageComponent
-                  resizeMode="contain"
-                  height={14}
-                  width={14}
-                  name={'BackIcon'}
-                />
-              </LinearGradient>
-            </TouchableOpacity>
 
-            <ImageComponent
-              resizeMode="contain"
-              height={140}
-              width={140}
-              name={'nameBg'}
-            />
-            <TouchableOpacity onPress={() => this.btnSkipTap()}>
-              <LinearGradient
-                colors={['#AF2DA5', '#BC60CB']}
-                style={styles.linear}>
-                <Text
-                  style={{
-                    fontSize: SetFontSize.ts12,
-                    color: CommonColors.whiteColor,
-                    fontFamily: ConstantKeys.Averta_REGULAR,
-                  }}>
-                  Skip
-                </Text>
-              </LinearGradient>
-            </TouchableOpacity>
-          </Block>
-          <Block
-            color={'#F2EDFA'}
-            borderTopRightRadius={30}
-            borderTopLeftRadius={30}
-            padding={[0, wp(3)]}>
+        <Block padding={[hp(2), wp(3), 0]} space="between" flex={false} row>
+          <TouchableOpacity onPress={() => this.btnBackTap()}>
+            <LinearGradient
+              colors={['#5542B6', '#7653DB']}
+              style={styles.linear}>
+              <ImageComponent
+                resizeMode="contain"
+                height={14}
+                width={14}
+                name={'BackIcon'}
+              />
+            </LinearGradient>
+          </TouchableOpacity>
+
+          <ImageComponent
+            resizeMode="contain"
+            height={140}
+            width={140}
+            name={'nameBg'}
+          />
+          <TouchableOpacity onPress={() => this.btnSkipTap()}>
+            <LinearGradient
+              colors={['#AF2DA5', '#BC60CB']}
+              style={styles.linear}>
+              <Text
+                style={{
+                  fontSize: SetFontSize.ts12,
+                  color: CommonColors.whiteColor,
+                  fontFamily: ConstantKeys.Averta_REGULAR,
+                }}>
+                Skip
+              </Text>
+            </LinearGradient>
+          </TouchableOpacity>
+        </Block>
+        <Block
+          color={'#F2EDFA'}
+          borderTopRightRadius={30}
+          borderTopLeftRadius={30}
+          padding={[0, wp(3)]}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.container}
+            bounces={false}>
             <HeaderPreLogin title="Create Account" subtitle="Your Bio" />
-            <Block flex={false} margin={[hp(1), 0, 0]}>
-              <Input
-                neomorph
+            <Block center flex={false} margin={[hp(1), 0, 0]}>
+              <NeoInputField
                 value={this.state.txtBio}
-                color="#707070"
-                placeholder={'Tell us about yourself!'}
-                placeholderTextColor={'#707070'}
+                placeholder="Tell us about yourself!"
                 onChangeText={(txtBio) => {
                   this.setState({txtBio: txtBio});
                 }}
+                fontColor="#707070"
+                icon=""
               />
             </Block>
 
@@ -192,14 +193,13 @@ export default class RegisterName extends Component {
               <Image style={styles.leftIcon} source={RedPlay} />
               <Image style={styles.rightIcon} source={images.behance} />
             </Block>
-
-            <Block flex={false} margin={[0, 0, hp(3), 0]}>
-              <Button onPress={() => this.btnNextTap()} linear color="primary">
-                Next
-              </Button>
-            </Block>
+          </ScrollView>
+          <Block flex={false} margin={[0, 0, hp(3), 0]}>
+            <Button onPress={() => this.btnNextTap()} linear color="primary">
+              Next
+            </Button>
           </Block>
-        </ScrollView>
+        </Block>
 
         {this.state.isloading ? <LoadingView /> : null}
       </Block>

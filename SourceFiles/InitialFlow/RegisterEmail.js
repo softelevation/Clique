@@ -25,6 +25,7 @@ import ValidationMsg from '../Constants/ValidationMsg';
 import {APIURL} from '../Constants/APIURL';
 import Webservice from '../Constants/API';
 import HeaderPreLogin from '../common/header';
+import NeoInputField from '../components/neo-input';
 
 export default class RegisterEmail extends Component {
   constructor(props) {
@@ -184,8 +185,8 @@ export default class RegisterEmail extends Component {
             borderTopLeftRadius={30}
             padding={[0, wp(3)]}>
             <HeaderPreLogin title={'Create Account'} subtitle={'Your Email'} />
-            <Block flex={false} margin={[hp(1), 0, 0]}>
-              <Input
+            <Block center flex={false} margin={[hp(1), 0, 0]}>
+              {/* <Input
                 neomorph
                 rightIcon="MinEmailIcon"
                 color="#707070"
@@ -204,6 +205,21 @@ export default class RegisterEmail extends Component {
                     this.setState({isDisable: false});
                   }
                 }}
+              /> */}
+              <NeoInputField
+                value={this.state.txtEmail}
+                placeholder={'Enter Email ID'}
+                onChangeText={async (txtEmail) => {
+                  await this.setState({txtEmail: txtEmail});
+
+                  if (this.state.txtEmail.length < 2) {
+                    this.setState({isDisable: true});
+                  } else {
+                    this.setState({isDisable: false});
+                  }
+                }}
+                fontColor="#707070"
+                icon="MinEmailIcon"
               />
             </Block>
             <Block middle padding={[0, wp(3)]}>

@@ -47,6 +47,7 @@ const componentStyles = () => {
     // position
     center: {textAlign: 'center'},
     right: {textAlign: 'right'},
+    left: {textAlign: 'left'},
     // colors
     primary: {color: light.primary},
     secondary: {color: light.secondary},
@@ -54,6 +55,7 @@ const componentStyles = () => {
     errorColor: {color: light.warning},
     linkColor: {color: light.link},
     purple: {color: light.purple},
+    red: {color: '#EC5F5F'},
     // // fonts
     h1: {fontSize: h1},
     h2: {fontSize: h2},
@@ -113,6 +115,7 @@ const CustomText = ({
   errorColor,
   link,
   thin,
+  left,
   purple,
   ...props
 }) => {
@@ -184,6 +187,7 @@ const CustomText = ({
     grey && styles.grey,
     center && styles.center,
     right && styles.right,
+    left && styles.left,
     color && styles[color],
     link && styles.linkColor,
     color && !styles[color] && {color},

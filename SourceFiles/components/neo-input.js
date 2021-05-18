@@ -16,6 +16,7 @@ const NeoInputField = ({
   value,
   placeholder,
   secure,
+  inset,
 }) => {
   const [toggleSecure, setToggleSecure] = useState(false);
   const isSecure = toggleSecure ? false : secure;
@@ -48,6 +49,7 @@ const NeoInputField = ({
       value={value}
       secureTextEntry={isSecure}
       placeholder={placeholder}
+      inset={inset}
     />
   );
 };
@@ -61,6 +63,7 @@ NeoInputField.defaultProps = {
   iconHeight: 25,
   placeholder: 'Enter Field Name',
   secure: false,
+  inset: false,
 };
 
 export default NeoInputField;

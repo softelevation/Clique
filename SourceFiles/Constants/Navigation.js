@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Image} from 'react-native';
 
 //Navigation Libraries
 import {NavigationContainer} from '@react-navigation/native';
@@ -56,6 +55,8 @@ import Profile from '../screens/profile';
 import Pro from '../screens/pro';
 import Messages from '../screens/messages/chat';
 import EditProfile from '../screens/profile/edit';
+import Settings from '../screens/settings';
+import ChangePasswordSettings from '../screens/settings/change-password';
 
 //Constant Variable for navigation
 const Stack = createStackNavigator();
@@ -272,7 +273,7 @@ function DashboardSubStack() {
       <Tab.Screen name="Nearby" component={NearByStackScreen} />
       <Tab.Screen name="Pro" component={Pro} />
       <Tab.Screen name="Chat" component={ChatStack} />
-      <Tab.Screen name="Setting" component={ProfileStackScreen} />
+      <Tab.Screen name="Setting" component={Settings} />
     </Tab.Navigator>
   );
 }
@@ -282,6 +283,10 @@ function DashboardStack() {
       <Tab.Screen name="Profile" component={DashboardSubStack} />
       <Stack.Screen name="Messages" component={Messages} />
       <Stack.Screen name="EditProfile" component={EditProfile} />
+      <Stack.Screen
+        name="ChangePasswordSettings"
+        component={ChangePasswordSettings}
+      />
     </Stack.Navigator>
   );
 }
@@ -316,20 +321,4 @@ export default class Navigation extends Component {
       </NavigationContainer>
     );
   }
-}
-
-{
-  /* <View
-                            style={{
-                                position: 'absolute',
-                                bottom: 20, // space from bottombar
-                                height: 58,
-                                width: 58,
-                                borderRadius: 58,
-                                backgroundColor: '#5a95ff',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                            }}>
-                            <Text style={{fontSize: SetFontSize.ts14, color: CommonColors.whiteColor, fontFamily: ConstantKeys.Averta_BOLD}}>PRO</Text>
-                        </View> */
 }

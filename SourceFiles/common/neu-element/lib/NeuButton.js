@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {TouchableWithoutFeedback, Text, View} from 'react-native';
 import NeuView from './NeuView';
 import PropTypes from 'prop-types';
+import LinearGradient from 'react-native-linear-gradient';
 
 const NeuButton = (props) => {
   const [toggleEffect, setToggleEffect] = useState(false);

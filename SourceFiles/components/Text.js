@@ -1,5 +1,6 @@
 import React from 'react';
 import {Text, StyleSheet} from 'react-native';
+import {hp} from './responsive';
 import {light} from './theme/colors';
 import {
   h1,
@@ -117,6 +118,7 @@ const CustomText = ({
   thin,
   left,
   purple,
+  gutterBottom,
   ...props
 }) => {
   const styles = componentStyles();
@@ -192,6 +194,7 @@ const CustomText = ({
     link && styles.linkColor,
     color && !styles[color] && {color},
     // color shortcuts
+    gutterBottom && {marginBottom: hp(1)},
     accent && styles.accent,
     primary && styles.primary,
     secondary && styles.secondary,

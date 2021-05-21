@@ -17,6 +17,7 @@ const NeoInputField = ({
   placeholder,
   secure,
   inset,
+  leftIcon,
 }) => {
   const [toggleSecure, setToggleSecure] = useState(false);
   const isSecure = toggleSecure ? false : secure;
@@ -32,6 +33,9 @@ const NeoInputField = ({
       containerStyle={{paddingVetical: hp(1)}}
       color="#eef2f9"
       placeholderTextColor={fontColor}
+      leftPrefix={
+        <ImageComponent name={leftIcon} height={iconHeight} width={iconWidth} />
+      }
       prefix={
         secure ? (
           <TouchableOpacity onPress={() => setToggleSecure(!toggleSecure)}>

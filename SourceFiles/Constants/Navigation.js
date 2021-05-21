@@ -57,6 +57,7 @@ import Messages from '../screens/messages/chat';
 import EditProfile from '../screens/profile/edit';
 import Settings from '../screens/settings';
 import ChangePasswordSettings from '../screens/settings/change-password';
+import HelpAndTutorials from '../screens/settings/help-and-tutorials';
 
 //Constant Variable for navigation
 const Stack = createStackNavigator();
@@ -287,6 +288,7 @@ function DashboardStack() {
         name="ChangePasswordSettings"
         component={ChangePasswordSettings}
       />
+      <Stack.Screen name="HelpAndTutorials" component={HelpAndTutorials} />
     </Stack.Navigator>
   );
 }
@@ -300,7 +302,7 @@ const AppNavigator = createSwitchNavigator(
     Dashboard: DashboardStack,
   },
   {
-    initialRouteName: 'DashboardStack',
+    initialRouteName: 'Dashboard',
   },
 );
 

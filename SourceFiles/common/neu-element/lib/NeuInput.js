@@ -13,6 +13,7 @@ const NeuInput = (props) => {
     prefix: Prefix,
     placeholderTextColor,
     secureTextEntry,
+    leftPrefix,
     ...rest
   } = props;
 
@@ -30,6 +31,16 @@ const NeuInput = (props) => {
           flexDirection: 'row',
           paddingHorizontal: 12,
         }}>
+        {leftPrefix && (
+          <View
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginRight: 6,
+            }}>
+            {leftPrefix}
+          </View>
+        )}
         <TextInput
           style={{
             ...styles.input,

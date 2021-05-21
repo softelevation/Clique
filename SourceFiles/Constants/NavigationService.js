@@ -1,8 +1,6 @@
 // NavigationService.js
 
 import * as React from 'react';
-import {StackActions, CommonActions} from '@react-navigation/native';
-
 export const isReadyRef = React.createRef();
 
 export const navigationRef = React.createRef();

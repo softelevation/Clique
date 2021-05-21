@@ -185,7 +185,10 @@ export default class Login extends Component {
               color="secondary">
               Sign in with Google
             </Button>
-            <Button style={{marginTop: hp(2)}} color="primary">
+            <Button
+              onPress={() => navigation.navigate('Home')}
+              style={{marginTop: hp(2)}}
+              color="primary">
               Login
             </Button>
             <Text

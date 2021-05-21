@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/core';
 import React from 'react';
-import {TouchableOpacity, StyleSheet} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import {Block, ImageComponent, Text} from '../components';
 import {hp, wp} from '../components/responsive';
 import {light} from '../components/theme/colors';
@@ -27,26 +27,13 @@ const HeaderSettings = ({title, rightTitle}) => {
           />
         </NeuView>
       </TouchableOpacity>
-
-      <Text purple semibold size={18}>
+      <Text purple semibold size={20}>
         {title}
       </Text>
-      <Text white semibold size={18}>
+      <Text white semibold size={20}>
         {rightTitle || '      '}
       </Text>
     </Block>
   );
 };
-const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-  },
-  linear: {
-    height: 40,
-    width: 40,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 20,
-  },
-});
 export default HeaderSettings;

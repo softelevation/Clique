@@ -42,6 +42,8 @@ export const images = {
   add_icon: require('./icons/add.png'),
   delete_icon: require('./icons/delete.png'),
   arrow_back_icon: require('./icons/arrow-back.png'),
+  help_icon: require('./icons/helptutorial.png'),
+  most_searched_icon: require('./icons/most-searched.png'),
 
   // Forgot
   forgotBg: require('./forgot/forgot.png'),

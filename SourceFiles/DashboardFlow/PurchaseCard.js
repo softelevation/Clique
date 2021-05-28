@@ -20,10 +20,10 @@ import Snackbar from 'react-native-snackbar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import FastImage from 'react-native-fast-image'
 import { CommonActions } from '@react-navigation/native';
-import CountryPicker from 'rn-country-picker';
 import RBSheet from "react-native-raw-bottom-sheet";
 import { Neomorph, Shadow, NeomorphFlex } from 'react-native-neomorph-shadows';
 import LinearGradient from 'react-native-linear-gradient';
+import CountryPicker from '../common/country-picker/CountryPicker';
 
 
 export default class PurchaseCard extends Component {

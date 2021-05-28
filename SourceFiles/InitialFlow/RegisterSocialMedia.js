@@ -15,24 +15,25 @@ import {
   Switch,
   PermissionsAndroid,
   FlatList,
-  Dimensions,,
+  Dimensions,
 } from 'react-native';
 
 //Constant Files
-import {CommonColors} from '../Constants/ColorConstant';;
-import {IMG} from '../Constants/ImageConstant';;
-import {SetFontSize} from '../Constants/FontSize';;
-import {ConstantKeys} from '../Constants/ConstantKey';;
+import {CommonColors} from '../Constants/ColorConstant';
+import {IMG} from '../Constants/ImageConstant';
+import {SetFontSize} from '../Constants/FontSize';
+import {ConstantKeys} from '../Constants/ConstantKey';
 import ValidationMsg from '../Constants/ValidationMsg';
 import LoadingView from '../Constants/LoadingView';
-import {APIURL} from '../Constants/APIURL';;
-import Webservice from '../Constants/API';;
+import {APIURL} from '../Constants/APIURL';
+import Webservice from '../Constants/API';
 
 //Third Party
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {CommonActions} from '@react-navigation/native';
 import Snackbar from 'react-native-snackbar';
-import {EventRegister} from 'react-native-event-listeners';;
+import {EventRegister} from 'react-native-event-listeners';
+// import CountryPicker from 'rn-country-picker';
 import Geolocation from '@react-native-community/geolocation';
 import FastImage from 'react-native-fast-image';
 import LinearGradient from 'react-native-linear-gradient';
@@ -68,8 +69,8 @@ export default class RegisterSocialMedia extends Component {
   }
 
   async componentDidMount() {
-    await this.requestLocationPermission();;
-    await this.getData();;
+    await this.requestLocationPermission();
+    await this.getData();
   }
 
   requestLocationPermission = async () => {
@@ -100,25 +101,25 @@ export default class RegisterSocialMedia extends Component {
     Geolocation.getCurrentPosition(
       //Will give you the current location
       (position) => {
-        latitude = String(position.coords.latitude);;
-        longitude = String(position.coords.longitude);;
+        latitude = String(position.coords.latitude);
+        longitude = String(position.coords.longitude);
 
         this.setState({
           longitude: position.coords.longitude,
           latitude: position.coords.latitude,
         });
 
-        console.log('Longitude : ' + position.coords.longitude);;
+        console.log('Longitude : ' + position.coords.longitude);
         console.log('Latitude : ' + position.coords.latitude);
       },
       (error) => {
         console.log(error.message);
-        this.getOneTimeLocation();;
+        this.getOneTimeLocation();
       },
       {
         enableHighAccuracy: false,
         timeout: 100000,
-        maximumAge: 3600000,,
+        maximumAge: 3600000,
       },
     );
   };
@@ -135,112 +136,112 @@ export default class RegisterSocialMedia extends Component {
 
   getData = async () => {
     try {
-      const value = await AsyncStorage.getItem(ConstantKeys.USERDATA);;
+      const value = await AsyncStorage.getItem(ConstantKeys.USERDATA);
       if (value !== null) {
         // value previously stored
-        console.log('User Data: ' + value);;
-        var userData = JSON.parse(value);;
-        var user = userData.user;;
+        console.log('User Data: ' + value);
+        var userData = JSON.parse(value);
+        var user = userData.user;
 
         this.setState({
           userData: userData,
           user: user,
-        });;
+        });
 
         // ------- For Mobile Numbers Add ------ //
-        var ArrHomeNo = [];;
-        var ArrWorkNo = [];;
-        var ArrOtherNo = [];;
+        var ArrHomeNo = [];
+        var ArrWorkNo = [];
+        var ArrOtherNo = [];
 
-        var homeDict = {};;
-        homeDict['media_type'] = 'homeNumber';;
-        homeDict['country_code'] = '91';;
-        homeDict['media_value'] = '';;
-        homeDict['status'] = 1;;
-        homeDict['id'] = 0;;
+        var homeDict = {};
+        homeDict.media_type = 'homeNumber';
+        homeDict.country_code = '91';
+        homeDict.media_value = '';
+        homeDict.status = 1;
+        homeDict.id = 0;
 
-        var workDict = {};;
-        workDict['media_type'] = 'workNumber';;
-        workDict['country_code'] = '91';;
-        workDict['media_value'] = '';;
-        workDict['status'] = 1;;
-        workDict['id'] = 0;;
+        var workDict = {};
+        workDict.media_type = 'workNumber';
+        workDict.country_code = '91';
+        workDict.media_value = '';
+        workDict.status = 1;
+        workDict.id = 0;
 
-        var otherDict = {};;
-        otherDict['media_type'] = 'otherNumber';;
-        otherDict['country_code'] = '91';;
-        otherDict['media_value'] = '';;
-        otherDict['status'] = 1;;
-        otherDict['id'] = 0;
+        var otherDict = {};
+        otherDict.media_type = 'otherNumber';
+        otherDict.country_code = '91';
+        otherDict.media_value = '';
+        otherDict.status = 1;
+        otherDict.id = 0;
 
-        ArrHomeNo.push(homeDict);;
-        ArrWorkNo.push(workDict);;
-        ArrOtherNo.push(otherDict);;
+        ArrHomeNo.push(homeDict);
+        ArrWorkNo.push(workDict);
+        ArrOtherNo.push(otherDict);
 
         this.setState({
           ArrHomeNo: ArrHomeNo,
           ArrWorkNo: ArrWorkNo,
-          ArrOtherNo: ArrOtherNo,;
+          ArrOtherNo: ArrOtherNo,
         });
         //-----------------//
 
         // ----------  Social Arrays  ----------//
 
-        var website = [];;
-        var socialMails = [];;
-        var instagram = [];;
-        var facebook = [];;
-        var twitter = [];;
-        var youtube = [];;
+        var website = [];
+        var socialMails = [];
+        var instagram = [];
+        var facebook = [];
+        var twitter = [];
+        var youtube = [];
         var linkdin = [];
 
-        var websiteDict = {};;
-        websiteDict['media_type'] = 'website';;
-        websiteDict['media_value'] = '';;
-        websiteDict['status'] = 1;;
-        websiteDict['id'] = 0;;
-        website.push(websiteDict);;
+        var websiteDict = {};
+        websiteDict.media_type = 'website';
+        websiteDict.media_value = '';
+        websiteDict.status = 1;
+        websiteDict.id = 0;
+        website.push(websiteDict);
 
-        var emailDict = {};;
-        emailDict['media_type'] = 'socialMail';;
-        emailDict['media_value'] = '';;
-        emailDict['status'] = 1;;
-        emailDict['id'] = 0;;
-        socialMails.push(emailDict);;
+        var emailDict = {};
+        emailDict.media_type = 'socialMail';
+        emailDict.media_value = '';
+        emailDict.status = 1;
+        emailDict.id = 0;
+        socialMails.push(emailDict);
 
-        var instagramDict = {};;
-        instagramDict['media_type'] = 'instagram';;
-        instagramDict['media_value'] = '';;
-        instagramDict['status'] = 1;;
-        instagramDict['id'] = 0;;
-        instagram.push(instagramDict);;
+        var instagramDict = {};
+        instagramDict.media_type = 'instagram';
+        instagramDict.media_value = '';
+        instagramDict.status = 1;
+        instagramDict.id = 0;
+        instagram.push(instagramDict);
 
-        var facebookDict = {};;
-        facebookDict['media_type'] = 'facebook';;
-        facebookDict['media_value'] = '';;
-        facebookDict['status'] = 1;;
-        facebookDict['id'] = 0;;
-        facebook.push(facebookDict);;
+        var facebookDict = {};
+        facebookDict.media_type = 'facebook';
+        facebookDict.media_value = '';
+        facebookDict.status = 1;
+        facebookDict.id = 0;
+        facebook.push(facebookDict);
 
-        var twitterDict = {};;
-        twitterDict['media_type'] = 'twitter';;
-        twitterDict['media_value'] = '';;
-        twitterDict['status'] = 1;;
-        twitterDict['id'] = 0;;
-        twitter.push(twitterDict);;
+        var twitterDict = {};
+        twitterDict.media_type = 'twitter';
+        twitterDict.media_value = '';
+        twitterDict.status = 1;
+        twitterDict.id = 0;
+        twitter.push(twitterDict);
 
-        var youtubeDict = {};;
-        youtubeDict['media_type'] = 'youtube';;
-        youtubeDict['media_value'] = '';;
-        youtubeDict['status'] = 1;;
-        youtubeDict['id'] = 0;;
-        youtube.push(youtubeDict);;
+        var youtubeDict = {};
+        youtubeDict.media_type = 'youtube';
+        youtubeDict.media_value = '';
+        youtubeDict.status = 1;
+        youtubeDict.id = 0;
+        youtube.push(youtubeDict);
 
-        var linkdinDict = {};;
-        linkdinDict['media_type'] = 'linkdin';;
-        linkdinDict['media_value'] = '';;
-        linkdinDict['status'] = 1;;
-        linkdinDict['id'] = 0;;
+        var linkdinDict = {};
+        linkdinDict.media_type = 'linkdin';
+        linkdinDict.media_value = '';
+        linkdinDict.status = 1;
+        linkdinDict.id = 0;
         linkdin.push(linkdinDict);
 
         this.setState({
@@ -253,27 +254,27 @@ export default class RegisterSocialMedia extends Component {
           ArrLinkdIn: linkdin,
         });
       } else {
-        console.log('User Data: null ' + value);;
+        console.log('User Data: null ' + value);
       }
     } catch (e) {
-      console.log('Error : ' + e);;
+      console.log('Error : ' + e);
     }
   };
 
-  createData() {
+  createData = () => {
     let websiteLinks = this.state.ArrWebsite.filter(
       (el) => el.media_type == 'website',
     ).map(function ({id, media_value, status}) {
       return {id, mediaValue: media_value, status};
-    });;
+    });
 
-    console.log('Website Link : ' + JSON.stringify(websiteLinks));;
+    console.log('Website Link : ' + JSON.stringify(websiteLinks));
 
     let socialMailLinks = this.state.ArrSocialMails.filter(
       (el) => el.media_type === 'socialMail',
     ).map(function ({id, media_value, status}) {
       return {id, mediaValue: media_value, status};
-    });;
+    });
 
     console.log('socialMail Link : ' + JSON.stringify(socialMailLinks));
 
@@ -281,7 +282,7 @@ export default class RegisterSocialMedia extends Component {
       (el) => el.media_type === 'instagram',
     ).map(function ({id, media_value, status}) {
       return {id, mediaValue: media_value, status};
-    });;
+    });
 
     console.log('instagram Link : ' + JSON.stringify(instagramLinks));
 
@@ -289,7 +290,7 @@ export default class RegisterSocialMedia extends Component {
       (el) => el.media_type === 'facebook',
     ).map(function ({id, media_value, status}) {
       return {id, mediaValue: media_value, status};
-    });;
+    });
 
     console.log('facebook Link : ' + JSON.stringify(facebookLinks));
 
@@ -297,7 +298,7 @@ export default class RegisterSocialMedia extends Component {
       (el) => el.media_type === 'twitter',
     ).map(function ({id, media_value, status}) {
       return {id, mediaValue: media_value, status};
-    });;
+    });
 
     console.log('twitter Link : ' + JSON.stringify(twitterLinks));
 
@@ -305,7 +306,7 @@ export default class RegisterSocialMedia extends Component {
       (el) => el.media_type === 'youtube',
     ).map(function ({id, media_value, status}) {
       return {id, mediaValue: media_value, status};
-    });;
+    });
 
     console.log('youtube Link : ' + JSON.stringify(youtubeLinks));
 
@@ -313,7 +314,7 @@ export default class RegisterSocialMedia extends Component {
       (el) => el.media_type === 'linkdin',
     ).map(function ({id, media_value, status}) {
       return {id, mediaValue: media_value, status};
-    });;
+    });
 
     console.log('linkdin Link : ' + JSON.stringify(linkdinLinks));
 
@@ -325,7 +326,7 @@ export default class RegisterSocialMedia extends Component {
         mediaValue: media_value == '' ? '' : country_code + '-' + media_value,
         status,
       };
-    });;
+    });
 
     console.log('homeNumber Link : ' + JSON.stringify(homeNumberLinks));
 
@@ -337,7 +338,7 @@ export default class RegisterSocialMedia extends Component {
         mediaValue: media_value == '' ? '' : country_code + '-' + media_value,
         status,
       };
-    });;
+    });
 
     console.log('workNumber Link : ' + JSON.stringify(workNumberLinks));
 
@@ -349,9 +350,9 @@ export default class RegisterSocialMedia extends Component {
         mediaValue: media_value == '' ? '' : country_code + '-' + media_value,
         status,
       };
-    });;
+    });
 
-    console.log('otherNumber Link : ' + JSON.stringify(otherNumberLinks));;
+    console.log('otherNumber Link : ' + JSON.stringify(otherNumberLinks));
 
     var params = {
       website: websiteLinks,
@@ -366,13 +367,13 @@ export default class RegisterSocialMedia extends Component {
       otherNumber: otherNumberLinks,
     };
 
-    console.log('Final Params : ' + JSON.stringify(params));;
+    console.log('Final Params : ' + JSON.stringify(params));
 
-    this.API_PROFILE_UPDATE(true, params);;
-  }
+    this.API_PROFILE_UPDATE(true, params);
+  };
 
   API_PROFILE_UPDATE(isload, params) {
-    this.setState({isloading: isload});;
+    this.setState({isloading: isload});
 
     Webservice.post(APIURL.profileUpdate, {
       user_id: this.state.user.user_id,
@@ -392,7 +393,7 @@ export default class RegisterSocialMedia extends Component {
           this.setState({isloading: false});
           // alert('error');
           alert(response.originalError.message);
-          return;;
+          return;
         }
         //   console.log(response);
 
@@ -401,25 +402,25 @@ export default class RegisterSocialMedia extends Component {
         );
 
         if (response.data.status == true) {
-          this.storeData(JSON.stringify(response.data.data));;
-          this.setState({isloading: false});;
+          this.storeData(JSON.stringify(response.data.data));
+          this.setState({isloading: false});
         } else {
-          this.setState({isloading: false});;
-          this.showAlert(response.data.message);;
+          this.setState({isloading: false});
+          this.showAlert(response.data.message);
         }
       })
       .catch((error) => {
-        console.log(error.message);;
+        console.log(error.message);
         this.setState({isloading: false});
-      });;
+      });
   }
 
   //Helper Methods
   storeData = async (value) => {
     try {
-      await AsyncStorage.setItem(ConstantKeys.USERDATA, value);;
+      await AsyncStorage.setItem(ConstantKeys.USERDATA, value);
 
-      this.props.navigation.navigate('Congratulation');;
+      this.props.navigation.navigate('Congratulation');
 
       // const props = this.props
       // props.navigation.dispatch(
@@ -438,42 +439,42 @@ export default class RegisterSocialMedia extends Component {
   //Action Methods
   btnBackTap = () => {
     requestAnimationFrame(() => {
-      this.props.navigation.goBack();;
-    });;
+      this.props.navigation.goBack();
+    });
   };
 
   btnNextTap = () => {
     requestAnimationFrame(() => {
-      this.createData();;
+      this.createData();
       // this.props.navigation.navigate('Congratulation')
       // console.log(" Final Register Data : "+JSON.stringify(this.state.RegisterData))
-    });;
+    });
   };
 
   render() {
-    let BackIcon = IMG.OtherFlow.BackIcon;;
-    let BusinessIcon = IMG.OtherFlow.BusinessIcon;;
-    let SocialIcon = IMG.OtherFlow.SocialIcon;;
-    let MusicIcon = IMG.OtherFlow.MusicIcon;;
-    let PaymentIcon = IMG.OtherFlow.PaymentIcon;;
-    let ExternalLinkIcon = IMG.OtherFlow.ExternalLinkIcon;;
+    let BackIcon = IMG.OtherFlow.BackIcon;
+    let BusinessIcon = IMG.OtherFlow.BusinessIcon;
+    let SocialIcon = IMG.OtherFlow.SocialIcon;
+    let MusicIcon = IMG.OtherFlow.MusicIcon;
+    let PaymentIcon = IMG.OtherFlow.PaymentIcon;
+    let ExternalLinkIcon = IMG.OtherFlow.ExternalLinkIcon;
 
-    let Background = IMG.OtherFlow.Background;;
+    let Background = IMG.OtherFlow.Background;
 
-    let CallIcon = IMG.OtherFlow.CallIcon;;
-    let SocialMailIcon = IMG.OtherFlow.SocialMailIcon;;
-    let RightArrowIcon = IMG.OtherFlow.RightArrowIcon;;
-    let SpotifyIcon = IMG.OtherFlow.SpotifyIcon;;
-    let PayIcon = IMG.OtherFlow.PayIcon;;
-    let LinkIcon = IMG.OtherFlow.LinkIcon;;
-    let WebIcon = IMG.OtherFlow.WebIcon;;
-    let InstaIcon = IMG.OtherFlow.InstaIcon;;
-    let FacebookIcon = IMG.OtherFlow.FacebookIcon;;
-    let TwitterIcon = IMG.OtherFlow.TwitterIcon;;
-    let YoutubeIcon = IMG.OtherFlow.YoutubeIcon;;
-    let LinkdInIcon = IMG.OtherFlow.LinkdInIcon;;
-    let EditIcon = IMG.OtherFlow.EditIcon;;
-    let RemoveIcon = IMG.OtherFlow.RemoveIcon;;
+    let CallIcon = IMG.OtherFlow.CallIcon;
+    let SocialMailIcon = IMG.OtherFlow.SocialMailIcon;
+    let RightArrowIcon = IMG.OtherFlow.RightArrowIcon;
+    let SpotifyIcon = IMG.OtherFlow.SpotifyIcon;
+    let PayIcon = IMG.OtherFlow.PayIcon;
+    let LinkIcon = IMG.OtherFlow.LinkIcon;
+    let WebIcon = IMG.OtherFlow.WebIcon;
+    let InstaIcon = IMG.OtherFlow.InstaIcon;
+    let FacebookIcon = IMG.OtherFlow.FacebookIcon;
+    let TwitterIcon = IMG.OtherFlow.TwitterIcon;
+    let YoutubeIcon = IMG.OtherFlow.YoutubeIcon;
+    let LinkdInIcon = IMG.OtherFlow.LinkdInIcon;
+    let EditIcon = IMG.OtherFlow.EditIcon;
+    let RemoveIcon = IMG.OtherFlow.RemoveIcon;
     let AddIcon = IMG.OtherFlow.AddIcon;
 
     return (
@@ -543,7 +544,8 @@ export default class RegisterSocialMedia extends Component {
                       alignItems: 'center',
                       justifyContent: 'center',
                       borderRadius: 20,
-                    }}></TouchableOpacity>
+                    }}
+                  />
                 </View>
 
                 <View style={{marginTop: 10}}>
@@ -555,7 +557,7 @@ export default class RegisterSocialMedia extends Component {
                       textAlign: 'center',
                       fontSize: SetFontSize.ts16,
                       fontFamily: ConstantKeys.Averta_REGULAR,
-                      color: CommonColors.whiteColor,,
+                      color: CommonColors.whiteColor,
                     }}>
                     Create Profile
                   </Text>
@@ -568,7 +570,7 @@ export default class RegisterSocialMedia extends Component {
                       textAlign: 'center',
                       fontSize: SetFontSize.ts30,
                       fontFamily: ConstantKeys.Averta_BOLD,
-                      color: CommonColors.whiteColor,,
+                      color: CommonColors.whiteColor,
                     }}>
                     {'Your Social Media Accounts'}
                   </Text>
@@ -680,7 +682,7 @@ export default class RegisterSocialMedia extends Component {
                                 height: 50,
                                 fontFamily: ConstantKeys.Averta_REGULAR,
                                 fontSize: SetFontSize.ts16,
-                                flexDirection: 'row',,
+                                flexDirection: 'row',
                               }}>
                               <Image
                                 style={{
@@ -709,12 +711,12 @@ export default class RegisterSocialMedia extends Component {
                                 searchBarStyle={styles.searchBarStyle}
                                 countryCode={item.country_code}
                                 selectedValue={(index) => {
-                                  console.log('Country : ' + index);;
+                                  console.log('Country : ' + index);
 
-                                  var newData = this.state.ArrHomeNo;;
-                                  newData[0].country_code = index;;
+                                  var newData = this.state.ArrHomeNo;
+                                  newData[0].country_code = index;
 
-                                  this.setState({ArrHomeNo: newData});;
+                                  this.setState({ArrHomeNo: newData});
                                 }}
                               />
 
@@ -728,13 +730,13 @@ export default class RegisterSocialMedia extends Component {
                                   height: 50,
                                   color: CommonColors.whiteColor,
                                   fontSize: SetFontSize.ts16,
-                                  fontFamily: ConstantKeys.Averta_REGULAR,,
+                                  fontFamily: ConstantKeys.Averta_REGULAR,
                                   marginLeft: 5,
                                 }}
                                 value={item.media_value}
                                 returnKeyType={'done'}
                                 onChangeText={(text) => {
-                                  var newData = this.state.ArrHomeNo;;
+                                  var newData = this.state.ArrHomeNo;
                                   newData[index].media_value = text.replace(
                                     /[^0-9]/g,
                                     '',
@@ -747,14 +749,14 @@ export default class RegisterSocialMedia extends Component {
 
                             <Switch
                               onValueChange={(value) => {
-                                var switchStatus = 0;;
+                                var switchStatus = 0;
                                 if (value) {
-                                  switchStatus = 1;;
+                                  switchStatus = 1;
                                 } else {
-                                  switchStatus = 0;;
+                                  switchStatus = 0;
                                 }
-                                var newData = this.state.ArrHomeNo;;
-                                newData[index].status = switchStatus;;
+                                var newData = this.state.ArrHomeNo;
+                                newData[index].status = switchStatus;
 
                                 this.setState({ArrHomeNo: newData});
                               }}
@@ -791,7 +793,7 @@ export default class RegisterSocialMedia extends Component {
                                 height: 50,
                                 fontFamily: ConstantKeys.Averta_REGULAR,
                                 fontSize: SetFontSize.ts16,
-                                flexDirection: 'row',,
+                                flexDirection: 'row',
                               }}>
                               <Image
                                 style={{
@@ -820,10 +822,10 @@ export default class RegisterSocialMedia extends Component {
                                 searchBarStyle={styles.searchBarStyle}
                                 countryCode={item.country_code}
                                 selectedValue={(index) => {
-                                  console.log('Country : ' + index);;
+                                  console.log('Country : ' + index);
 
-                                  var newData = this.state.ArrWorkNo;;
-                                  newData[0].country_code = index;;
+                                  var newData = this.state.ArrWorkNo;
+                                  newData[0].country_code = index;
 
                                   this.setState({ArrWorkNo: newData});
                                 }}
@@ -845,7 +847,7 @@ export default class RegisterSocialMedia extends Component {
                                 value={item.media_value}
                                 returnKeyType={'done'}
                                 onChangeText={(text) => {
-                                  var newData = this.state.ArrWorkNo;;
+                                  var newData = this.state.ArrWorkNo;
                                   newData[index].media_value = text.replace(
                                     /[^0-9]/g,
                                     '',
@@ -858,16 +860,16 @@ export default class RegisterSocialMedia extends Component {
 
                             <Switch
                               onValueChange={(value) => {
-                                var switchStatus = 0;;
+                                var switchStatus = 0;
                                 if (value) {
-                                  switchStatus = 1;;
+                                  switchStatus = 1;
                                 } else {
-                                  switchStatus = 0;;
+                                  switchStatus = 0;
                                 }
-                                var newData = this.state.ArrWorkNo;;
-                                newData[index].status = switchStatus;;
+                                var newData = this.state.ArrWorkNo;
+                                newData[index].status = switchStatus;
 
-                                this.setState({ArrWorkNo: newData});;
+                                this.setState({ArrWorkNo: newData});
                               }}
                               value={item.status == 1 ? true : false}
                             />
@@ -902,7 +904,7 @@ export default class RegisterSocialMedia extends Component {
                                 height: 50,
                                 fontFamily: ConstantKeys.Averta_REGULAR,
                                 fontSize: SetFontSize.ts16,
-                                flexDirection: 'row',,
+                                flexDirection: 'row',
                               }}>
                               <Image
                                 style={{
@@ -931,12 +933,12 @@ export default class RegisterSocialMedia extends Component {
                                 searchBarStyle={styles.searchBarStyle}
                                 countryCode={item.country_code}
                                 selectedValue={(index) => {
-                                  console.log('Country : ' + index);;
+                                  console.log('Country : ' + index);
 
-                                  var newData = this.state.ArrOtherNo;;
-                                  newData[0].country_code = index;;
+                                  var newData = this.state.ArrOtherNo;
+                                  newData[0].country_code = index;
 
-                                  this.setState({ArrOtherNo: newData});;
+                                  this.setState({ArrOtherNo: newData});
                                 }}
                               />
 
@@ -956,7 +958,7 @@ export default class RegisterSocialMedia extends Component {
                                 value={item.media_value}
                                 returnKeyType={'done'}
                                 onChangeText={(text) => {
-                                  var newData = this.state.ArrOtherNo;;
+                                  var newData = this.state.ArrOtherNo;
                                   newData[index].media_value = text.replace(
                                     /[^0-9]/g,
                                     '',
@@ -969,14 +971,14 @@ export default class RegisterSocialMedia extends Component {
 
                             <Switch
                               onValueChange={(value) => {
-                                var switchStatus = 0;;
+                                var switchStatus = 0;
                                 if (value) {
-                                  switchStatus = 1;;
+                                  switchStatus = 1;
                                 } else {
-                                  switchStatus = 0;;
+                                  switchStatus = 0;
                                 }
-                                var newData = this.state.ArrOtherNo;;
-                                newData[index].status = switchStatus;;
+                                var newData = this.state.ArrOtherNo;
+                                newData[index].status = switchStatus;
 
                                 this.setState({ArrOtherNo: newData});
                               }}
@@ -1058,23 +1060,23 @@ export default class RegisterSocialMedia extends Component {
                                 value={item.media_value}
                                 returnKeyType={'done'}
                                 onChangeText={(text) => {
-                                  var newData = this.state.ArrWebsite;;
-                                  newData[index].media_value = text;;
+                                  var newData = this.state.ArrWebsite;
+                                  newData[index].media_value = text;
 
-                                  this.setState({ArrWebsite: newData});;
+                                  this.setState({ArrWebsite: newData});
                                 }}
                               />
                             </View>
                             <Switch
                               onValueChange={(value) => {
-                                var switchStatus = 0;;
+                                var switchStatus = 0;
                                 if (value) {
-                                  switchStatus = 1;;
+                                  switchStatus = 1;
                                 } else {
-                                  switchStatus = 0;;
+                                  switchStatus = 0;
                                 }
-                                var newData = this.state.ArrWebsite;;
-                                newData[index].status = switchStatus;;
+                                var newData = this.state.ArrWebsite;
+                                newData[index].status = switchStatus;
 
                                 this.setState({ArrWebsite: newData});
                               }}
@@ -1090,9 +1092,9 @@ export default class RegisterSocialMedia extends Component {
                                   resizeMode: 'contain',
                                 }}
                                 onPress={() => {
-                                  var newData = this.state.ArrWebsite;;
-                                  newData.splice(index, 1);;
-                                  this.setState({ArrWebsite: newData});;
+                                  var newData = this.state.ArrWebsite;
+                                  newData.splice(index, 1);
+                                  this.setState({ArrWebsite: newData});
                                 }}>
                                 <Image
                                   style={{
@@ -1121,16 +1123,16 @@ export default class RegisterSocialMedia extends Component {
                       alignItems: 'center',
                     }}
                     onPress={() => {
-                      var WebsiteData = this.state.ArrWebsite;;
-                      var dict = {};;
-                      (dict['id'] = 0),
-                        (dict['media_type'] = 'website'),
-                        (dict['media_value'] = ''),
-                        (dict['status'] = 1);;
+                      var WebsiteData = this.state.ArrWebsite;
+                      var dict = {};
+                      (dict.id = 0),
+                        (dict.media_type = 'website'),
+                        (dict.media_value = ''),
+                        (dict.status = 1);
 
-                      WebsiteData.push(dict);;
+                      WebsiteData.push(dict);
 
-                      this.setState({ArrWebsite: WebsiteData});;
+                      this.setState({ArrWebsite: WebsiteData});
                     }}>
                     <Image
                       style={{
@@ -1222,8 +1224,8 @@ export default class RegisterSocialMedia extends Component {
                                 value={item.media_value}
                                 returnKeyType={'done'}
                                 onChangeText={(text) => {
-                                  var newData = this.state.ArrSocialMails;;
-                                  newData[index].media_value = text;;
+                                  var newData = this.state.ArrSocialMails;
+                                  newData[index].media_value = text;
 
                                   this.setState({ArrSocialMails: newData});
                                 }}
@@ -1231,16 +1233,16 @@ export default class RegisterSocialMedia extends Component {
                             </View>
                             <Switch
                               onValueChange={(value) => {
-                                var switchStatus = 0;;
+                                var switchStatus = 0;
                                 if (value) {
-                                  switchStatus = 1;;
+                                  switchStatus = 1;
                                 } else {
-                                  switchStatus = 0;;
+                                  switchStatus = 0;
                                 }
-                                var newData = this.state.ArrSocialMails;;
-                                newData[index].status = switchStatus;;
+                                var newData = this.state.ArrSocialMails;
+                                newData[index].status = switchStatus;
 
-                                this.setState({ArrSocialMails: newData});;
+                                this.setState({ArrSocialMails: newData});
                               }}
                               value={item.status == 1 ? true : false}
                             />
@@ -1249,9 +1251,9 @@ export default class RegisterSocialMedia extends Component {
                               <TouchableOpacity
                                 style={{width: 30, height: 30, marginLeft: 5}}
                                 onPress={() => {
-                                  var newData = this.state.ArrSocialMails;;
-                                  newData.splice(index, 1);;
-                                  this.setState({ArrSocialMails: newData});;
+                                  var newData = this.state.ArrSocialMails;
+                                  newData.splice(index, 1);
+                                  this.setState({ArrSocialMails: newData});
                                 }}>
                                 <Image
                                   style={{
@@ -1280,16 +1282,16 @@ export default class RegisterSocialMedia extends Component {
                       alignItems: 'center',
                     }}
                     onPress={() => {
-                      var SocialMailsData = this.state.ArrSocialMails;;
-                      var dict = {};;
-                      (dict['id'] = 0),
-                        (dict['media_type'] = 'socialMail'),
-                        (dict['media_value'] = ''),
-                        (dict['status'] = 1);;
+                      var SocialMailsData = this.state.ArrSocialMails;
+                      var dict = {};
+                      (dict.id = 0),
+                        (dict.media_type = 'socialMail'),
+                        (dict.media_value = ''),
+                        (dict.status = 1);
 
-                      SocialMailsData.push(dict);;
+                      SocialMailsData.push(dict);
 
-                      this.setState({ArrSocialMails: SocialMailsData});;
+                      this.setState({ArrSocialMails: SocialMailsData});
                     }}>
                     <Image
                       style={{
@@ -1381,8 +1383,8 @@ export default class RegisterSocialMedia extends Component {
                                 value={item.media_value}
                                 returnKeyType={'done'}
                                 onChangeText={(text) => {
-                                  var newData = this.state.ArrInstagram;;
-                                  newData[index].media_value = text;;
+                                  var newData = this.state.ArrInstagram;
+                                  newData[index].media_value = text;
 
                                   this.setState({ArrInstagram: newData});
                                 }}
@@ -1390,14 +1392,14 @@ export default class RegisterSocialMedia extends Component {
                             </View>
                             <Switch
                               onValueChange={(value) => {
-                                var switchStatus = 0;;
+                                var switchStatus = 0;
                                 if (value) {
-                                  switchStatus = 1;;
+                                  switchStatus = 1;
                                 } else {
-                                  switchStatus = 0;;
+                                  switchStatus = 0;
                                 }
-                                var newData = this.state.ArrInstagram;;
-                                newData[index].status = switchStatus;;
+                                var newData = this.state.ArrInstagram;
+                                newData[index].status = switchStatus;
 
                                 this.setState({ArrInstagram: newData});
                               }}
@@ -1408,9 +1410,9 @@ export default class RegisterSocialMedia extends Component {
                               <TouchableOpacity
                                 style={{width: 30, height: 30, marginLeft: 5}}
                                 onPress={() => {
-                                  var newData = this.state.ArrInstagram;;
-                                  newData.splice(index, 1);;
-                                  this.setState({ArrInstagram: newData});;
+                                  var newData = this.state.ArrInstagram;
+                                  newData.splice(index, 1);
+                                  this.setState({ArrInstagram: newData});
                                 }}>
                                 <Image
                                   style={{
@@ -1439,16 +1441,16 @@ export default class RegisterSocialMedia extends Component {
                       alignItems: 'center',
                     }}
                     onPress={() => {
-                      var InstagramData = this.state.ArrInstagram;;
-                      var dict = {};;
-                      (dict['id'] = 0),
-                        (dict['media_type'] = 'instagram'),
-                        (dict['media_value'] = ''),
-                        (dict['status'] = 1);;
+                      var InstagramData = this.state.ArrInstagram;
+                      var dict = {};
+                      (dict.id = 0),
+                        (dict.media_type = 'instagram'),
+                        (dict.media_value = ''),
+                        (dict.status = 1);
 
-                      InstagramData.push(dict);;
+                      InstagramData.push(dict);
 
-                      this.setState({ArrInstagram: InstagramData});;
+                      this.setState({ArrInstagram: InstagramData});
                     }}>
                     <Image
                       style={{
@@ -1535,29 +1537,29 @@ export default class RegisterSocialMedia extends Component {
                                   height: 50,
                                   color: CommonColors.whiteColor,
                                   fontSize: SetFontSize.ts16,
-                                  fontFamily: ConstantKeys.Averta_REGULAR,,
+                                  fontFamily: ConstantKeys.Averta_REGULAR,
                                   marginLeft: 5,
                                 }}
                                 value={item.media_value}
                                 returnKeyType={'done'}
                                 onChangeText={(text) => {
-                                  var newData = this.state.ArrFacebook;;
-                                  newData[index].media_value = text;;
+                                  var newData = this.state.ArrFacebook;
+                                  newData[index].media_value = text;
 
-                                  this.setState({ArrFacebook: newData});;
+                                  this.setState({ArrFacebook: newData});
                                 }}
                               />
                             </View>
                             <Switch
                               onValueChange={(value) => {
-                                var switchStatus = 0;;
+                                var switchStatus = 0;
                                 if (value) {
-                                  switchStatus = 1;;
+                                  switchStatus = 1;
                                 } else {
-                                  switchStatus = 0;;
+                                  switchStatus = 0;
                                 }
-                                var newData = this.state.ArrFacebook;;
-                                newData[index].status = switchStatus;;
+                                var newData = this.state.ArrFacebook;
+                                newData[index].status = switchStatus;
 
                                 this.setState({ArrFacebook: newData});
                               }}
@@ -1568,8 +1570,8 @@ export default class RegisterSocialMedia extends Component {
                               <TouchableOpacity
                                 style={{width: 30, height: 30, marginLeft: 5}}
                                 onPress={() => {
-                                  var newData = this.state.ArrFacebook;;
-                                  newData.splice(index, 1);;
+                                  var newData = this.state.ArrFacebook;
+                                  newData.splice(index, 1);
                                   this.setState({ArrFacebook: newData});
                                 }}>
                                 <Image
@@ -1599,16 +1601,16 @@ export default class RegisterSocialMedia extends Component {
                       alignItems: 'center',
                     }}
                     onPress={() => {
-                      var FacebookData = this.state.ArrFacebook;;
-                      var dict = {};;
-                      (dict['id'] = 0),
-                        (dict['media_type'] = 'facebook'),
-                        (dict['media_value'] = ''),
-                        (dict['status'] = 1);;
+                      var FacebookData = this.state.ArrFacebook;
+                      var dict = {};
+                      (dict.id = 0),
+                        (dict.media_type = 'facebook'),
+                        (dict.media_value = ''),
+                        (dict.status = 1);
 
-                      FacebookData.push(dict);;
+                      FacebookData.push(dict);
 
-                      this.setState({ArrFacebook: FacebookData});;
+                      this.setState({ArrFacebook: FacebookData});
                     }}>
                     <Image
                       style={{
@@ -1700,25 +1702,25 @@ export default class RegisterSocialMedia extends Component {
                                 value={item.media_value}
                                 returnKeyType={'done'}
                                 onChangeText={(text) => {
-                                  var newData = this.state.ArrLinkdIn;;
-                                  newData[index].media_value = text;;
+                                  var newData = this.state.ArrLinkdIn;
+                                  newData[index].media_value = text;
 
-                                  this.setState({ArrLinkdIn: newData});;
+                                  this.setState({ArrLinkdIn: newData});
                                 }}
                               />
                             </View>
                             <Switch
                               onValueChange={(value) => {
-                                var switchStatus = 0;;
+                                var switchStatus = 0;
                                 if (value) {
-                                  switchStatus = 1;;
+                                  switchStatus = 1;
                                 } else {
-                                  switchStatus = 0;;
+                                  switchStatus = 0;
                                 }
-                                var newData = this.state.ArrLinkdIn;;
-                                newData[index].status = switchStatus;;
+                                var newData = this.state.ArrLinkdIn;
+                                newData[index].status = switchStatus;
 
-                                this.setState({ArrLinkdIn: newData});;
+                                this.setState({ArrLinkdIn: newData});
                               }}
                               value={item.status == 1 ? true : false}
                             />
@@ -1797,8 +1799,8 @@ export default class RegisterSocialMedia extends Component {
                                 value={item.media_value}
                                 returnKeyType={'done'}
                                 onChangeText={(text) => {
-                                  var newData = this.state.ArrTwitter;;
-                                  newData[index].media_value = text;;
+                                  var newData = this.state.ArrTwitter;
+                                  newData[index].media_value = text;
 
                                   this.setState({ArrTwitter: newData});
                                 }}
@@ -1806,16 +1808,16 @@ export default class RegisterSocialMedia extends Component {
                             </View>
                             <Switch
                               onValueChange={(value) => {
-                                var switchStatus = 0;;
+                                var switchStatus = 0;
                                 if (value) {
-                                  switchStatus = 1;;
+                                  switchStatus = 1;
                                 } else {
-                                  switchStatus = 0;;
+                                  switchStatus = 0;
                                 }
-                                var newData = this.state.ArrTwitter;;
-                                newData[index].status = switchStatus;;
+                                var newData = this.state.ArrTwitter;
+                                newData[index].status = switchStatus;
 
-                                this.setState({ArrTwitter: newData});;
+                                this.setState({ArrTwitter: newData});
                               }}
                               value={item.status == 1 ? true : false}
                             />
@@ -1824,9 +1826,9 @@ export default class RegisterSocialMedia extends Component {
                               <TouchableOpacity
                                 style={{width: 30, height: 30, marginLeft: 5}}
                                 onPress={() => {
-                                  var newData = this.state.ArrTwitter;;
-                                  newData.splice(index, 1);;
-                                  this.setState({ArrTwitter: newData});;
+                                  var newData = this.state.ArrTwitter;
+                                  newData.splice(index, 1);
+                                  this.setState({ArrTwitter: newData});
                                 }}>
                                 <Image
                                   style={{
@@ -1855,16 +1857,16 @@ export default class RegisterSocialMedia extends Component {
                       alignItems: 'center',
                     }}
                     onPress={() => {
-                      var TwitterData = this.state.ArrTwitter;;
-                      var dict = {};;
-                      (dict['id'] = 0),
-                        (dict['media_type'] = 'twitter'),
-                        (dict['media_value'] = ''),
-                        (dict['status'] = 1);;
+                      var TwitterData = this.state.ArrTwitter;
+                      var dict = {};
+                      (dict.id = 0),
+                        (dict.media_type = 'twitter'),
+                        (dict.media_value = ''),
+                        (dict.status = 1);
 
-                      TwitterData.push(dict);;
+                      TwitterData.push(dict);
 
-                      this.setState({ArrTwitter: TwitterData});;
+                      this.setState({ArrTwitter: TwitterData});
                     }}>
                     <Image
                       style={{
@@ -1956,8 +1958,8 @@ export default class RegisterSocialMedia extends Component {
                                 value={item.media_value}
                                 returnKeyType={'done'}
                                 onChangeText={(text) => {
-                                  var newData = this.state.ArrYoutube;;
-                                  newData[index].media_value = text;;
+                                  var newData = this.state.ArrYoutube;
+                                  newData[index].media_value = text;
 
                                   this.setState({ArrYoutube: newData});
                                 }}
@@ -1965,16 +1967,16 @@ export default class RegisterSocialMedia extends Component {
                             </View>
                             <Switch
                               onValueChange={(value) => {
-                                var switchStatus = 0;;
+                                var switchStatus = 0;
                                 if (value) {
-                                  switchStatus = 1;;
+                                  switchStatus = 1;
                                 } else {
-                                  switchStatus = 0;;
+                                  switchStatus = 0;
                                 }
-                                var newData = this.state.ArrYoutube;;
-                                newData[index].status = switchStatus;;
+                                var newData = this.state.ArrYoutube;
+                                newData[index].status = switchStatus;
 
-                                this.setState({ArrYoutube: newData});;
+                                this.setState({ArrYoutube: newData});
                               }}
                               value={item.status == 1 ? true : false}
                             />
@@ -1983,9 +1985,9 @@ export default class RegisterSocialMedia extends Component {
                               <TouchableOpacity
                                 style={{width: 30, height: 30, marginLeft: 5}}
                                 onPress={() => {
-                                  var newData = this.state.ArrYoutube;;
-                                  newData.splice(index, 1);;
-                                  this.setState({ArrYoutube: newData});;
+                                  var newData = this.state.ArrYoutube;
+                                  newData.splice(index, 1);
+                                  this.setState({ArrYoutube: newData});
                                 }}>
                                 <Image
                                   style={{
@@ -2012,19 +2014,19 @@ export default class RegisterSocialMedia extends Component {
                       height: 50,
                       borderRadius: 10,
                       backgroundColor: CommonColors.appBarColor,
-                      alignItems: 'center',,
+                      alignItems: 'center',
                     }}
                     onPress={() => {
-                      var YoutubeData = this.state.ArrYoutube;;
-                      var dict = {};;
-                      (dict['id'] = 0),
-                        (dict['media_type'] = 'youtube'),
-                        (dict['media_value'] = ''),
-                        (dict['status'] = 1);;
+                      var YoutubeData = this.state.ArrYoutube;
+                      var dict = {};
+                      (dict.id = 0),
+                        (dict.media_type = 'youtube'),
+                        (dict.media_value = ''),
+                        (dict.status = 1);
 
-                      YoutubeData.push(dict);;
+                      YoutubeData.push(dict);
 
-                      this.setState({ArrYoutube: YoutubeData});;
+                      this.setState({ArrYoutube: YoutubeData});
                     }}>
                     <Image
                       style={{
@@ -2103,10 +2105,10 @@ export default class RegisterSocialMedia extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: CommonColors.primaryColor,,
+    backgroundColor: CommonColors.primaryColor,
   },
   viewClique: {
-    flexDirection: 'row',,
+    flexDirection: 'row',
   },
   viewCountrystyle: {
     flexDirection: 'row',
@@ -2116,7 +2118,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     color: CommonColors.MortarColor,
     fontSize: SetFontSize.ts16,
-    fontFamily: ConstantKeys.Averta_REGULAR,,
+    fontFamily: ConstantKeys.Averta_REGULAR,
   },
   pickerTitleStyle: {
     justifyContent: 'center',
@@ -2162,7 +2164,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 20,
     borderTopRightRadius: 20,
     alignItems: 'center',
-    justifyContent: 'center',,
+    justifyContent: 'center',
   },
   btnNextEnable: {
     marginBottom: 20,
@@ -2178,12 +2180,11 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 20,
     borderTopRightRadius: 20,
     alignItems: 'center',
-    justifyContent: 'center',,
+    justifyContent: 'center',
   },
   txtNext: {
     color: CommonColors.whiteColor,
     fontSize: SetFontSize.ts16,
-    fontFamily: 'Averta-Regular',,
+    fontFamily: 'Averta-Regular',
   },
-});;
-
+});

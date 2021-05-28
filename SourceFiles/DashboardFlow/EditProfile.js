@@ -15,17 +15,17 @@ import {
   PermissionsAndroid,
   ScrollView,
   Linking,
-  Switch,,
+  Switch,
 } from 'react-native';
 
 //Constants
 import {CommonColors} from '../Constants/ColorConstant';
 import {IMG} from '../Constants/ImageConstant';
-import {ConstantKeys} from '../Constants/ConstantKey';;
-import {SetFontSize} from '../Constants/FontSize';;
+import {ConstantKeys} from '../Constants/ConstantKey';
+import {SetFontSize} from '../Constants/FontSize';
 import LoadingView from '../Constants/LoadingView';
 import Webservice from '../Constants/API';
-import {APIURL} from '../Constants/APIURL';;
+import {APIURL} from '../Constants/APIURL';
 import ValidationMsg from '../Constants/ValidationMsg';
 
 //Third Party
@@ -94,7 +94,7 @@ export default class EditProfile extends Component {
 
   async componentDidMount() {
     await this.requestLocationPermission();
-    await this.getData();;
+    await this.getData();
   }
 
   requestLocationPermission = async () => {
@@ -125,17 +125,16 @@ export default class EditProfile extends Component {
     Geolocation.getCurrentPosition(
       //Will give you the current location
       (position) => {
-        latitude = String(position.coords.latitude);;
+        latitude = String(position.coords.latitude);
         longitude = String(position.coords.longitude);
 
         this.setState({
           longitude: position.coords.longitude,
           latitude: position.coords.latitude,
-        });;
+        });
 
         console.log('Longitude : ' + position.coords.longitude);
         console.log('Latitude : ' + position.coords.latitude);
-
       },
       (error) => {
         console.log(error.message);
@@ -152,7 +151,7 @@ export default class EditProfile extends Component {
   componentWillUnmount() {}
 
   getData = async () => {
-    this.setState({isloading: true});;
+    this.setState({isloading: true});
 
     try {
       const value = await AsyncStorage.getItem(ConstantKeys.USERDATA);
@@ -161,7 +160,7 @@ export default class EditProfile extends Component {
         console.log('User Data: ' + JSON.stringify(value));
         var userData = JSON.parse(value);
         var user = userData.user;
-        var social_data = user.social_data;;
+        var social_data = user.social_data;
 
         // For Home Number
         var ArrHome = [];
@@ -174,11 +173,11 @@ export default class EditProfile extends Component {
 
         if (homenumber.length != 0) {
           if (homenumber[0].media_value == '') {
-            homeDict.media_type = 'homeNumber';;
-            homeDict.country_code = '91';;
-            homeDict.media_value = '';;
+            homeDict.media_type = 'homeNumber';
+            homeDict.country_code = '91';
+            homeDict.media_value = '';
             homeDict.status = 1;
-            homeDict.id = homenumber[0].id;;
+            homeDict.id = homenumber[0].id;
           } else {
             var mobileHome = homenumber[0].media_value;
             var HomeMobile = mobileHome.split('-');
@@ -206,11 +205,11 @@ export default class EditProfile extends Component {
 
         if (worknumber.length != 0) {
           if (worknumber[0].media_value == '') {
-            workDict['media_type'] = 'workNumber';;
-            workDict.country_code = '91';;
-            workDict.media_value = '';;
+            workDict.media_type = 'workNumber';
+            workDict.country_code = '91';
+            workDict.media_value = '';
             workDict.status = 1;
-            workDict.id = worknumber[0].id;;
+            workDict.id = worknumber[0].id;
           } else {
             var mobilework = worknumber[0].media_value;
             var workMobile = mobilework.split('-');
@@ -221,7 +220,7 @@ export default class EditProfile extends Component {
             workDict.country_code = workMobile[0];
             workDict.media_value = workMobile[1];
             workDict.status = worknumber[0].status;
-            workDict.id = worknumber[0].id;;
+            workDict.id = worknumber[0].id;
           }
 
           ArrWork.push(workDict);
@@ -238,11 +237,11 @@ export default class EditProfile extends Component {
 
         if (Othernumber.length != 0) {
           if (Othernumber[0].media_value == '') {
-            otherDict.media_type = 'otherNumber';;
-            otherDict.country_code = '91';;
-            otherDict.media_value = '';;
+            otherDict.media_type = 'otherNumber';
+            otherDict.country_code = '91';
+            otherDict.media_value = '';
             otherDict.status = 1;
-            otherDict.id = Othernumber[0].id;;
+            otherDict.id = Othernumber[0].id;
           } else {
             var mobileOther = Othernumber[0].media_value;
             var OtherMobile = mobileOther.split('-');
@@ -263,21 +262,21 @@ export default class EditProfile extends Component {
 
         var dictResume = {};
         if (user.resume_file != null) {
-          dictResume['name'] = user.resume_file;;
-          dictResume.uri = '';;
+          dictResume.name = user.resume_file;
+          dictResume.uri = '';
         }
 
         if (user.avatar != null) {
           var dict = {};
           dict.uri = userData.asset_url + user.avatar;
-          dict.type = 'image/png';;
+          dict.type = 'image/png';
           dict.base64 = null;
 
           console.log(' Profile Image get ' + JSON.stringify(dict));
 
           this.setState({ProfileImgData: dict});
         } else {
-          this.setState({ProfileImgData: null});;
+          this.setState({ProfileImgData: null});
         }
 
         this.setState({
@@ -470,20 +469,20 @@ export default class EditProfile extends Component {
           ArrPayment: payment,
           ArrExternalLink: externalLink,
           isloading: false,
-        });;
+        });
       } else {
         console.log('User Data: null ' + value);
-        this.setState({isloading: false});;
+        this.setState({isloading: false});
       }
     } catch (e) {
-      this.setState({isloading: false});;
+      this.setState({isloading: false});
       console.log('Error : ' + e);
     }
   };
 
   // API Edit Profile
   API_EDIT_PROFILE(isload, social_data) {
-    this.setState({isloading: isload});;
+    this.setState({isloading: isload});
 
     var body = new FormData();
     if (this.state.txtResumeFile != null) {
@@ -538,13 +537,13 @@ export default class EditProfile extends Component {
         console.log('Get Edit Profile Response : ' + JSON.stringify(response));
 
         if (response.data.status == true) {
-          var UserData = response.data.data;;
+          var UserData = response.data.data;
 
           this.showAlert(response.data.message);
-          this.storeData(JSON.stringify(UserData));;
+          this.storeData(JSON.stringify(UserData));
         } else {
-          this.setState({isloading: false});;
-          this.showAlert(response.data.message);;
+          this.setState({isloading: false});
+          this.showAlert(response.data.message);
         }
       })
       .catch((error) => {
@@ -557,18 +556,18 @@ export default class EditProfile extends Component {
             {
               text: 'Try Again',
               onPress: () => {
-                this.API_EDIT_PROFILE(true, social_data);;
-              },,
+                this.API_EDIT_PROFILE(true, social_data);
+              },
             },
           ],
           {cancelable: false},
-        );;
+        );
       });
   }
 
   //API Delete Social Data
   API_SOCIAL_DELETE(isload, item, index) {
-    this.setState({isloading: isload});;
+    this.setState({isloading: isload});
     Webservice.post(APIURL.socialDelete, {
       user_id: this.state.user.user_id,
       social_id: item.id,
@@ -584,18 +583,18 @@ export default class EditProfile extends Component {
 
         console.log(
           'Get Social Delete Response : ' + JSON.stringify(response.data),
-        );;
+        );
 
         if (response.data.status) {
-          this.setState({isloading: false});;
+          this.setState({isloading: false});
 
           //Delete single record from array
           if (item.media_type == 'website') {
-            var newData = this.state.ArrWebsite;;
+            var newData = this.state.ArrWebsite;
             newData.splice(index, 1);
-            this.setState({ArrWebsite: newData});;
+            this.setState({ArrWebsite: newData});
           } else if (item.media_type == 'socialMail') {
-            var newData = this.state.ArrSocialMails;;
+            var newData = this.state.ArrSocialMails;
             newData.splice(index, 1);
             this.setState({ArrSocialMails: newData});
           } else if (item.media_type == 'instagram') {
@@ -615,7 +614,7 @@ export default class EditProfile extends Component {
             newData.splice(index, 1);
             this.setState({ArrYoutube: newData});
           } else if (item.media_type == 'music') {
-            var newData = this.state.ArrMusic;;
+            var newData = this.state.ArrMusic;
             newData.splice(index, 1);
             this.setState({ArrMusic: newData});
           } else if (item.media_type == 'externalLink') {
@@ -629,14 +628,14 @@ export default class EditProfile extends Component {
             this.setState({ArrPayment: newData});
           }
         } else {
-          this.setState({isloading: false});;
+          this.setState({isloading: false});
           this.showAlert(response.data.message);
         }
       })
       .catch((error) => {
         console.log(error.message);
         this.setState({isloading: false});
-      });;
+      });
   }
 
   //Helper Methods
@@ -660,19 +659,18 @@ export default class EditProfile extends Component {
   btnDoneTap = () => {
     requestAnimationFrame(() => {
       Alert.alert('Alert', 'Are you sure you want to edit profile?', [
-
         {
           text: 'No',
           style: 'cancel',
-          onPress: () => {},,
+          onPress: () => {},
         },
         {
           text: 'Yes',
           onPress: () => {
-            this.createData();;
+            this.createData();
           },
         },
-      ]);;
+      ]);
     });
   };
 
@@ -681,115 +679,103 @@ export default class EditProfile extends Component {
       (el) => el.media_type == 'website',
     ).map(function ({id, media_value, status}) {
       return {id, mediaValue: media_value, status};
-    });;
+    });
 
     console.log('Website Link : ' + JSON.stringify(websiteLinks));
-
 
     let socialMailLinks = this.state.ArrSocialMails.filter(
       (el) => el.media_type === 'socialMail',
     ).map(function ({id, media_value, status}) {
       return {id, mediaValue: media_value, status};
-    });;
+    });
 
     console.log('socialMail Link : ' + JSON.stringify(socialMailLinks));
-
 
     let instagramLinks = this.state.ArrInstagram.filter(
       (el) => el.media_type === 'instagram',
     ).map(function ({id, media_value, status}) {
       return {id, mediaValue: media_value, status};
-    });;
+    });
 
     console.log('instagram Link : ' + JSON.stringify(instagramLinks));
-
 
     let facebookLinks = this.state.ArrFacebook.filter(
       (el) => el.media_type === 'facebook',
     ).map(function ({id, media_value, status}) {
       return {id, mediaValue: media_value, status};
-    });;
+    });
 
     console.log('facebook Link : ' + JSON.stringify(facebookLinks));
-
 
     let twitterLinks = this.state.ArrTwitter.filter(
       (el) => el.media_type === 'twitter',
     ).map(function ({id, media_value, status}) {
       return {id, mediaValue: media_value, status};
-    });;
+    });
 
     console.log('twitter Link : ' + JSON.stringify(twitterLinks));
-
 
     let youtubeLinks = this.state.ArrYoutube.filter(
       (el) => el.media_type === 'youtube',
     ).map(function ({id, media_value, status}) {
       return {id, mediaValue: media_value, status};
-    });;
+    });
 
     console.log('youtube Link : ' + JSON.stringify(youtubeLinks));
-
 
     let linkdinLinks = this.state.ArrLinkdIn.filter(
       (el) => el.media_type === 'linkdin',
     ).map(function ({id, media_value, status}) {
       return {id, mediaValue: media_value, status};
-    });;
+    });
 
     console.log('linkdin Link : ' + JSON.stringify(linkdinLinks));
-
 
     let homeNumberLinks = this.state.ArrHomeNo.filter(
       (el) => el.media_type === 'homeNumber',
     ).map(function ({id, media_value, country_code, status}) {
       return {id, mediaValue: country_code + '-' + media_value, status};
-    });;
+    });
 
     console.log('homeNumber Link : ' + JSON.stringify(homeNumberLinks));
-
 
     let workNumberLinks = this.state.ArrWorkNo.filter(
       (el) => el.media_type === 'workNumber',
     ).map(function ({id, media_value, country_code, status}) {
       return {id, mediaValue: country_code + '-' + media_value, status};
-    });;
+    });
 
     console.log('workNumber Link : ' + JSON.stringify(workNumberLinks));
-
 
     let otherNumberLinks = this.state.ArrOtherNo.filter(
       (el) => el.media_type === 'otherNumber',
     ).map(function ({id, media_value, country_code, status}) {
       return {id, mediaValue: country_code + '-' + media_value, status};
-    });;
+    });
 
     console.log('otherNumber Link : ' + JSON.stringify(otherNumberLinks));
-
 
     let musicLinks = this.state.ArrMusic.filter(
       (el) => el.media_type === 'music',
     ).map(function ({id, media_value, status}) {
       return {id, mediaValue: media_value, status};
-    });;
+    });
 
     console.log('music Link : ' + JSON.stringify(musicLinks));
-
 
     let paymentLinks = this.state.ArrPayment.filter(
       (el) => el.media_type === 'payment',
     ).map(function ({id, media_value, status}) {
       return {id, mediaValue: media_value, status};
-    });;
+    });
 
     console.log('payment Link : ' + JSON.stringify(paymentLinks));
-
 
     let externalLinks = this.state.ArrExternalLink.filter(
       (el) => el.media_type === 'externalLink',
     ).map(function ({id, media_value, status}) {
       return {id, mediaValue: media_value, status};
-    });;
+    });
 
     console.log('externalLink Link : ' + JSON.stringify(externalLinks));
 
@@ -806,12 +792,12 @@ export default class EditProfile extends Component {
       otherNumber: otherNumberLinks,
       music: musicLinks,
       payment: paymentLinks,
-      'externalLink': externalLinks,
+      externalLink: externalLinks,
     };
 
     console.log('Final Params : ' + JSON.stringify(params));
 
-    this.API_EDIT_PROFILE(true, params);;
+    this.API_EDIT_PROFILE(true, params);
   }
 
   btnChooseResumeFile = async () => {
@@ -821,10 +807,10 @@ export default class EditProfile extends Component {
         type: [DocumentPicker.types.pdf],
       });
 
-      this.setState({txtResumeFile: res});;
+      this.setState({txtResumeFile: res});
 
-      console.log('Selected File : ' +
-        res.uri,
+      console.log(
+        'Selected File : ' + res.uri,
         res.type, // mime type
         res.name,
         res.size,
@@ -850,7 +836,7 @@ export default class EditProfile extends Component {
         // alert(item.id)
         this.API_SOCIAL_DELETE(true, item, index);
       }
-    });;
+    });
   };
 
   btnDeleteEmail = (item, index) => {
@@ -948,7 +934,7 @@ export default class EditProfile extends Component {
       } else {
         this.API_SOCIAL_DELETE(true, item, index);
       }
-    });;
+    });
   };
 
   btnDeleteExLinks = (item, index) => {
@@ -962,11 +948,11 @@ export default class EditProfile extends Component {
       } else {
         this.API_SOCIAL_DELETE(true, item, index);
       }
-    });;
+    });
   };
 
   btnSelectImage = () => {
-    this.setState({isloading: true});;
+    this.setState({isloading: true});
 
     Alert.alert(
       ValidationMsg.AppName,
@@ -982,20 +968,20 @@ export default class EditProfile extends Component {
                 quality: 0.7,
               },
               (response) => {
-                this.setState({isloading: false});;
+                this.setState({isloading: false});
 
                 console.log(JSON.stringify(response));
 
                 if (response.didCancel) {
                   console.log('User cancelled photo picker');
 
-                  this.setState({loading: false});;
+                  this.setState({loading: false});
                 } else if (response.errorCode) {
                   console.log('ImagePicker Error: ', response.errorCode);
-                  this.setState({loading: false});;
+                  this.setState({loading: false});
 
                   if (response.errorCode == 'permission') {
-                    this.setState({isloading: false});;
+                    this.setState({isloading: false});
                     alert('Please allow Camera permission from Setting');
                   }
                 } else if (response.customButton) {
@@ -1004,7 +990,7 @@ export default class EditProfile extends Component {
                     response.customButton,
                   );
                 } else {
-                  this.setState({ProfileImgData: response, isloading: false});;
+                  this.setState({ProfileImgData: response, isloading: false});
                 }
               },
             );
@@ -1022,25 +1008,25 @@ export default class EditProfile extends Component {
               (response) => {
                 console.log(JSON.stringify(response));
 
-                this.setState({isloading: false});;
+                this.setState({isloading: false});
 
                 if (response.didCancel) {
-                  this.setState({isLoading: false});;
+                  this.setState({isLoading: false});
                   console.log('User cancelled photo picker');
                 } else if (response.errorCode) {
                   console.log('ImagePicker Error: ', response.error);
-                  this.setState({isLoading: false});;
+                  this.setState({isLoading: false});
                   if (response.errorCode == 'permission') {
                     alert('Please allow Camera permission from Setting');
                   }
                 } else if (response.customButton) {
-                  this.setState({isLoading: false});;
+                  this.setState({isLoading: false});
                   console.log(
                     'User tapped custom button: ',
                     response.customButton,
                   );
                 } else {
-                  this.setState({ProfileImgData: response, isloading: false});;
+                  this.setState({ProfileImgData: response, isloading: false});
                 }
               },
             );
@@ -1056,7 +1042,7 @@ export default class EditProfile extends Component {
   };
 
   updateData = (data) => {
-    console.log('Selected data', data);;
+    console.log('Selected data', data);
 
     var CompanyData = JSON.parse(data);
 
@@ -1090,7 +1076,7 @@ export default class EditProfile extends Component {
     let TwitterIcon = IMG.OtherFlow.TwitterIcon;
     let YoutubeIcon = IMG.OtherFlow.YoutubeIcon;
     let LinkdInIcon = IMG.OtherFlow.LinkdInIcon;
-    let EditIcon = IMG.OtherFlow.EditIcon;;
+    let EditIcon = IMG.OtherFlow.EditIcon;
 
     return (
       <>
@@ -1161,7 +1147,7 @@ export default class EditProfile extends Component {
                         elevation: 3,
                         shadowOffset: {
                           height: 3,
-                          width: 0,,
+                          width: 0,
                         },
                       }}>
                       <FastImage
@@ -1179,7 +1165,7 @@ export default class EditProfile extends Component {
                           borderRadius: 20,
                           alignSelf: 'flex-end',
                           alignItems: 'center',
-                          justifyContent: 'center',,
+                          justifyContent: 'center',
                         }}
                         onPress={() => this.btnSelectImage()}>
                         <Image
@@ -1372,7 +1358,7 @@ export default class EditProfile extends Component {
                       borderRadius: 10,
                       paddingLeft: 10,
                       paddingRight: 10,
-                      marginTop: 10,,
+                      marginTop: 10,
                     }}
                     value={this.state.txtFullName}
                     returnKeyType={'done'}
@@ -1414,7 +1400,7 @@ export default class EditProfile extends Component {
                       backgroundColor: CommonColors.appBarColor,
                       borderRadius: 10,
                       padding: 10,
-                      minHeight: 100,,
+                      minHeight: 100,
                     }}
                     value={this.state.txtBio}
                     onChangeText={(txtBio) => {
@@ -1430,7 +1416,7 @@ export default class EditProfile extends Component {
                       fontSize: SetFontSize.ts14,
                       fontFamily: ConstantKeys.Averta_REGULAR,
                       marginTop: 5,
-                      textAlign: 'right',,
+                      textAlign: 'right',
                     }}>
                     {this.state.txtBio.length}/280
                   </Text>
@@ -1546,7 +1532,7 @@ export default class EditProfile extends Component {
                       height: 50,
                       borderRadius: 15,
                       backgroundColor: CommonColors.appBarColor,
-                      alignItems: 'center',,
+                      alignItems: 'center',
                     }}
                     onPress={() =>
                       this.props.navigation.navigate('AddJob', {
@@ -1614,7 +1600,7 @@ export default class EditProfile extends Component {
                         backgroundColor: CommonColors.appBarColor,
                         flexDirection: 'row',
                         alignItems: 'center',
-                        borderRadius: 10,,
+                        borderRadius: 10,
                       }}
                       onPress={() => this.btnChooseResumeFile()}>
                       <Image
@@ -1686,7 +1672,7 @@ export default class EditProfile extends Component {
                         value={this.state.txtResumeURL}
                         returnKeyType={'done'}
                         onChangeText={(text) => {
-                          this.setState({txtResumeURL: text});;
+                          this.setState({txtResumeURL: text});
                         }}
                       />
                     </View>
@@ -1744,7 +1730,7 @@ export default class EditProfile extends Component {
                                 height: 50,
                                 fontFamily: ConstantKeys.Averta_REGULAR,
                                 fontSize: SetFontSize.ts16,
-                                flexDirection: 'row',,
+                                flexDirection: 'row',
                               }}>
                               <Image
                                 style={{
@@ -1773,7 +1759,7 @@ export default class EditProfile extends Component {
                                 searchBarStyle={styles.searchBarStyle}
                                 countryCode={item.country_code}
                                 selectedValue={(index) => {
-                                  console.log('Country : ' + index);;
+                                  console.log('Country : ' + index);
 
                                   var newData = this.state.ArrHomeNo;
                                   newData[0].country_code = index;
@@ -1793,16 +1779,16 @@ export default class EditProfile extends Component {
                                   color: CommonColors.whiteColor,
                                   fontSize: SetFontSize.ts16,
                                   fontFamily: ConstantKeys.Averta_REGULAR,
-                                  marginLeft: 5,,
+                                  marginLeft: 5,
                                 }}
                                 value={item.media_value}
                                 returnKeyType={'done'}
                                 onChangeText={(text) => {
-                                  var newData = this.state.ArrHomeNo;;
+                                  var newData = this.state.ArrHomeNo;
                                   newData[index].media_value = text.replace(
                                     /[^0-9]/g,
                                     '',
-                                  );;
+                                  );
 
                                   this.setState({ArrHomeNo: newData});
                                 }}
@@ -1855,7 +1841,7 @@ export default class EditProfile extends Component {
                                 height: 50,
                                 fontFamily: ConstantKeys.Averta_REGULAR,
                                 fontSize: SetFontSize.ts16,
-                                flexDirection: 'row',,
+                                flexDirection: 'row',
                               }}>
                               <Image
                                 style={{
@@ -1884,7 +1870,7 @@ export default class EditProfile extends Component {
                                 searchBarStyle={styles.searchBarStyle}
                                 countryCode={item.country_code}
                                 selectedValue={(index) => {
-                                  console.log('Country : ' + index);;
+                                  console.log('Country : ' + index);
 
                                   var newData = this.state.ArrWorkNo;
                                   newData[0].country_code = index;
@@ -1904,16 +1890,16 @@ export default class EditProfile extends Component {
                                   color: CommonColors.whiteColor,
                                   fontSize: SetFontSize.ts16,
                                   fontFamily: ConstantKeys.Averta_REGULAR,
-                                  marginLeft: 5,,
+                                  marginLeft: 5,
                                 }}
                                 value={item.media_value}
                                 returnKeyType={'done'}
                                 onChangeText={(text) => {
-                                  var newData = this.state.ArrWorkNo;;
+                                  var newData = this.state.ArrWorkNo;
                                   newData[index].media_value = text.replace(
                                     /[^0-9]/g,
                                     '',
-                                  );;
+                                  );
 
                                   this.setState({ArrWorkNo: newData});
                                 }}
@@ -1966,7 +1952,7 @@ export default class EditProfile extends Component {
                                 height: 50,
                                 fontFamily: ConstantKeys.Averta_REGULAR,
                                 fontSize: SetFontSize.ts16,
-                                flexDirection: 'row',,
+                                flexDirection: 'row',
                               }}>
                               <Image
                                 style={{marginLeft: 10, height: 30, width: 30}}
@@ -2010,16 +1996,16 @@ export default class EditProfile extends Component {
                                   color: CommonColors.whiteColor,
                                   fontSize: SetFontSize.ts16,
                                   fontFamily: ConstantKeys.Averta_REGULAR,
-                                  marginLeft: 5,,
+                                  marginLeft: 5,
                                 }}
                                 value={item.media_value}
                                 returnKeyType={'done'}
                                 onChangeText={(text) => {
-                                  var newData = this.state.ArrOtherNo;;
+                                  var newData = this.state.ArrOtherNo;
                                   newData[index].media_value = text.replace(
                                     /[^0-9]/g,
                                     '',
-                                  );;
+                                  );
 
                                   this.setState({ArrOtherNo: newData});
                                 }}
@@ -2028,7 +2014,7 @@ export default class EditProfile extends Component {
 
                             <Switch
                               onValueChange={(value) => {
-                                var switchStatus = 0;;
+                                var switchStatus = 0;
                                 if (value) {
                                   switchStatus = 1;
                                 } else {
@@ -2112,15 +2098,15 @@ export default class EditProfile extends Component {
                                   color: CommonColors.whiteColor,
                                   fontSize: SetFontSize.ts16,
                                   fontFamily: ConstantKeys.Averta_REGULAR,
-                                  marginLeft: 5,,
+                                  marginLeft: 5,
                                 }}
                                 value={item.media_value}
                                 returnKeyType={'done'}
                                 onChangeText={(text) => {
-                                  var newData = this.state.ArrWebsite;;
+                                  var newData = this.state.ArrWebsite;
                                   newData[index].media_value = text;
 
-                                  this.setState({ArrWebsite: newData});;
+                                  this.setState({ArrWebsite: newData});
                                 }}
                               />
                             </View>
@@ -2171,19 +2157,19 @@ export default class EditProfile extends Component {
                       borderRadius: 10,
                       height: 50,
                       borderRadius: 15,
-                      alignItems: 'center',,
+                      alignItems: 'center',
                     }}
                     onPress={() => {
                       var WebsiteData = this.state.ArrWebsite;
                       var dict = {};
-                      (dict['id'] = 0),
-                        (dict['media_type'] = 'website'),
-                        (dict['media_value'] = ''),
-                        (dict['status'] = 1);;
+                      (dict.id = 0),
+                        (dict.media_type = 'website'),
+                        (dict.media_value = ''),
+                        (dict.status = 1);
 
                       WebsiteData.push(dict);
 
-                      this.setState({ArrWebsite: WebsiteData});;
+                      this.setState({ArrWebsite: WebsiteData});
                     }}>
                     <Image
                       style={{
@@ -2270,7 +2256,7 @@ export default class EditProfile extends Component {
                                   color: CommonColors.whiteColor,
                                   fontSize: SetFontSize.ts16,
                                   fontFamily: ConstantKeys.Averta_REGULAR,
-                                  marginLeft: 5,,
+                                  marginLeft: 5,
                                 }}
                                 value={item.media_value}
                                 returnKeyType={'done'}
@@ -2284,7 +2270,7 @@ export default class EditProfile extends Component {
                             </View>
                             <Switch
                               onValueChange={(value) => {
-                                var switchStatus = 0;;
+                                var switchStatus = 0;
                                 if (value) {
                                   switchStatus = 1;
                                 } else {
@@ -2293,7 +2279,7 @@ export default class EditProfile extends Component {
                                 var newData = this.state.ArrSocialMails;
                                 newData[index].status = switchStatus;
 
-                                this.setState({ArrSocialMails: newData});;
+                                this.setState({ArrSocialMails: newData});
                               }}
                               value={item.status == 1 ? true : false}
                             />
@@ -2328,19 +2314,19 @@ export default class EditProfile extends Component {
                       height: 50,
                       borderRadius: 10,
                       alignItems: 'center',
-                      backgroundColor: CommonColors.appBarColor,,
+                      backgroundColor: CommonColors.appBarColor,
                     }}
                     onPress={() => {
-                      var SocialMailsData = this.state.ArrSocialMails;;
+                      var SocialMailsData = this.state.ArrSocialMails;
                       var dict = {};
-                      (dict['id'] = 0),
-                        (dict['media_type'] = 'socialMail'),
-                        (dict['media_value'] = ''),
-                        (dict['status'] = 1);;
+                      (dict.id = 0),
+                        (dict.media_type = 'socialMail'),
+                        (dict.media_value = ''),
+                        (dict.status = 1);
 
                       SocialMailsData.push(dict);
 
-                      this.setState({ArrSocialMails: SocialMailsData});;
+                      this.setState({ArrSocialMails: SocialMailsData});
                     }}>
                     <Image
                       style={{
@@ -2427,12 +2413,12 @@ export default class EditProfile extends Component {
                                   color: CommonColors.whiteColor,
                                   fontSize: SetFontSize.ts16,
                                   fontFamily: ConstantKeys.Averta_REGULAR,
-                                  marginLeft: 5,,
+                                  marginLeft: 5,
                                 }}
                                 value={item.media_value}
                                 returnKeyType={'done'}
                                 onChangeText={(text) => {
-                                  var newData = this.state.ArrInstagram;;
+                                  var newData = this.state.ArrInstagram;
                                   newData[index].media_value = text;
 
                                   this.setState({ArrInstagram: newData});
@@ -2441,7 +2427,7 @@ export default class EditProfile extends Component {
                             </View>
                             <Switch
                               onValueChange={(value) => {
-                                var switchStatus = 0;;
+                                var switchStatus = 0;
                                 if (value) {
                                   switchStatus = 1;
                                 } else {
@@ -2488,16 +2474,16 @@ export default class EditProfile extends Component {
                       alignItems: 'center',
                     }}
                     onPress={() => {
-                      var InstagramData = this.state.ArrInstagram;;
+                      var InstagramData = this.state.ArrInstagram;
                       var dict = {};
-                      (dict['id'] = 0),
-                        (dict['media_type'] = 'instagram'),
-                        (dict['media_value'] = ''),
-                        (dict['status'] = 1);;
+                      (dict.id = 0),
+                        (dict.media_type = 'instagram'),
+                        (dict.media_value = ''),
+                        (dict.status = 1);
 
                       InstagramData.push(dict);
 
-                      this.setState({ArrInstagram: InstagramData});;
+                      this.setState({ArrInstagram: InstagramData});
                     }}>
                     <Image
                       style={{
@@ -2584,7 +2570,7 @@ export default class EditProfile extends Component {
                                   color: CommonColors.whiteColor,
                                   fontSize: SetFontSize.ts16,
                                   fontFamily: ConstantKeys.Averta_REGULAR,
-                                  marginLeft: 5,,
+                                  marginLeft: 5,
                                 }}
                                 value={item.media_value}
                                 returnKeyType={'done'}
@@ -2592,7 +2578,7 @@ export default class EditProfile extends Component {
                                   var newData = this.state.ArrFacebook;
                                   newData[index].media_value = text;
 
-                                  this.setState({ArrFacebook: newData});;
+                                  this.setState({ArrFacebook: newData});
                                 }}
                               />
                             </View>
@@ -2647,14 +2633,14 @@ export default class EditProfile extends Component {
                     onPress={() => {
                       var FacebookData = this.state.ArrFacebook;
                       var dict = {};
-                      (dict['id'] = 0),
-                        (dict['media_type'] = 'facebook'),
-                        (dict['media_value'] = ''),
-                        (dict['status'] = 1);;
+                      (dict.id = 0),
+                        (dict.media_type = 'facebook'),
+                        (dict.media_value = ''),
+                        (dict.status = 1);
 
                       FacebookData.push(dict);
 
-                      this.setState({ArrFacebook: FacebookData});;
+                      this.setState({ArrFacebook: FacebookData});
                     }}>
                     <Image
                       style={{
@@ -2720,7 +2706,7 @@ export default class EditProfile extends Component {
                                 backgroundColor: CommonColors.whiteColor,
                                 borderRadius: 10,
                                 marginBottom: 10,
-                                backgroundColor: CommonColors.appBarColor,,
+                                backgroundColor: CommonColors.appBarColor,
                               }}>
                               <Image
                                 style={{
@@ -2742,21 +2728,21 @@ export default class EditProfile extends Component {
                                   color: CommonColors.whiteColor,
                                   fontSize: SetFontSize.ts16,
                                   fontFamily: ConstantKeys.Averta_REGULAR,
-                                  marginLeft: 5,,
+                                  marginLeft: 5,
                                 }}
                                 value={item.media_value}
                                 returnKeyType={'done'}
                                 onChangeText={(text) => {
-                                  var newData = this.state.ArrLinkdIn;;
+                                  var newData = this.state.ArrLinkdIn;
                                   newData[index].media_value = text;
 
-                                  this.setState({ArrLinkdIn: newData});;
+                                  this.setState({ArrLinkdIn: newData});
                                 }}
                               />
                             </View>
                             <Switch
                               onValueChange={(value) => {
-                                var switchStatus = 0;;
+                                var switchStatus = 0;
                                 if (value) {
                                   switchStatus = 1;
                                 } else {
@@ -2765,7 +2751,7 @@ export default class EditProfile extends Component {
                                 var newData = this.state.ArrLinkdIn;
                                 newData[index].status = switchStatus;
 
-                                this.setState({ArrLinkdIn: newData});;
+                                this.setState({ArrLinkdIn: newData});
                               }}
                               value={item.status == 1 ? true : false}
                             />
@@ -2818,7 +2804,7 @@ export default class EditProfile extends Component {
                                 backgroundColor: CommonColors.whiteColor,
                                 borderRadius: 10,
                                 marginBottom: 10,
-                                backgroundColor: CommonColors.appBarColor,,
+                                backgroundColor: CommonColors.appBarColor,
                               }}>
                               <Image
                                 style={{
@@ -2840,12 +2826,12 @@ export default class EditProfile extends Component {
                                   color: CommonColors.whiteColor,
                                   fontSize: SetFontSize.ts16,
                                   fontFamily: ConstantKeys.Averta_REGULAR,
-                                  marginLeft: 5,,
+                                  marginLeft: 5,
                                 }}
                                 value={item.media_value}
                                 returnKeyType={'done'}
                                 onChangeText={(text) => {
-                                  var newData = this.state.ArrTwitter;;
+                                  var newData = this.state.ArrTwitter;
                                   newData[index].media_value = text;
 
                                   this.setState({ArrTwitter: newData});
@@ -2863,7 +2849,7 @@ export default class EditProfile extends Component {
                                 var newData = this.state.ArrTwitter;
                                 newData[index].status = switchStatus;
 
-                                this.setState({ArrTwitter: newData});;
+                                this.setState({ArrTwitter: newData});
                               }}
                               value={item.status == 1 ? true : false}
                             />
@@ -2901,16 +2887,16 @@ export default class EditProfile extends Component {
                       alignItems: 'center',
                     }}
                     onPress={() => {
-                      var TwitterData = this.state.ArrTwitter;;
+                      var TwitterData = this.state.ArrTwitter;
                       var dict = {};
-                      (dict['id'] = 0),
-                        (dict['media_type'] = 'twitter'),
-                        (dict['media_value'] = ''),
-                        (dict['status'] = 1);;
+                      (dict.id = 0),
+                        (dict.media_type = 'twitter'),
+                        (dict.media_value = ''),
+                        (dict.status = 1);
 
                       TwitterData.push(dict);
 
-                      this.setState({ArrTwitter: TwitterData});;
+                      this.setState({ArrTwitter: TwitterData});
                     }}>
                     <Image
                       style={{
@@ -2976,7 +2962,7 @@ export default class EditProfile extends Component {
                                 backgroundColor: CommonColors.whiteColor,
                                 borderRadius: 15,
                                 marginBottom: 10,
-                                backgroundColor: CommonColors.appBarColor,,
+                                backgroundColor: CommonColors.appBarColor,
                               }}>
                               <Image
                                 style={{
@@ -2998,12 +2984,12 @@ export default class EditProfile extends Component {
                                   color: CommonColors.whiteColor,
                                   fontSize: SetFontSize.ts16,
                                   fontFamily: ConstantKeys.Averta_REGULAR,
-                                  marginLeft: 5,,
+                                  marginLeft: 5,
                                 }}
                                 value={item.media_value}
                                 returnKeyType={'done'}
                                 onChangeText={(text) => {
-                                  var newData = this.state.ArrYoutube;;
+                                  var newData = this.state.ArrYoutube;
                                   newData[index].media_value = text;
 
                                   this.setState({ArrYoutube: newData});
@@ -3012,7 +2998,7 @@ export default class EditProfile extends Component {
                             </View>
                             <Switch
                               onValueChange={(value) => {
-                                var switchStatus = 0;;
+                                var switchStatus = 0;
                                 if (value) {
                                   switchStatus = 1;
                                 } else {
@@ -3021,7 +3007,7 @@ export default class EditProfile extends Component {
                                 var newData = this.state.ArrYoutube;
                                 newData[index].status = switchStatus;
 
-                                this.setState({ArrYoutube: newData});;
+                                this.setState({ArrYoutube: newData});
                               }}
                               value={item.status == 1 ? true : false}
                             />
@@ -3059,16 +3045,16 @@ export default class EditProfile extends Component {
                       alignItems: 'center',
                     }}
                     onPress={() => {
-                      var YoutubeData = this.state.ArrYoutube;;
+                      var YoutubeData = this.state.ArrYoutube;
                       var dict = {};
-                      (dict['id'] = 0),
-                        (dict['media_type'] = 'youtube'),
-                        (dict['media_value'] = ''),
-                        (dict['status'] = 1);;
+                      (dict.id = 0),
+                        (dict.media_type = 'youtube'),
+                        (dict.media_value = ''),
+                        (dict.status = 1);
 
                       YoutubeData.push(dict);
 
-                      this.setState({ArrYoutube: YoutubeData});;
+                      this.setState({ArrYoutube: YoutubeData});
                     }}>
                     <Image
                       style={{
@@ -3136,7 +3122,7 @@ export default class EditProfile extends Component {
                                 backgroundColor: CommonColors.whiteColor,
                                 borderRadius: 10,
                                 marginBottom: 10,
-                                backgroundColor: CommonColors.appBarColor,,
+                                backgroundColor: CommonColors.appBarColor,
                               }}>
                               <Image
                                 style={{
@@ -3158,12 +3144,12 @@ export default class EditProfile extends Component {
                                   color: CommonColors.whiteColor,
                                   fontSize: SetFontSize.ts16,
                                   fontFamily: ConstantKeys.Averta_REGULAR,
-                                  marginLeft: 5,,
+                                  marginLeft: 5,
                                 }}
                                 value={item.media_value}
                                 returnKeyType={'done'}
                                 onChangeText={(text) => {
-                                  var newData = this.state.ArrMusic;;
+                                  var newData = this.state.ArrMusic;
                                   newData[index].media_value = text;
 
                                   this.setState({ArrMusic: newData});
@@ -3173,7 +3159,7 @@ export default class EditProfile extends Component {
 
                             <Switch
                               onValueChange={(value) => {
-                                var switchStatus = 0;;
+                                var switchStatus = 0;
                                 if (value) {
                                   switchStatus = 1;
                                 } else {
@@ -3182,7 +3168,7 @@ export default class EditProfile extends Component {
                                 var newData = this.state.ArrMusic;
                                 newData[index].status = switchStatus;
 
-                                this.setState({ArrMusic: newData});;
+                                this.setState({ArrMusic: newData});
                               }}
                               value={item.status == 1 ? true : false}
                             />
@@ -3222,14 +3208,14 @@ export default class EditProfile extends Component {
                     onPress={() => {
                       var MusicData = this.state.ArrMusic;
                       var dict = {};
-                      (dict['id'] = 0),
-                        (dict['media_type'] = 'music'),
-                        (dict['media_value'] = ''),
-                        (dict['status'] = 1);;
+                      (dict.id = 0),
+                        (dict.media_type = 'music'),
+                        (dict.media_value = ''),
+                        (dict.status = 1);
 
                       MusicData.push(dict);
 
-                      this.setState({ArrMusic: MusicData});;
+                      this.setState({ArrMusic: MusicData});
                     }}>
                     <Image
                       style={{
@@ -3297,7 +3283,7 @@ export default class EditProfile extends Component {
                                 backgroundColor: CommonColors.whiteColor,
                                 borderRadius: 10,
                                 marginBottom: 10,
-                                backgroundColor: CommonColors.appBarColor,,
+                                backgroundColor: CommonColors.appBarColor,
                               }}>
                               <Image
                                 style={{
@@ -3319,7 +3305,7 @@ export default class EditProfile extends Component {
                                   color: CommonColors.whiteColor,
                                   fontSize: SetFontSize.ts16,
                                   fontFamily: ConstantKeys.Averta_REGULAR,
-                                  marginLeft: 5,,
+                                  marginLeft: 5,
                                 }}
                                 value={item.media_value}
                                 returnKeyType={'done'}
@@ -3342,7 +3328,7 @@ export default class EditProfile extends Component {
                                 var newData = this.state.ArrPayment;
                                 newData[index].status = switchStatus;
 
-                                this.setState({ArrPayment: newData});;
+                                this.setState({ArrPayment: newData});
                               }}
                               value={item.status == 1 ? true : false}
                             />
@@ -3382,14 +3368,14 @@ export default class EditProfile extends Component {
                     onPress={() => {
                       var PaymentData = this.state.ArrPayment;
                       var dict = {};
-                      (dict['id'] = 0),
-                        (dict['media_type'] = 'payment'),
-                        (dict['media_value'] = ''),
-                        (dict['status'] = 1);;
+                      (dict.id = 0),
+                        (dict.media_type = 'payment'),
+                        (dict.media_value = ''),
+                        (dict.status = 1);
 
                       PaymentData.push(dict);
 
-                      this.setState({ArrPayment: PaymentData});;
+                      this.setState({ArrPayment: PaymentData});
                     }}>
                     <Image
                       style={{
@@ -3457,7 +3443,7 @@ export default class EditProfile extends Component {
                                 backgroundColor: CommonColors.whiteColor,
                                 borderRadius: 10,
                                 marginBottom: 10,
-                                backgroundColor: CommonColors.appBarColor,,
+                                backgroundColor: CommonColors.appBarColor,
                               }}>
                               <Image
                                 style={{
@@ -3480,7 +3466,7 @@ export default class EditProfile extends Component {
                                   color: CommonColors.whiteColor,
                                   fontSize: SetFontSize.ts16,
                                   fontFamily: ConstantKeys.Averta_REGULAR,
-                                  marginLeft: 5,,
+                                  marginLeft: 5,
                                 }}
                                 value={item.media_value}
                                 returnKeyType={'done'}
@@ -3503,7 +3489,7 @@ export default class EditProfile extends Component {
                                 var newData = this.state.ArrExternalLink;
                                 newData[index].status = switchStatus;
 
-                                this.setState({ArrExternalLink: newData});;
+                                this.setState({ArrExternalLink: newData});
                               }}
                               value={item.status == 1 ? true : false}
                             />
@@ -3539,15 +3525,15 @@ export default class EditProfile extends Component {
                       height: 50,
                       borderRadius: 15,
                       backgroundColor: CommonColors.appBarColor,
-                      alignItems: 'center',,
+                      alignItems: 'center',
                     }}
                     onPress={() => {
                       var ExternalLinkData = this.state.ArrExternalLink;
                       var dict = {};
-                      (dict['id'] = 0),
-                        (dict['media_type'] = 'externalLink'),
-                        (dict['media_value'] = ''),
-                        (dict['status'] = 1);;
+                      (dict.id = 0),
+                        (dict.media_type = 'externalLink'),
+                        (dict.media_value = ''),
+                        (dict.status = 1);
 
                       ExternalLinkData.push(dict);
 
@@ -3603,7 +3589,7 @@ const styles = StyleSheet.create({
     fontFamily: ConstantKeys.Averta_BOLD,
     fontSize: SetFontSize.ts16,
     color: CommonColors.whiteColor,
-    textAlign: 'center',,
+    textAlign: 'center',
   },
   viewCountrystyle: {
     flexDirection: 'row',
@@ -3613,7 +3599,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     color: CommonColors.MortarColor,
     fontSize: SetFontSize.ts16,
-    fontFamily: ConstantKeys.Averta_REGULAR,,
+    fontFamily: ConstantKeys.Averta_REGULAR,
   },
   pickerTitleStyle: {
     justifyContent: 'center',
@@ -3645,5 +3631,4 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     marginRight: 10,
   },
-});;
-
+});

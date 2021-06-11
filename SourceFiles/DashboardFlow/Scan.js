@@ -60,8 +60,6 @@ export default class Scan extends Component {
     });
   }
 
-  compo;
-
   componentWillUnmount() {
     // Remove the event listener
 
@@ -80,8 +78,6 @@ export default class Scan extends Component {
         // value previously stored
         console.log('User Data: ' + value);
         var userData = JSON.parse(value);
-        console.log(userData, 'value');
-
         var user = userData.user;
 
         this.setState({userData: userData, user: user});
@@ -136,7 +132,7 @@ export default class Scan extends Component {
       console.log('SRT ' + JSON.stringify(str));
       var CardUserID = str[str.length - 1];
       //Proper Find Parameters
-      var url1 = 'thewebtual://clique/user/profile?userid=' + CardUserID;
+      var url1 = 'socialclique://clique/user/profile?userid=' + CardUserID;
 
       console.log('URL 1 = ' + url1);
       var regex = /[?&]([^=#]+)=([^&#]*)/g,

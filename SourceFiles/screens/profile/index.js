@@ -20,6 +20,10 @@ import {APIURL} from '../../Constants/APIURL';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {showAlert} from '../../utils/mobile-utils';
 import LoadingView from '../../Constants/LoadingView';
+import {
+  strictValidArrayWithLength,
+  strictValidObjectWithKeys,
+} from '../../utils/commonUtils';
 
 const Profile = () => {
   const {navigate} = useNavigation();
@@ -105,23 +109,28 @@ const Profile = () => {
           <ImageComponent name="demouser" height={100} width={100} />
           <Block margin={[0, 0, 0, wp(3)]} flex={false}>
             <Text white bold size={24}>
-              {profile && profile.name}
+              {strictValidObjectWithKeys(profile) && profile.name}
             </Text>
-            <Text
-              style={{width: wp(55)}}
-              capitalize
-              margin={[hp(0.5), 0, 0]}
-              size={14}
-              white
-              regular>
-              {profile &&
-                profile.company_data &&
-                profile.company_data[0].job_position}{' '}
-              at{' '}
-              {profile && profile.company_data && profile.company_data[0].name}
-            </Text>
+            {strictValidObjectWithKeys(profile) &&
+              strictValidArrayWithLength(profile.company_data) && (
+                <Text
+                  style={{width: wp(55)}}
+                  capitalize
+                  margin={[hp(0.5), 0, 0]}
+                  size={14}
+                  white
+                  regular>
+                  {strictValidObjectWithKeys(profile) &&
+                    strictValidArrayWithLength(profile.company_data) &&
+                    profile.company_data[0].job_position}{' '}
+                  at{' '}
+                  {strictValidObjectWithKeys(profile) &&
+                    strictValidArrayWithLength(profile.company_data) &&
+                    profile.company_data[0].name}
+                </Text>
+              )}
             <Text margin={[hp(0.5), 0, 0]} size={16} semibold white>
-              320 Connections
+              0 Connections
             </Text>
           </Block>
         </Block>

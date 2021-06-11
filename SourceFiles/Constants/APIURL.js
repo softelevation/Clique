@@ -33,4 +33,5 @@ export const APIURL = {
   //
 
   userLogin: 'login-via-email',
+  newRegister: 'new-register',
 };

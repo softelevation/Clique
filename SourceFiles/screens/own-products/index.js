@@ -5,6 +5,7 @@ import {
   ScrollView,
   TouchableOpacity,
   StyleSheet,
+  Alert,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import HeaderPreLogin from '../../common/header';
@@ -12,10 +13,75 @@ import {Block, Text, ImageComponent, Button} from '../../components';
 import {hp, wp} from '../../components/responsive';
 import SwitchNative from '../../components/toggle';
 import {light} from '../../components/theme/colors';
+import {useRoute} from '@react-navigation/native';
+import Webservice from '../../Constants/API';
+import {APIURL} from '../../Constants/APIURL';
+import LoadingView from '../../Constants/LoadingView';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {showAlert} from '../../utils/mobile-utils';
+
 const OwnProducts = () => {
   const [activeCard, setActiveCard] = useState(false);
   const [activeNfc, setActiveNfc] = useState(false);
   const {goBack, navigate} = useNavigation();
+  const [loader, setloader] = useState(false);
+  const {params} = useRoute();
+  console.log(params, 'params');
+
+  const createAccount = () => {
+    setloader(true);
+    Webservice.post(APIURL.newRegister, {
+      name: params.name,
+      email: params.email,
+      password: params.password,
+      avatar: params.profile,
+      bio: params.bio,
+    })
+      .then(async (response) => {
+        if (response.data == null) {
+          setloader(false);
+          // alert('error');
+          Alert.alert(response.originalError.message);
+
+          return;
+        }
+        console.log('Get Register User Response : ' + response);
+
+        if (response.data.status === 200) {
+          console.log(response.data, 'response.data');
+          setloader(false);
+          navigate('Login');
+          // await AsyncStorage.setItem(
+          //   'user_id',
+          //   JSON.stringify(response.data.data.user.user_id),
+          // );
+          showAlert(response.data.message);
+        } else {
+          setloader(false);
+          showAlert(response.data.message);
+        }
+      })
+      .catch((error) => {
+        console.log(error.message);
+        setloader(false);
+        Alert.alert(
+          error.message,
+          '',
+          [
+            {
+              text: 'Try Again',
+              onPress: () => {
+                createAccount(true);
+              },
+            },
+          ],
+          {cancelable: false},
+        );
+      });
+  };
+  const navigateToNext = () => {
+    console.log();
+  };
   return (
     <Block linear>
       <SafeAreaView />
@@ -111,11 +177,18 @@ const OwnProducts = () => {
           </Block>
         </ScrollView>
         <Block flex={false} margin={[0, wp(3), hp(3)]}>
-          <Button onPress={() => navigate('ScanCard')} linear color="primary">
-            Next
+          <Button
+            onPress={() =>
+              activeCard || activeNfc ? navigateToNext() : createAccount()
+            }
+            // onPress={() => navigate('ScanCard')}
+            linear
+            color="primary">
+            {activeCard || activeNfc ? 'Next' : 'Create Account without cards'}
           </Button>
         </Block>
       </Block>
+      {loader ? <LoadingView /> : null}
     </Block>
   );
 };

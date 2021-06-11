@@ -51,8 +51,9 @@ export default class RegisterName extends Component {
     };
   }
 
-  componentDidMount() {}
-
+  componentDidMount() {
+    console.log(this.props.route.params);
+  }
   showAlert(text) {
     Snackbar.show({
       text: text,
@@ -71,26 +72,22 @@ export default class RegisterName extends Component {
   };
 
   btnNextTap = () => {
-    this.props.navigation.navigate('OwnProducts');
-    // requestAnimationFrame(() => {
-    //   var dict = this.state.RegisterData;
-    //   if (this.state.txtBio != '') {
-    //     dict.bio = this.state.txtBio;
-
-    //   } else {
-    //     this.showAlert('Please Enter Bio');
-    //   }
-    // });
+    this.props.navigation.navigate('OwnProducts', {
+      name: this.props.route.params.name,
+      email: this.props.route.params.email,
+      password: this.props.route.params.password,
+      profile: this.props.route.params.profile,
+      bio: this.state.txtBio,
+    });
   };
 
   btnSkipTap = () => {
-    requestAnimationFrame(() => {
-      var dict = this.state.RegisterData;
-      dict.bio = '';
-
-      this.props.navigation.navigate('OwnProducts', {
-        data: JSON.stringify(dict),
-      });
+    this.props.navigation.navigate('OwnProducts', {
+      name: this.props.route.params.name,
+      email: this.props.route.params.email,
+      password: this.props.route.params.password,
+      profile: this.props.route.params.profile,
+      bio: '',
     });
   };
 
@@ -194,7 +191,11 @@ export default class RegisterName extends Component {
             </Block>
           </ScrollView>
           <Block flex={false} margin={[0, 0, hp(3), 0]}>
-            <Button onPress={() => this.btnNextTap()} linear color="primary">
+            <Button
+              disabled={!this.state.txtBio}
+              onPress={() => this.btnNextTap()}
+              linear
+              color="primary">
               Next
             </Button>
           </Block>

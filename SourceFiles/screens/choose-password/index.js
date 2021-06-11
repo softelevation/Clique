@@ -14,14 +14,19 @@ import LinearGradient from 'react-native-linear-gradient';
 import HeaderPreLogin from '../../common/header';
 import {useNavigation} from '@react-navigation/core';
 import NeoInputField from '../../components/neo-input';
+import {useRoute} from '@react-navigation/native';
+import * as yup from 'yup';
+import {Formik} from 'formik';
 
 const ChoosePassword = () => {
   const navigation = useNavigation();
+  const {params} = useRoute();
+  console.log(params, 'params');
   const [state, setState] = useState({
     password: null,
     confirm_pass: null,
   });
-  const {password, confirm_pass} = state;
+
   const renderValidationText = () => {
     return (
       <Block flex={false} margin={[hp(2), wp(2), 0]}>
@@ -41,110 +46,139 @@ const ChoosePassword = () => {
     );
   };
 
+  const onSubmit = (values) => {
+    navigation.navigate('RegisterProfilePic', {
+      name: params.name,
+      email: params.email,
+      password: values.password,
+    });
+  };
+
   return (
     <Block linear>
       <SafeAreaView />
-      <ScrollView contentContainerStyle={styles.container} bounces={false}>
-        <Block padding={[hp(2), 0, 0]} space="between" flex={false} row>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <LinearGradient
-              colors={['#5542B6', '#7653DB']}
-              style={styles.linear}>
+      <Formik
+        initialValues={{
+          password: '',
+          confirm_password: '',
+        }}
+        onSubmit={onSubmit}
+        validationSchema={yup.object().shape({
+          password: yup.string().min(8).required(),
+          confirm_password: yup
+            .string()
+            .when('password', {
+              is: (val) => (val && val.length > 0 ? true : false),
+              then: yup
+                .string()
+                .oneOf(
+                  [yup.ref('password')],
+                  'Both password need to be the same',
+                ),
+            })
+            .required(),
+        })}>
+        {({
+          values,
+          handleChange,
+          errors,
+          setFieldTouched,
+          touched,
+          setFieldValue,
+          handleSubmit,
+          dirty,
+          isValid,
+        }) => (
+          <ScrollView contentContainerStyle={styles.container} bounces={false}>
+            <Block padding={[hp(2), 0, 0]} space="between" flex={false} row>
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <LinearGradient
+                  colors={['#5542B6', '#7653DB']}
+                  style={styles.linear}>
+                  <ImageComponent
+                    resizeMode="contain"
+                    height={14}
+                    width={14}
+                    name={'BackIcon'}
+                  />
+                </LinearGradient>
+              </TouchableOpacity>
+
               <ImageComponent
                 resizeMode="contain"
-                height={14}
-                width={14}
-                name={'BackIcon'}
+                height={140}
+                width={140}
+                name={'nameBg'}
               />
-            </LinearGradient>
-          </TouchableOpacity>
-
-          <ImageComponent
-            resizeMode="contain"
-            height={140}
-            width={140}
-            name={'nameBg'}
-          />
-          <TouchableOpacity activeOpacity={1} style={styles.customButton} />
-        </Block>
-        <Block
-          flex={1}
-          color={'#F2EDFA'}
-          borderTopRightRadius={30}
-          borderTopLeftRadius={30}
-          padding={[0, wp(3), hp(2), wp(3)]}>
-          <ScrollView>
-            <HeaderPreLogin
-              title="Create Account"
-              subtitle="Choose your Password"
-            />
-            <Block flex={false} center>
-              <NeoInputField
-                placeholder={'Password'}
-                fontColor="#707070"
-                icon="eye"
-                onChangeText={(q) =>
-                  setState({
-                    ...state,
-                    password: q,
-                  })
-                }
-                value={password}
-                secure
-              />
-              <Block flex={false} margin={[hp(1), 0]} />
-              <NeoInputField
-                placeholder={'Confirm Password'}
-                fontColor="#707070"
-                icon="eye"
-                secure
-                onChangeText={(q) =>
-                  setState({
-                    ...state,
-                    confirm_pass: q,
-                  })
-                }
-                value={confirm_pass}
-              />
+              <TouchableOpacity activeOpacity={1} style={styles.customButton} />
             </Block>
-            <Block row margin={[hp(1.5), wp(2)]} flex={false}>
-              <Text grey size={14}>
-                You’re almost there!
-              </Text>
-              <FlatList
-                data={[1, 2, 3, 4, 5, 6]}
-                horizontal
-                contentContainerStyle={styles.flatlist}
-                scrollEnabled={false}
-                renderItem={({item}) => {
-                  return (
-                    <Block
-                      flex={false}
-                      borderRadius={10}
-                      margin={[0, wp(0.7)]}
-                      style={styles.dot}
-                    />
-                  );
-                }}
-              />
-            </Block>
+            <Block
+              flex={1}
+              color={'#F2EDFA'}
+              borderTopRightRadius={30}
+              borderTopLeftRadius={30}
+              padding={[0, wp(3), hp(2), wp(3)]}>
+              <ScrollView>
+                <HeaderPreLogin
+                  title="Create Account"
+                  subtitle="Choose your Password"
+                />
+                <Block flex={false} center>
+                  <NeoInputField
+                    placeholder={'Password'}
+                    fontColor="#707070"
+                    icon="eye"
+                    onChangeText={handleChange('password')}
+                    value={values.password}
+                    secure
+                  />
+                  <Block flex={false} margin={[hp(1), 0]} />
+                  <NeoInputField
+                    placeholder={'Confirm Password'}
+                    fontColor="#707070"
+                    icon="eye"
+                    secure
+                    onChangeText={handleChange('confirm_password')}
+                    value={values.confirm_password}
+                  />
+                </Block>
+                <Block row margin={[hp(1.5), wp(2)]} flex={false}>
+                  <Text grey size={14}>
+                    You’re almost there!
+                  </Text>
+                  <FlatList
+                    data={[1, 2, 3, 4, 5, 6]}
+                    horizontal
+                    contentContainerStyle={styles.flatlist}
+                    scrollEnabled={false}
+                    renderItem={({item}) => {
+                      return (
+                        <Block
+                          flex={false}
+                          borderRadius={10}
+                          margin={[0, wp(0.7)]}
+                          style={styles.dot}
+                        />
+                      );
+                    }}
+                  />
+                </Block>
 
-            {renderValidationText()}
+                {renderValidationText()}
+              </ScrollView>
+              <Block flex={false} padding={[0, wp(3)]}>
+                <Button
+                  disabled={!isValid || !dirty}
+                  onPress={handleSubmit}
+                  linear
+                  color="primary">
+                  Next
+                </Button>
+              </Block>
+            </Block>
           </ScrollView>
-          <Block flex={false} padding={[0, wp(3)]}>
-            <Button
-              onPress={() =>
-                navigation.navigate('RegisterProfilePic', {
-                  data: 'bharat@gmail.com',
-                })
-              }
-              linear
-              color="primary">
-              Next
-            </Button>
-          </Block>
-        </Block>
-      </ScrollView>
+        )}
+      </Formik>
     </Block>
   );
 };

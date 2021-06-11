@@ -30,6 +30,7 @@ import NeoInputField from '../components/neo-input';
 export default class RegisterEmail extends Component {
   constructor(props) {
     super(props);
+    console.log(props, 'props');
     this.state = {
       isloading: false,
       txtEmail: '',
@@ -86,7 +87,8 @@ export default class RegisterEmail extends Component {
           dict.email = this.state.txtEmail;
 
           this.props.navigation.navigate('ChoosePassword', {
-            data: JSON.stringify(dict),
+            name: this.props.route.params.name,
+            email: this.state.txtEmail,
           });
         } else {
           this.setState({isloading: false});
@@ -124,14 +126,13 @@ export default class RegisterEmail extends Component {
   };
 
   btnNextTap = () => {
-    // requestAnimationFrame(() => {
-    //   if (!this.validateEmail(this.state.txtEmail)) {
-    //     this.showAlert(ValidationMsg.ValidEmail);
-    //   } else {
-    //     this.API_EMAIL_CHECK(true);
-    //   }
-    // });
-    this.props.navigation.navigate('ChoosePassword');
+    requestAnimationFrame(() => {
+      if (!this.validateEmail(this.state.txtEmail)) {
+        this.showAlert(ValidationMsg.ValidEmail);
+      } else {
+        this.API_EMAIL_CHECK(true);
+      }
+    });
   };
 
   //Helper Methods For TextInput

@@ -126,7 +126,12 @@ const Settings = () => {
           {renderSelectType('Change Password', 'ChangePasswordSettings')}
           {renderSelectType('Help and Tutorials', 'HelpAndTutorials')}
 
-          <Text margin={[hp(2), 0, 0]} size={18} red semibold>
+          <Text
+            onPress={() => navigate('Tutorial')}
+            margin={[hp(2), 0, 0]}
+            size={18}
+            red
+            semibold>
             Sign Out
           </Text>
         </Block>

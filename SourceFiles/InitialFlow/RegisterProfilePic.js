@@ -36,7 +36,9 @@ export default class RegisterProfilePic extends Component {
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    console.log(this.props.route.params);
+  }
 
   showAlert(text) {
     Snackbar.show({
@@ -57,28 +59,22 @@ export default class RegisterProfilePic extends Component {
 
   btnNextTap = () => {
     requestAnimationFrame(() => {
-      var dict = {};
-      dict = this.state.RegisterData;
-
-      if (this.state.ProfileImgData != null) {
-        dict.imgBase64 = this.state.ProfileImgData.base64;
-      } else {
-        dict.imgBase64 = null;
-      }
-
       this.props.navigation.navigate('RegisterBio', {
-        data: JSON.stringify(dict),
+        name: this.props.route.params.name,
+        email: this.props.route.params.email,
+        password: this.props.route.params.password,
+        profile: this.state.ProfileImgData.base64,
       });
     });
   };
 
   btnSkipTap = () => {
-    // requestAnimationFrame(() => {
-    //   var dict = this.state.RegisterData;
-    //   dict.imgBase64 = null;
-
-    // });
-    this.props.navigation.navigate('RegisterBio');
+    this.props.navigation.navigate('RegisterBio', {
+      name: this.props.route.params.name,
+      email: this.props.route.params.email,
+      password: this.props.route.params.password,
+      profile: '',
+    });
   };
 
   btnSelectImage = () => {
@@ -152,7 +148,7 @@ export default class RegisterProfilePic extends Component {
           },
         },
         {
-          text: 'Gallary',
+          text: 'Gallery',
           onPress: () => {
             launchImageLibrary(
               {
@@ -222,6 +218,8 @@ export default class RegisterProfilePic extends Component {
   };
 
   render() {
+    console.log(this.state.ProfileImgData);
+    const {ProfileImgData} = this.state;
     return (
       <Block linear>
         <SafeAreaView />
@@ -279,25 +277,41 @@ export default class RegisterProfilePic extends Component {
                 width={wp(85)}
                 borderRadius={16}>
                 <TouchableOpacity onPress={() => this.btnSelectImage()}>
-                  <NeuView
-                    color="#F2F0F7"
-                    height={120}
-                    width={120}
-                    borderRadius={120}>
+                  {ProfileImgData && ProfileImgData.uri ? (
                     <ImageComponent
-                      height={50}
-                      width={50}
+                      isURL={ProfileImgData && ProfileImgData.uri}
+                      height={160}
+                      width={160}
+                      radius={160}
                       resizeMode="contain"
-                      name={'CameraIcon'}
+                      name={ProfileImgData ? ProfileImgData.uri : 'CameraIcon'}
                     />
-                  </NeuView>
+                  ) : (
+                    <NeuView
+                      color="#F2F0F7"
+                      height={120}
+                      width={120}
+                      borderRadius={120}>
+                      <ImageComponent
+                        height={50}
+                        width={50}
+                        resizeMode="contain"
+                        name={'CameraIcon'}
+                      />
+                    </NeuView>
+                  )}
                 </TouchableOpacity>
               </NeuView>
             </Block>
             <Block bottom flex={1} margin={[0, wp(3), hp(4)]}>
-              <Button onPress={() => this.btnNextTap()} linear color="primary">
-                Next
-              </Button>
+              {ProfileImgData && ProfileImgData.uri && (
+                <Button
+                  onPress={() => this.btnNextTap()}
+                  linear
+                  color="primary">
+                  Next
+                </Button>
+              )}
             </Block>
           </Block>
         </ScrollView>

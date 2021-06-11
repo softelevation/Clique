@@ -61,10 +61,8 @@ export default class RegisterName extends Component {
       if (this.state.txtFullName === '') {
         this.showAlert(ValidationMsg.EmptyFullName);
       } else {
-        var dict = {};
-        dict.name = this.state.txtFullName;
         this.props.navigation.navigate('RegisterEmail', {
-          dict: JSON.stringify(dict),
+          name: this.state.txtFullName,
         });
       }
     });
@@ -140,8 +138,8 @@ export default class RegisterName extends Component {
               <NeoInputField
                 value={this.state.txtFullName}
                 placeholder="Name"
-                onChangeText={(txtBio) => {
-                  this.setState({txtFullName: txtBio});
+                onChangeText={(txtFullName) => {
+                  this.setState({txtFullName: txtFullName});
                 }}
                 fontColor="#707070"
               />
@@ -153,7 +151,11 @@ export default class RegisterName extends Component {
               <Image style={styles.leftIcon} source={RedPlay} />
             </Block>
             <Block flex={false} margin={[0, 0, hp(3), 0]}>
-              <Button onPress={() => this.btnNextTap()} linear color="primary">
+              <Button
+                // disabled={!this.state.txtFullName}
+                onPress={() => this.btnNextTap()}
+                linear
+                color="primary">
                 Next
               </Button>
             </Block>

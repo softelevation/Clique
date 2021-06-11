@@ -7,6 +7,7 @@ import {
   Image,
   BackHandler,
   View,
+  Platform,
 } from 'react-native';
 import {CommonColors} from '../Constants/ColorConstant';
 import LoadingView from '../Constants/LoadingView';
@@ -19,7 +20,7 @@ import ValidationMsg from '../Constants/ValidationMsg';
 import HeaderPreLogin from '../common/header';
 import NeuInput from '../common/neu-element/lib/NeuInput';
 import NeoInputField from '../components/neo-input';
-
+let currentCount = 0;
 export default class RegisterName extends Component {
   constructor(props) {
     super(props);
@@ -39,6 +40,33 @@ export default class RegisterName extends Component {
   componentWillUnmount() {
     BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
   }
+
+  onBackPress = () => {
+    if (Platform.OS === 'ios') {
+      return;
+    }
+    const subscription = BackHandler.addEventListener(
+      'hardwareBackPress',
+      () => {
+        if (currentCount === 1) {
+          BackHandler.exitApp();
+          subscription.remove();
+          return true;
+        }
+        this.backPressHandler();
+        return true;
+      },
+    );
+  };
+  backPressHandler = () => {
+    if (currentCount < 1) {
+      currentCount += 1;
+      this.showAlert('Press again to close!');
+    }
+    setTimeout(() => {
+      currentCount = 0;
+    }, 2000);
+  };
 
   showAlert(text) {
     Snackbar.show({

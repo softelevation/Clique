@@ -46,8 +46,8 @@ export default class RegisterName extends Component {
     this.state = {
       isloading: false,
       NameBorderColor: CommonColors.GhostColor,
-      RegisterData: JSON.parse(props.route.params.data),
-      txtBio: 'Hi, My Name is Bharat',
+      // RegisterData: JSON.parse(props.route.params.data),
+      txtBio: '',
     };
   }
 
@@ -71,17 +71,16 @@ export default class RegisterName extends Component {
   };
 
   btnNextTap = () => {
-    requestAnimationFrame(() => {
-      var dict = this.state.RegisterData;
-      if (this.state.txtBio != '') {
-        dict.bio = this.state.txtBio;
-        this.props.navigation.navigate('OwnProducts', {
-          data: JSON.stringify(dict),
-        });
-      } else {
-        this.showAlert('Please Enter Bio');
-      }
-    });
+    this.props.navigation.navigate('OwnProducts');
+    // requestAnimationFrame(() => {
+    //   var dict = this.state.RegisterData;
+    //   if (this.state.txtBio != '') {
+    //     dict.bio = this.state.txtBio;
+
+    //   } else {
+    //     this.showAlert('Please Enter Bio');
+    //   }
+    // });
   };
 
   btnSkipTap = () => {

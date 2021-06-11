@@ -7,8 +7,6 @@ import {createSwitchNavigator} from '@react-navigation/compat';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 //Constants
-import {IMG} from '../Constants/ImageConstant';
-import {CommonColors} from '../Constants/ColorConstant';
 import {navigationRef, isReadyRef} from './NavigationService';
 
 //Initial Flow Files
@@ -47,8 +45,6 @@ import OwnProducts from '../screens/own-products';
 import ScanCard from '../screens/own-products/scan-card';
 import ActivatedCard from '../screens/own-products/activated-card';
 import Contacts from '../screens/messages/contacts';
-import {LinearGradient} from 'react-native-svg';
-import {Text} from '../components';
 import BottomTab from '../common/bottom-tab';
 import Chat from '../screens/messages';
 import Profile from '../screens/profile';
@@ -283,7 +279,7 @@ function DashboardStack() {
     <Stack.Navigator headerMode="none" initialRouteName="Profile">
       <Tab.Screen name="Profile" component={DashboardSubStack} />
       <Stack.Screen name="Messages" component={Messages} />
-      <Stack.Screen name="EditProfile" component={EditProfile} />
+      <Stack.Screen name="EditProfile" component={Contacts} />
       <Stack.Screen
         name="ChangePasswordSettings"
         component={ChangePasswordSettings}
@@ -302,7 +298,7 @@ const AppNavigator = createSwitchNavigator(
     Dashboard: DashboardStack,
   },
   {
-    initialRouteName: 'Dashboard',
+    initialRouteName: 'Tutorial',
   },
 );
 

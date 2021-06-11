@@ -259,6 +259,7 @@ const Input = ({
   return (
     <Block
       flex={false}
+      borderRadius={16}
       borderColor={error ? 'red' : 'transparent'}
       borderWidth={error ? 1 : 0}
       margin={[hp(2), 0, 0]}>

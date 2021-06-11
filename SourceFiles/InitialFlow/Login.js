@@ -7,7 +7,8 @@ import {
   ImageBackground,
   Dimensions,
 } from 'react-native';
-
+import {Formik} from 'formik';
+import * as yup from 'yup';
 //Constant Files
 import {CommonColors} from '../Constants/ColorConstant';
 import {SetFontSize} from '../Constants/FontSize';
@@ -19,6 +20,7 @@ import Snackbar from 'react-native-snackbar';
 import {images} from '../Assets/Images/images';
 import {Block, Button, Input, Text} from '../components';
 import {hp, wp} from '../components/responsive';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default class Login extends Component {
   constructor(props) {
@@ -33,8 +35,6 @@ export default class Login extends Component {
     };
   }
 
-  componentDidMount() {}
-
   showAlert(text) {
     Snackbar.show({
       text: text,
@@ -45,69 +45,7 @@ export default class Login extends Component {
     });
   }
 
-  API_LOGIN(isload) {
-    this.setState({isloading: isload});
-
-    Webservice.post(APIURL.login, {
-      mobile: this.state.countryCode + '-' + this.state.txtMobileNo,
-    })
-      .then((response) => {
-        if (response.data == null) {
-          this.setState({isloading: false});
-          // alert('error');
-          alert(response.originalError.message);
-
-          return;
-        }
-        //   console.log(response);
-
-        console.log('Get Register User Response : ' + JSON.stringify(response));
-
-        if (response.data.status == true) {
-          this.setState({isloading: false});
-
-          var OTP = response.data.otp;
-
-          this.props.navigation.navigate('OTPView', {
-            mobile_no: this.state.txtMobileNo,
-            country_code: this.state.countryCode,
-            otp: OTP,
-          });
-        } else {
-          this.setState({isloading: false});
-          this.showAlert(response.data.message);
-        }
-      })
-      .catch((error) => {
-        console.log(error.message);
-        this.setState({isloading: false});
-        Alert.alert(
-          error.message,
-          '',
-          [
-            {
-              text: 'Try Again',
-              onPress: () => {
-                this.API_LOGIN(true);
-              },
-            },
-          ],
-          {cancelable: false},
-        );
-      });
-  }
-
-  validateEmail = (email) => {
-    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email);
-  };
-
-  validatePassword = (password) => {
-    const strongRegex = new RegExp(
-      '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{6,})',
-    );
-    return strongRegex.test(password);
-  };
+  API_LOGIN(isload) {}
 
   // Action Methods
   btnForgotPasswordTap = () => {
@@ -123,37 +61,53 @@ export default class Login extends Component {
     });
   };
 
-  btnLoginTap = () => {
-    requestAnimationFrame(() => {
-      Keyboard.dismiss();
+  onSubmit = (values) => {
+    this.setState({isloading: true});
 
-      // this.props.navigation.navigate('Congratulation')
-      // return
+    Webservice.post(APIURL.userLogin, {
+      email: values.email,
+      password: values.password,
+    })
+      .then(async (response) => {
+        if (response.data == null) {
+          this.setState({isloading: false});
+          // alert('error');
+          Alert.alert(response.originalError.message);
 
-      if (this.state.txtMobileNo == '') {
-        this.showAlert('Please Enter Mobile Number');
-      } else {
-        this.API_LOGIN(true);
-      }
-    });
+          return;
+        }
+        console.log('Get Register User Response : ' + JSON.stringify(response));
+
+        if (response.data.status === true) {
+          this.setState({isloading: false});
+          this.props.navigation.navigate('Dashboard');
+          await AsyncStorage.setItem(
+            'user_id',
+            JSON.stringify(response.data.data.user.user_id),
+          );
+        } else {
+          this.setState({isloading: false});
+          this.showAlert(response.data.message);
+        }
+      })
+      .catch((error) => {
+        console.log(error.message);
+        this.setState({isloading: false});
+        Alert.alert(
+          error.message,
+          '',
+          [
+            {
+              text: 'Try Again',
+              onPress: () => {
+                this.onSubmit(true);
+              },
+            },
+          ],
+          {cancelable: false},
+        );
+      });
   };
-
-  _selectedCountry = (index) => {
-    this.setState({countryCode: index});
-  };
-
-  //Helper Methods For TextInput
-  onFocus() {
-    this.setState({
-      MobileBorderColor: CommonColors.SlateBlueColor,
-    });
-  }
-
-  onBlur() {
-    this.setState({
-      MobileBorderColor: CommonColors.GhostColor,
-    });
-  }
 
   render() {
     return (
@@ -163,45 +117,81 @@ export default class Login extends Component {
         }}
         source={images.loginBg}
         style={styles.container}>
-        <ScrollView contentContainerStyle={{flexGrow: 1}} bounces={false}>
-          <Block middle padding={[0, wp(3)]}>
-            <Text center size={30} semibold white margin={[hp(4), 0]}>
-              {'Login Into\nYour Account'}
-            </Text>
-            <Input placeholder="Enter Email" />
-            <Input placeholder="Password" />
-            <Block flex={false} margin={[hp(0.5), 0]} />
-            <Button
-              iconStyle={{marginTop: hp(0.8)}}
-              icon="instagram"
-              iconWithText
-              color="secondary">
-              Sign in with Instagram
-            </Button>
-            <Button
-              iconStyle={{marginTop: hp(0.8)}}
-              icon="google"
-              iconWithText
-              color="secondary">
-              Sign in with Google
-            </Button>
-            <Button
-              onPress={() => navigation.navigate('Home')}
-              style={{marginTop: hp(2)}}
-              color="primary">
-              Login
-            </Button>
-            <Text
-              margin={[hp(1), 0]}
-              size={14}
-              white
-              regular
-              right
-              onPress={() => this.btnForgotPasswordTap()}>
-              Forgot Password ?
-            </Text>
-          </Block>
-        </ScrollView>
+        <Formik
+          initialValues={{
+            email: '',
+            password: '',
+          }}
+          onSubmit={this.onSubmit}
+          validationSchema={yup.object().shape({
+            email: yup.string().email().required(),
+            password: yup.string().min(6).required(),
+          })}>
+          {({
+            values,
+            handleChange,
+            errors,
+            setFieldTouched,
+            touched,
+            setFieldValue,
+            handleSubmit,
+            isValid,
+            dirty,
+          }) => (
+            <ScrollView contentContainerStyle={{flexGrow: 1}} bounces={false}>
+              <Block middle padding={[0, wp(3)]}>
+                <Text center size={30} semibold white margin={[hp(4), 0]}>
+                  {'Login Into\nYour Account'}
+                </Text>
+                <Input
+                  placeholder="Enter Email"
+                  value={values.email}
+                  onChangeText={handleChange('email')}
+                  onBlur={() => setFieldTouched('email')}
+                  error={touched.email && errors.email}
+                />
+                <Input
+                  placeholder="Password"
+                  onChangeText={handleChange('password')}
+                  onBlur={() => setFieldTouched('password')}
+                  error={touched.password && errors.password}
+                  secureTextEntry={true}
+                />
+                <Block flex={false} margin={[hp(0.5), 0]} />
+                <Button
+                  iconStyle={{marginTop: hp(0.8)}}
+                  icon="instagram"
+                  iconWithText
+                  color="secondary">
+                  Sign in with Instagram
+                </Button>
+                <Button
+                  iconStyle={{marginTop: hp(0.8)}}
+                  icon="google"
+                  iconWithText
+                  color="secondary">
+                  Sign in with Google
+                </Button>
+                <Button
+                  disabled={!isValid || !dirty}
+                  onPress={handleSubmit}
+                  style={{marginTop: hp(2)}}
+                  color="primary">
+                  Login
+                </Button>
+                <Text
+                  margin={[hp(1), 0]}
+                  size={14}
+                  white
+                  regular
+                  right
+                  onPress={() => this.btnForgotPasswordTap()}>
+                  Forgot Password ?
+                </Text>
+              </Block>
+            </ScrollView>
+          )}
+        </Formik>
 
         <Text
           style={{

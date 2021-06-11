@@ -34,7 +34,13 @@ const NeoInputField = ({
       color="#eef2f9"
       placeholderTextColor={fontColor}
       leftPrefix={
-        <ImageComponent name={leftIcon} height={iconHeight} width={iconWidth} />
+        leftIcon && (
+          <ImageComponent
+            name={leftIcon}
+            height={iconHeight}
+            width={iconWidth}
+          />
+        )
       }
       prefix={
         secure ? (

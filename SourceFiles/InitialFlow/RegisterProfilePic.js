@@ -73,14 +73,12 @@ export default class RegisterProfilePic extends Component {
   };
 
   btnSkipTap = () => {
-    requestAnimationFrame(() => {
-      var dict = this.state.RegisterData;
-      dict.imgBase64 = null;
+    // requestAnimationFrame(() => {
+    //   var dict = this.state.RegisterData;
+    //   dict.imgBase64 = null;
 
-      this.props.navigation.navigate('RegisterBio', {
-        data: JSON.stringify(dict),
-      });
-    });
+    // });
+    this.props.navigation.navigate('RegisterBio');
   };
 
   btnSelectImage = () => {
@@ -277,7 +275,7 @@ export default class RegisterProfilePic extends Component {
             <Block margin={[hp(2), 0, 0]} center middle flex={false}>
               <NeuView
                 color="#F2F0F7"
-                height={hp(20)}
+                height={hp(24)}
                 width={wp(85)}
                 borderRadius={16}>
                 <TouchableOpacity onPress={() => this.btnSelectImage()}>

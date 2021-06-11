@@ -86,6 +86,8 @@ const Button = ({
       return '#fff';
     } else if (color === 'facebook') {
       return '#6F3AC8';
+    } else if (disabled && color === 'primary') {
+      return 'rgba(255,255,255,0.5)';
     } else if (color === 'primary') {
       return '#6F3AC8';
     }

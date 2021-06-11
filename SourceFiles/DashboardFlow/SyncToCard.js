@@ -190,8 +190,7 @@ export default class SyncToCard extends Component {
       // console.log("NDFE : "+JSON.stringify(ndef));
 
       let bytes = buildUrlPayload(
-        'https://dev.thewebtual.com/clique/user/profile/' +
-          this.state.user.user_id,
+        'http://admin.cliquesocial.co/user/profile' + this.state.user.user_id,
       );
       await NfcManager.writeNdefMessage(bytes);
       console.log('successfully write ndef');

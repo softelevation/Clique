@@ -1,5 +1,6 @@
 import React, {useRef, useState} from 'react';
 import {
+  Alert,
   FlatList,
   SafeAreaView,
   ScrollView,
@@ -7,19 +8,18 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {
-  Block,
-  Text,
-  ImageComponent,
-  CustomButton,
-  Button,
-} from '../../components';
+import {Block, Text, ImageComponent, Button} from '../../components';
 import {hp, wp} from '../../components/responsive';
 import NeuView from '../../common/neu-element/lib/NeuView';
 import NeuButton from '../../common/neu-element/lib/NeuButton';
 import {useNavigation} from '@react-navigation/core';
 import {Modalize} from 'react-native-modalize';
 import NeoInputField from '../../components/neo-input';
+import Webservice from '../../Constants/API';
+import {APIURL} from '../../Constants/APIURL';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {showAlert} from '../../utils/mobile-utils';
+import LoadingView from '../../Constants/LoadingView';
 
 const Profile = () => {
   const {navigate} = useNavigation();
@@ -27,6 +27,55 @@ const Profile = () => {
   const [toggle, setToggle] = useState(true);
   const [action, setAction] = useState(null);
   const modalizeRef = useRef();
+  const [profile, setprofile] = useState({});
+  const [loading, setloading] = useState(false);
+
+  React.useEffect(() => {
+    getProfile();
+  }, []);
+
+  const getProfile = async (values) => {
+    const user_id = await AsyncStorage.getItem('user_id');
+    setloading(true);
+    Webservice.post(APIURL.getTempProfile, {
+      user_id: user_id,
+    })
+      .then(async (response) => {
+        if (response.data == null) {
+          setloading(false);
+          // alert('error');
+          Alert.alert(response.originalError.message);
+
+          return;
+        }
+        console.log('Get Register User Response : ' + JSON.stringify(response));
+
+        if (response.data.status === true) {
+          setloading(false);
+          setprofile(response.data.data.user);
+        } else {
+          setloading(false);
+          showAlert(response.data.message);
+        }
+      })
+      .catch((error) => {
+        console.log(error.message);
+        setloading(false);
+        Alert.alert(
+          error.message,
+          '',
+          [
+            {
+              text: 'Try Again',
+              onPress: () => {
+                getProfile();
+              },
+            },
+          ],
+          {cancelable: false},
+        );
+      });
+  };
   const renderHeader = () => {
     return (
       <Block center padding={[hp(2), wp(3)]} space="between" flex={false} row>
@@ -51,15 +100,25 @@ const Profile = () => {
   };
   const renderProfile = () => {
     return (
-      <Block center padding={[hp(2), wp(3)]} space="between" flex={false} row>
+      <Block padding={[hp(2), wp(3)]} space="between" flex={false} row>
         <Block flex={false} row>
           <ImageComponent name="demouser" height={100} width={100} />
           <Block margin={[0, 0, 0, wp(3)]} flex={false}>
             <Text white bold size={24}>
-              Elisa Jones
+              {profile && profile.name}
             </Text>
-            <Text margin={[hp(0.5), 0, 0]} size={14} white regular>
-              UX/UI Designer at Atom 6
+            <Text
+              style={{width: wp(55)}}
+              capitalize
+              margin={[hp(0.5), 0, 0]}
+              size={14}
+              white
+              regular>
+              {profile &&
+                profile.company_data &&
+                profile.company_data[0].job_position}{' '}
+              at{' '}
+              {profile && profile.company_data && profile.company_data[0].name}
             </Text>
             <Text margin={[hp(0.5), 0, 0]} size={16} semibold white>
               320 Connections
@@ -163,11 +222,17 @@ const Profile = () => {
     return (
       <FlatList
         ListFooterComponent={_renderFooter}
-        contentContainerStyle={styles.containerStyle}
+        contentContainerStyle={{
+          flexWrap: 'wrap',
+          flexDirection: 'row',
+          flexGrow: 1,
+        }}
+        numColumns={4}
         data={[
           'phone_link_icon',
           'email_link_icon',
           'behance_link_icon',
+          'link_icon',
           'link_icon',
         ]}
         renderItem={({item}) => {
@@ -187,6 +252,7 @@ const Profile = () => {
           styles.containerStyle,
           {paddingVertical: hp(3)},
         ]}
+        numColumns={4}
         data={[
           'phone_link_icon',
           'email_link_icon',
@@ -234,7 +300,9 @@ const Profile = () => {
             Swipe to choose a type of account{' '}
           </Text>
           {renderOptions()}
-          {renderSocialIcons()}
+          <Block flex={false} center>
+            {renderSocialIcons()}
+          </Block>
         </Block>
       </ScrollView>
       <Modalize
@@ -284,6 +352,7 @@ const Profile = () => {
           </>
         )}
       </Modalize>
+      {loading ? <LoadingView /> : null}
     </Block>
   );
 };
@@ -315,8 +384,7 @@ const styles = StyleSheet.create({
     width: wp(20),
   },
   containerStyle: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    alignItems: 'center',
   },
   neoContainer: {flexDirection: 'row'},
 });

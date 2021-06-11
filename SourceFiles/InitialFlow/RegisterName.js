@@ -25,7 +25,7 @@ export default class RegisterName extends Component {
     super(props);
     this.state = {
       isloading: false,
-      txtFullName: 'Bharat',
+      txtFullName: '',
       isDisable: true,
       NameBorderColor: CommonColors.GhostColor,
       isFromTutorial: props.route.params.isFromTutorial,

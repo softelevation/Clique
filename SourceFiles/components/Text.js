@@ -45,6 +45,9 @@ const componentStyles = () => {
     underline: {
       textDecorationLine: 'underline',
     },
+    capitalize: {
+      textTransform: 'capitalize',
+    },
     // position
     center: {textAlign: 'center'},
     right: {textAlign: 'right'},
@@ -119,6 +122,7 @@ const CustomText = ({
   left,
   purple,
   gutterBottom,
+  capitalize,
   ...props
 }) => {
   const styles = componentStyles();
@@ -206,6 +210,7 @@ const CustomText = ({
     uppercase && styles.uppercase,
     underline && styles.underline,
     errorColor && styles.errorColor,
+    capitalize && styles.capitalize,
     purple && styles.purple,
     margin && {...handleMargins()},
     style, // rewrite predefined styles

@@ -32,7 +32,7 @@ export default class RegisterEmail extends Component {
     super(props);
     this.state = {
       isloading: false,
-      txtEmail: 'Bharat@gmail.com',
+      txtEmail: '',
       isDisable: true,
       NameBorderColor: CommonColors.GhostColor,
       isFromAutoLogin: props.route.params.is_from_autoLogin,
@@ -124,13 +124,14 @@ export default class RegisterEmail extends Component {
   };
 
   btnNextTap = () => {
-    requestAnimationFrame(() => {
-      if (!this.validateEmail(this.state.txtEmail)) {
-        this.showAlert(ValidationMsg.ValidEmail);
-      } else {
-        this.API_EMAIL_CHECK(true);
-      }
-    });
+    // requestAnimationFrame(() => {
+    //   if (!this.validateEmail(this.state.txtEmail)) {
+    //     this.showAlert(ValidationMsg.ValidEmail);
+    //   } else {
+    //     this.API_EMAIL_CHECK(true);
+    //   }
+    // });
+    this.props.navigation.navigate('ChoosePassword');
   };
 
   //Helper Methods For TextInput

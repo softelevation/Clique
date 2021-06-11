@@ -67,8 +67,9 @@ export default class RegisterSocialMedia extends Component {
       ArrLinkdIn: [],
     };
   }
-
   async componentDidMount() {
+    console.log(this.state.RegisterData, 'RegisterData');
+
     await this.requestLocationPermission();
     await this.getData();
   }

@@ -1,6 +1,6 @@
 export const APIURL = {
-  BaseURL: 'https://dev.thewebtual.com/clique/api/',
-  ImangeURL: 'https://dev.thewebtual.com/clique/public/storage',
+  BaseURL: 'http://admin.cliquesocial.co/api/',
+  ImangeURL: 'http://admin.cliquesocial.co/public/storage',
 
   Accept: 'Accept',
   Bearer: 'Bearer ',

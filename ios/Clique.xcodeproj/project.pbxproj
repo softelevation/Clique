@@ -11,11 +11,12 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		1F596A643262959F24C036B6 /* libPods-Clique-CliqueTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66383AD345FFAC80999026E6 /* libPods-Clique-CliqueTests.a */; };
+		2466B4E32662408400491DF5 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2466B4E22662408400491DF5 /* File.swift */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* CliqueTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* CliqueTests.m */; };
+		37026A8EF6906E50B33FC479 /* libPods-Clique-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 89A99E6266D757653F2AF6E2 /* libPods-Clique-tvOS.a */; };
 		5822497525E3DBF60020CD69 /* Averta-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5822497025E3DBF60020CD69 /* Averta-Light.otf */; };
 		5822497625E3DBF60020CD69 /* Averta-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5822497125E3DBF60020CD69 /* Averta-Regular.otf */; };
 		5822497725E3DBF60020CD69 /* Averta-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5822497225E3DBF60020CD69 /* Averta-ExtraBold.otf */; };
@@ -23,9 +24,9 @@
 		5822497925E3DBF60020CD69 /* Averta-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5822497425E3DBF60020CD69 /* Averta-Thin.otf */; };
 		58FC2F6625FB450E00A6B156 /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58FC2F6525FB450E00A6B156 /* NetworkExtension.framework */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		B06BC3C8F4363284D0CB4E4B /* libPods-Clique-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C142462E4CFDA5F28A6374AA /* libPods-Clique-tvOS.a */; };
-		E7AE84256C770B987DB06C35 /* libPods-Clique.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5718C09597AF99E90C58A02A /* libPods-Clique.a */; };
-		EDBAF8F968406AE6F37FA384 /* libPods-Clique-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 05C6A65E62F23AB93024D3F2 /* libPods-Clique-tvOSTests.a */; };
+		88704CC641E2E227C686F3FD /* libPods-Clique-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BB3F1E29A13838D25981DE05 /* libPods-Clique-tvOSTests.a */; };
+		97A781B8E0BAC9B3DA12B9B8 /* libPods-Clique.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D4942C43B2B1C058B04C185 /* libPods-Clique.a */; };
+		BB6BD8F3310EBB140AF2DE4E /* libPods-Clique-CliqueTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8626BE3942447F7F7479CE39 /* libPods-Clique-CliqueTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,18 +51,17 @@
 		00E356EE1AD99517003FC87E /* CliqueTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CliqueTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* CliqueTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CliqueTests.m; sourceTree = "<group>"; };
-		05C6A65E62F23AB93024D3F2 /* libPods-Clique-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Clique-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		10D33AC15E2E232063F8D6CF /* Pods-Clique.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Clique.debug.xcconfig"; path = "Target Support Files/Pods-Clique/Pods-Clique.debug.xcconfig"; sourceTree = "<group>"; };
+		0D4942C43B2B1C058B04C185 /* libPods-Clique.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Clique.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07F961A680F5B00A75B9A /* Clique.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Clique.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Clique/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Clique/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Clique/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Clique/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Clique/main.m; sourceTree = "<group>"; };
+		2466B4E12662408300491DF5 /* Clique-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Clique-Bridging-Header.h"; sourceTree = "<group>"; };
+		2466B4E22662408400491DF5 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* Clique-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Clique-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* Clique-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Clique-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		4F8CF219FC7D2C80220A7BD9 /* Pods-Clique-CliqueTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Clique-CliqueTests.release.xcconfig"; path = "Target Support Files/Pods-Clique-CliqueTests/Pods-Clique-CliqueTests.release.xcconfig"; sourceTree = "<group>"; };
-		5718C09597AF99E90C58A02A /* libPods-Clique.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Clique.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5822497025E3DBF60020CD69 /* Averta-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Averta-Light.otf"; sourceTree = "<group>"; };
 		5822497125E3DBF60020CD69 /* Averta-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Averta-Regular.otf"; sourceTree = "<group>"; };
 		5822497225E3DBF60020CD69 /* Averta-ExtraBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Averta-ExtraBold.otf"; sourceTree = "<group>"; };
@@ -69,17 +69,20 @@
 		5822497425E3DBF60020CD69 /* Averta-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Averta-Thin.otf"; sourceTree = "<group>"; };
 		5845115825ED213E00D05695 /* Clique.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Clique.entitlements; path = Clique/Clique.entitlements; sourceTree = "<group>"; };
 		58FC2F6525FB450E00A6B156 /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
-		66383AD345FFAC80999026E6 /* libPods-Clique-CliqueTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Clique-CliqueTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5C51A9F9C91BF2FB640F953F /* Pods-Clique.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Clique.release.xcconfig"; path = "Target Support Files/Pods-Clique/Pods-Clique.release.xcconfig"; sourceTree = "<group>"; };
+		6734007DE3E23DC4551672A2 /* Pods-Clique.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Clique.debug.xcconfig"; path = "Target Support Files/Pods-Clique/Pods-Clique.debug.xcconfig"; sourceTree = "<group>"; };
+		72C2294E9A508CCAD0E04936 /* Pods-Clique-CliqueTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Clique-CliqueTests.release.xcconfig"; path = "Target Support Files/Pods-Clique-CliqueTests/Pods-Clique-CliqueTests.release.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Clique/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		8DB0CCDBFE97AB7359E98F6E /* Pods-Clique-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Clique-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-Clique-tvOS/Pods-Clique-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
-		8F2350AD9BD6F88A6684CDC5 /* Pods-Clique-CliqueTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Clique-CliqueTests.debug.xcconfig"; path = "Target Support Files/Pods-Clique-CliqueTests/Pods-Clique-CliqueTests.debug.xcconfig"; sourceTree = "<group>"; };
-		91BCE9D17E4D5A3FC60F29E4 /* Pods-Clique-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Clique-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-Clique-tvOSTests/Pods-Clique-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
-		9E40C9ABF216C8947B25B98D /* Pods-Clique-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Clique-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-Clique-tvOSTests/Pods-Clique-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
-		A04B055F2E84B80729856888 /* Pods-Clique-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Clique-tvOS.release.xcconfig"; path = "Target Support Files/Pods-Clique-tvOS/Pods-Clique-tvOS.release.xcconfig"; sourceTree = "<group>"; };
-		C142462E4CFDA5F28A6374AA /* libPods-Clique-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Clique-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		D69F6B7BA3A1D9E0298217D3 /* Pods-Clique.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Clique.release.xcconfig"; path = "Target Support Files/Pods-Clique/Pods-Clique.release.xcconfig"; sourceTree = "<group>"; };
+		82F8C5ABE59F8A484B88A741 /* Pods-Clique-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Clique-tvOS.release.xcconfig"; path = "Target Support Files/Pods-Clique-tvOS/Pods-Clique-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		8445ED2B959375BF8C045F12 /* Pods-Clique-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Clique-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-Clique-tvOS/Pods-Clique-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
+		8626BE3942447F7F7479CE39 /* libPods-Clique-CliqueTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Clique-CliqueTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		89A99E6266D757653F2AF6E2 /* libPods-Clique-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Clique-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9952B8AFCEAC9A2EA0DEF2C0 /* Pods-Clique-CliqueTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Clique-CliqueTests.debug.xcconfig"; path = "Target Support Files/Pods-Clique-CliqueTests/Pods-Clique-CliqueTests.debug.xcconfig"; sourceTree = "<group>"; };
+		BB3F1E29A13838D25981DE05 /* libPods-Clique-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Clique-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA4BEADE266E28B1F22CF8B3 /* Pods-Clique-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Clique-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-Clique-tvOSTests/Pods-Clique-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
+		F5A21017CF29BB9A558CC5EF /* Pods-Clique-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Clique-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-Clique-tvOSTests/Pods-Clique-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,7 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1F596A643262959F24C036B6 /* libPods-Clique-CliqueTests.a in Frameworks */,
+				BB6BD8F3310EBB140AF2DE4E /* libPods-Clique-CliqueTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,8 +98,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E7AE84256C770B987DB06C35 /* libPods-Clique.a in Frameworks */,
 				58FC2F6625FB450E00A6B156 /* NetworkExtension.framework in Frameworks */,
+				97A781B8E0BAC9B3DA12B9B8 /* libPods-Clique.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -104,7 +107,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B06BC3C8F4363284D0CB4E4B /* libPods-Clique-tvOS.a in Frameworks */,
+				37026A8EF6906E50B33FC479 /* libPods-Clique-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,7 +115,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EDBAF8F968406AE6F37FA384 /* libPods-Clique-tvOSTests.a in Frameworks */,
+				88704CC641E2E227C686F3FD /* libPods-Clique-tvOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -148,6 +151,8 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				2466B4E22662408400491DF5 /* File.swift */,
+				2466B4E12662408300491DF5 /* Clique-Bridging-Header.h */,
 			);
 			name = Clique;
 			sourceTree = "<group>";
@@ -158,10 +163,10 @@
 				58FC2F6525FB450E00A6B156 /* NetworkExtension.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				5718C09597AF99E90C58A02A /* libPods-Clique.a */,
-				66383AD345FFAC80999026E6 /* libPods-Clique-CliqueTests.a */,
-				C142462E4CFDA5F28A6374AA /* libPods-Clique-tvOS.a */,
-				05C6A65E62F23AB93024D3F2 /* libPods-Clique-tvOSTests.a */,
+				0D4942C43B2B1C058B04C185 /* libPods-Clique.a */,
+				8626BE3942447F7F7479CE39 /* libPods-Clique-CliqueTests.a */,
+				89A99E6266D757653F2AF6E2 /* libPods-Clique-tvOS.a */,
+				BB3F1E29A13838D25981DE05 /* libPods-Clique-tvOSTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -215,14 +220,14 @@
 		8A5E4B03FD50A0028E95F03C /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				10D33AC15E2E232063F8D6CF /* Pods-Clique.debug.xcconfig */,
-				D69F6B7BA3A1D9E0298217D3 /* Pods-Clique.release.xcconfig */,
-				8F2350AD9BD6F88A6684CDC5 /* Pods-Clique-CliqueTests.debug.xcconfig */,
-				4F8CF219FC7D2C80220A7BD9 /* Pods-Clique-CliqueTests.release.xcconfig */,
-				8DB0CCDBFE97AB7359E98F6E /* Pods-Clique-tvOS.debug.xcconfig */,
-				A04B055F2E84B80729856888 /* Pods-Clique-tvOS.release.xcconfig */,
-				9E40C9ABF216C8947B25B98D /* Pods-Clique-tvOSTests.debug.xcconfig */,
-				91BCE9D17E4D5A3FC60F29E4 /* Pods-Clique-tvOSTests.release.xcconfig */,
+				6734007DE3E23DC4551672A2 /* Pods-Clique.debug.xcconfig */,
+				5C51A9F9C91BF2FB640F953F /* Pods-Clique.release.xcconfig */,
+				9952B8AFCEAC9A2EA0DEF2C0 /* Pods-Clique-CliqueTests.debug.xcconfig */,
+				72C2294E9A508CCAD0E04936 /* Pods-Clique-CliqueTests.release.xcconfig */,
+				8445ED2B959375BF8C045F12 /* Pods-Clique-tvOS.debug.xcconfig */,
+				82F8C5ABE59F8A484B88A741 /* Pods-Clique-tvOS.release.xcconfig */,
+				F5A21017CF29BB9A558CC5EF /* Pods-Clique-tvOSTests.debug.xcconfig */,
+				DA4BEADE266E28B1F22CF8B3 /* Pods-Clique-tvOSTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -234,11 +239,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "CliqueTests" */;
 			buildPhases = (
-				22043D7B0CBFFD1DD4156406 /* [CP] Check Pods Manifest.lock */,
+				ED51CD41B0EF32658A5398DC /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				34BB8C6DC1EE6E913E31B3D1 /* [CP] Copy Pods Resources */,
+				2A674926855D9DB5C269DF00 /* [CP] Embed Pods Frameworks */,
+				681B26A9AA6641836A39DF6A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -254,13 +260,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Clique" */;
 			buildPhases = (
-				CB61AD2FE3600C334B1C582F /* [CP] Check Pods Manifest.lock */,
+				0048C915F23CCF0FD368BC63 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				233EB5ED4DDB924340CAB3CA /* [CP] Copy Pods Resources */,
+				11C1F7FF9F4260276F2E861F /* [CP] Embed Pods Frameworks */,
+				B8F44AF1910BC98B8121FBEF /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -275,7 +282,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Clique-tvOS" */;
 			buildPhases = (
-				F86D9D502D53E3722C93F3A5 /* [CP] Check Pods Manifest.lock */,
+				F475390543088CA9F7C86959 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F122414F3F0027D42C /* Start Packager */,
 				2D02E4771E0B4A5D006451C7 /* Sources */,
 				2D02E4781E0B4A5D006451C7 /* Frameworks */,
@@ -295,7 +302,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Clique-tvOSTests" */;
 			buildPhases = (
-				410E4C42CF7880BBF156386F /* [CP] Check Pods Manifest.lock */,
+				75B9E3B313F5A9E1BFCC5E35 /* [CP] Check Pods Manifest.lock */,
 				2D02E48C1E0B4A5D006451C7 /* Sources */,
 				2D02E48D1E0B4A5D006451C7 /* Frameworks */,
 				2D02E48E1E0B4A5D006451C7 /* Resources */,
@@ -323,8 +330,8 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = MSD97L88TJ;
-						LastSwiftMigration = 1120;
+						DevelopmentTeam = 9LYLUR6445;
+						LastSwiftMigration = 1250;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -398,123 +405,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Bundle React Native code and images";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
-		};
-		22043D7B0CBFFD1DD4156406 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Clique-CliqueTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		233EB5ED4DDB924340CAB3CA /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Clique/Pods-Clique-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/RNImageCropPicker/QBImagePicker.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/TOCropViewController/TOCropViewControllerBundle.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/QBImagePicker.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TOCropViewControllerBundle.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Clique/Pods-Clique-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Bundle React Native Code And Images";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
-		};
-		34BB8C6DC1EE6E913E31B3D1 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Clique-CliqueTests/Pods-Clique-CliqueTests-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/RNImageCropPicker/QBImagePicker.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/TOCropViewController/TOCropViewControllerBundle.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/QBImagePicker.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TOCropViewControllerBundle.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Clique-CliqueTests/Pods-Clique-CliqueTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		410E4C42CF7880BBF156386F /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Clique-tvOSTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		CB61AD2FE3600C334B1C582F /* [CP] Check Pods Manifest.lock */ = {
+		0048C915F23CCF0FD368BC63 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -536,7 +427,159 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F86D9D502D53E3722C93F3A5 /* [CP] Check Pods Manifest.lock */ = {
+		00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Bundle React Native code and images";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+		};
+		11C1F7FF9F4260276F2E861F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Clique/Pods-Clique-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL/OpenSSL.framework/OpenSSL",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Clique/Pods-Clique-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2A674926855D9DB5C269DF00 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Clique-CliqueTests/Pods-Clique-CliqueTests-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL/OpenSSL.framework/OpenSSL",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Clique-CliqueTests/Pods-Clique-CliqueTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Bundle React Native Code And Images";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+		};
+		681B26A9AA6641836A39DF6A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Clique-CliqueTests/Pods-Clique-CliqueTests-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/RNImageCropPicker/QBImagePicker.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/TOCropViewController/TOCropViewControllerBundle.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/QBImagePicker.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TOCropViewControllerBundle.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Clique-CliqueTests/Pods-Clique-CliqueTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		75B9E3B313F5A9E1BFCC5E35 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Clique-tvOSTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B8F44AF1910BC98B8121FBEF /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Clique/Pods-Clique-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/RNImageCropPicker/QBImagePicker.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/TOCropViewController/TOCropViewControllerBundle.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/QBImagePicker.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TOCropViewControllerBundle.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Clique/Pods-Clique-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		ED51CD41B0EF32658A5398DC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Clique-CliqueTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F475390543088CA9F7C86959 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -612,6 +655,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				2466B4E32662408400491DF5 /* File.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -651,8 +695,9 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8F2350AD9BD6F88A6684CDC5 /* Pods-Clique-CliqueTests.debug.xcconfig */;
+			baseConfigurationReference = 9952B8AFCEAC9A2EA0DEF2C0 /* Pods-Clique-CliqueTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -674,8 +719,9 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4F8CF219FC7D2C80220A7BD9 /* Pods-Clique-CliqueTests.release.xcconfig */;
+			baseConfigurationReference = 72C2294E9A508CCAD0E04936 /* Pods-Clique-CliqueTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = CliqueTests/Info.plist;
@@ -694,13 +740,13 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 10D33AC15E2E232063F8D6CF /* Pods-Clique.debug.xcconfig */;
+			baseConfigurationReference = 6734007DE3E23DC4551672A2 /* Pods-Clique.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Clique/Clique.entitlements;
-				CURRENT_PROJECT_VERSION = 5;
-				DEVELOPMENT_TEAM = MSD97L88TJ;
+				CURRENT_PROJECT_VERSION = 6;
+				DEVELOPMENT_TEAM = 9LYLUR6445;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Clique/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -712,6 +758,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.cliqueappnfc.app;
 				PRODUCT_NAME = Clique;
+				SWIFT_OBJC_BRIDGING_HEADER = "Clique-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -720,13 +767,13 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D69F6B7BA3A1D9E0298217D3 /* Pods-Clique.release.xcconfig */;
+			baseConfigurationReference = 5C51A9F9C91BF2FB640F953F /* Pods-Clique.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Clique/Clique.entitlements;
-				CURRENT_PROJECT_VERSION = 5;
-				DEVELOPMENT_TEAM = MSD97L88TJ;
+				CURRENT_PROJECT_VERSION = 6;
+				DEVELOPMENT_TEAM = 9LYLUR6445;
 				INFOPLIST_FILE = Clique/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 1.0.1;
@@ -737,6 +784,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.cliqueappnfc.app;
 				PRODUCT_NAME = Clique;
+				SWIFT_OBJC_BRIDGING_HEADER = "Clique-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -744,7 +792,7 @@
 		};
 		2D02E4971E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8DB0CCDBFE97AB7359E98F6E /* Pods-Clique-tvOS.debug.xcconfig */;
+			baseConfigurationReference = 8445ED2B959375BF8C045F12 /* Pods-Clique-tvOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -772,7 +820,7 @@
 		};
 		2D02E4981E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A04B055F2E84B80729856888 /* Pods-Clique-tvOS.release.xcconfig */;
+			baseConfigurationReference = 82F8C5ABE59F8A484B88A741 /* Pods-Clique-tvOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -800,7 +848,7 @@
 		};
 		2D02E4991E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9E40C9ABF216C8947B25B98D /* Pods-Clique-tvOSTests.debug.xcconfig */;
+			baseConfigurationReference = F5A21017CF29BB9A558CC5EF /* Pods-Clique-tvOSTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -827,7 +875,7 @@
 		};
 		2D02E49A1E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 91BCE9D17E4D5A3FC60F29E4 /* Pods-Clique-tvOSTests.release.xcconfig */;
+			baseConfigurationReference = DA4BEADE266E28B1F22CF8B3 /* Pods-Clique-tvOSTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;

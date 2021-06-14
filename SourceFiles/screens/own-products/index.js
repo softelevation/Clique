@@ -50,11 +50,14 @@ const OwnProducts = () => {
         if (response.data.status === 200) {
           console.log(response.data, 'response.data');
           setloader(false);
-          navigate('Login');
-          // await AsyncStorage.setItem(
-          //   'user_id',
-          //   JSON.stringify(response.data.data.user.user_id),
-          // );
+          navigate('ActivatedCard', {
+            header: 'Congratulations',
+            subtitle: 'Your account has been created',
+          });
+          await AsyncStorage.setItem(
+            'user_id',
+            JSON.stringify(response.data.data.user.user_id),
+          );
           showAlert(response.data.message);
         } else {
           setloader(false);
@@ -184,7 +187,7 @@ const OwnProducts = () => {
             // onPress={() => navigate('ScanCard')}
             linear
             color="primary">
-            {activeCard || activeNfc ? 'Next' : 'Create Account without cards'}
+            {activeCard || activeNfc ? 'Next' : 'Skip & Create Account'}
           </Button>
         </Block>
       </Block>

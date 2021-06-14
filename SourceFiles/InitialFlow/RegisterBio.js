@@ -184,11 +184,6 @@ export default class RegisterName extends Component {
               </Text>
               {this.renderTellUsAboutYourself()}
             </Block>
-
-            <Block middle padding={[0, wp(1)]}>
-              <Image style={styles.leftIcon} source={RedPlay} />
-              <Image style={styles.rightIcon} source={images.behance} />
-            </Block>
           </ScrollView>
           <Block flex={false} margin={[0, 0, hp(3), 0]}>
             <Button

@@ -155,59 +155,40 @@ export default class RegisterEmail extends Component {
     return (
       <Block linear>
         <SafeAreaView />
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{flexGrow: 1}}
-          bounces={false}>
-          <Block padding={[hp(2), 0, 0]} space="between" flex={false} row>
-            <TouchableOpacity onPress={() => this.btnBackTap()}>
-              <LinearGradient
-                colors={['#5542B6', '#7653DB']}
-                style={styles.linear}>
-                <ImageComponent
-                  resizeMode="contain"
-                  height={14}
-                  width={14}
-                  name={'BackIcon'}
-                />
-              </LinearGradient>
-            </TouchableOpacity>
 
-            <ImageComponent
-              resizeMode="contain"
-              height={140}
-              width={140}
-              name={'nameBg'}
-            />
-            <TouchableOpacity activeOpacity={1} style={styles.customButton} />
-          </Block>
-          <Block
-            color={'#F2EDFA'}
-            borderTopRightRadius={30}
-            borderTopLeftRadius={30}
-            padding={[0, wp(3)]}>
+        <Block padding={[hp(2), 0, 0]} space="between" flex={false} row>
+          <TouchableOpacity onPress={() => this.btnBackTap()}>
+            <LinearGradient
+              colors={['#5542B6', '#7653DB']}
+              style={styles.linear}>
+              <ImageComponent
+                resizeMode="contain"
+                height={14}
+                width={14}
+                name={'BackIcon'}
+              />
+            </LinearGradient>
+          </TouchableOpacity>
+
+          <ImageComponent
+            resizeMode="contain"
+            height={140}
+            width={140}
+            name={'nameBg'}
+          />
+          <TouchableOpacity activeOpacity={1} style={styles.customButton} />
+        </Block>
+        <Block
+          color={'#F2EDFA'}
+          borderTopRightRadius={30}
+          borderTopLeftRadius={30}
+          padding={[0, wp(3)]}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{flexGrow: 1}}
+            bounces={false}>
             <HeaderPreLogin title={'Create Account'} subtitle={'Your Email'} />
             <Block center flex={false} margin={[hp(1), 0, 0]}>
-              {/* <Input
-                neomorph
-                rightIcon="MinEmailIcon"
-                color="#707070"
-                placeholder={'Enter Email ID'}
-                maxLength={50}
-                placeholderTextColor={'#707070'}
-                autoCapitalize={false}
-                value={this.state.txtEmail}
-                returnKeyType={'done'}
-                onChangeText={async (txtEmail) => {
-                  await this.setState({txtEmail: txtEmail});
-
-                  if (this.state.txtEmail.length < 2) {
-                    this.setState({isDisable: true});
-                  } else {
-                    this.setState({isDisable: false});
-                  }
-                }}
-              /> */}
               <NeoInputField
                 value={this.state.txtEmail}
                 placeholder={'Enter Email ID'}
@@ -224,17 +205,17 @@ export default class RegisterEmail extends Component {
                 icon="MinEmailIcon"
               />
             </Block>
-            <Block middle padding={[0, wp(3)]}>
-              <Image style={styles.leftIcon} source={LinkdInIcon} />
-              <Image style={styles.rightIcon} source={TwitterIcon} />
-            </Block>
-            <Block flex={false} margin={[0, wp(3), hp(3)]}>
-              <Button onPress={() => this.btnNextTap()} linear color="primary">
-                Next
-              </Button>
-            </Block>
+          </ScrollView>
+          <Block flex={false} margin={[0, wp(3), hp(3)]}>
+            <Button
+              disabled={!this.state.txtEmail}
+              onPress={() => this.btnNextTap()}
+              linear
+              color="primary">
+              Next
+            </Button>
           </Block>
-        </ScrollView>
+        </Block>
 
         {this.state.isloading ? <LoadingView /> : null}
       </Block>

@@ -1,6 +1,7 @@
 export const APIURL = {
   BaseURL: 'http://admin.cliquesocial.co/api/',
   ImangeURL: 'http://admin.cliquesocial.co/public/storage',
+  iconUrl: 'http://admin.cliquesocial.co/',
 
   Accept: 'Accept',
   Bearer: 'Bearer ',
@@ -34,4 +35,5 @@ export const APIURL = {
 
   userLogin: 'login-via-email',
   newRegister: 'new-register',
+  socialIcons: 'gettempicone',
 };

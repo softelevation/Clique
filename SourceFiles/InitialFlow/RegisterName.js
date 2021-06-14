@@ -116,47 +116,48 @@ export default class RegisterName extends Component {
     return (
       <Block linear>
         <SafeAreaView />
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.container}
-          bounces={false}>
-          <Block padding={[hp(2), 0, 0]} space={'between'} row flex={false}>
-            {this.state.isFromTutorial === false ? (
-              <TouchableOpacity onPress={() => this.btnBackTap()}>
-                <LinearGradient
-                  colors={['#5542B6', '#7653DB']}
-                  style={styles.linear}>
-                  <ImageComponent
-                    resizeMode="contain"
-                    height={14}
-                    width={14}
-                    name={'BackIcon'}
-                  />
-                </LinearGradient>
-              </TouchableOpacity>
-            ) : null}
 
-            <View style={{alignItems: 'center', flex: 1}}>
-              <ImageComponent
-                resizeMode="contain"
-                height={140}
-                width={140}
-                name={'nameBg'}
-              />
-            </View>
+        <Block padding={[hp(2), 0, 0]} space={'between'} row flex={false}>
+          {this.state.isFromTutorial === false ? (
+            <TouchableOpacity onPress={() => this.btnBackTap()}>
+              <LinearGradient
+                colors={['#5542B6', '#7653DB']}
+                style={styles.linear}>
+                <ImageComponent
+                  resizeMode="contain"
+                  height={14}
+                  width={14}
+                  name={'BackIcon'}
+                />
+              </LinearGradient>
+            </TouchableOpacity>
+          ) : null}
 
-            {this.state.isFromTutorial === false ? (
-              <TouchableOpacity
-                style={{height: 40, width: 40}}
-                activeOpacity={1}
-              />
-            ) : null}
-          </Block>
-          <Block
-            color={'#F2EDFA'}
-            borderTopRightRadius={30}
-            borderTopLeftRadius={30}
-            padding={[0, wp(3)]}>
+          <View style={{alignItems: 'center', flex: 1}}>
+            <ImageComponent
+              resizeMode="contain"
+              height={140}
+              width={140}
+              name={'nameBg'}
+            />
+          </View>
+
+          {this.state.isFromTutorial === false ? (
+            <TouchableOpacity
+              style={{height: 40, width: 40}}
+              activeOpacity={1}
+            />
+          ) : null}
+        </Block>
+        <Block
+          color={'#F2EDFA'}
+          borderTopRightRadius={30}
+          borderTopLeftRadius={30}
+          padding={[0, wp(3)]}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.container}
+            bounces={false}>
             <HeaderPreLogin
               title={'Create Account'}
               subtitle={"What's your name?"}
@@ -172,23 +173,17 @@ export default class RegisterName extends Component {
                 fontColor="#707070"
               />
             </Block>
-
-            <Block middle padding={[0, wp(3)]}>
-              <Image style={styles.rightIcon} source={MinUserInstagram} />
-
-              <Image style={styles.leftIcon} source={RedPlay} />
-            </Block>
-            <Block flex={false} margin={[0, 0, hp(3), 0]}>
-              <Button
-                // disabled={!this.state.txtFullName}
-                onPress={() => this.btnNextTap()}
-                linear
-                color="primary">
-                Next
-              </Button>
-            </Block>
+          </ScrollView>
+          <Block flex={false} margin={[0, 0, hp(3), 0]}>
+            <Button
+              disabled={!this.state.txtFullName}
+              onPress={() => this.btnNextTap()}
+              linear
+              color="primary">
+              Next
+            </Button>
           </Block>
-        </ScrollView>
+        </Block>
 
         {this.state.isloading ? <LoadingView /> : null}
       </Block>

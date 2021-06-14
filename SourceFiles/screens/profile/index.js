@@ -21,19 +21,25 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {showAlert} from '../../utils/mobile-utils';
 import LoadingView from '../../Constants/LoadingView';
 import {
+  strictValidArray,
   strictValidArrayWithLength,
+  strictValidArrayWithMinLength,
   strictValidObjectWithKeys,
 } from '../../utils/commonUtils';
 
 const Profile = () => {
   const {navigate} = useNavigation();
-  const [activeOptions, setactiveOptions] = useState('Social');
+  const [activeOptions, setactiveOptions] = useState('social');
+  const [modalType, setModalType] = useState('social');
   const [toggle, setToggle] = useState(true);
   const [action, setAction] = useState(null);
   const modalizeRef = useRef();
   const [profile, setprofile] = useState({});
   const [loading, setloading] = useState(false);
-
+  const [socialLoading, setSocialLoading] = useState(false);
+  const [Icons, setIcons] = useState([]);
+  const [newState, setNewState] = useState({});
+  const [field, setField] = useState('');
   React.useEffect(() => {
     getProfile();
   }, []);
@@ -52,7 +58,7 @@ const Profile = () => {
 
           return;
         }
-        console.log('Get Register User Response : ' + JSON.stringify(response));
+        console.log('Get Register User Response : ' + response);
 
         if (response.data.status === true) {
           setloading(false);
@@ -65,6 +71,52 @@ const Profile = () => {
       .catch((error) => {
         console.log(error.message);
         setloading(false);
+        Alert.alert(
+          error.message,
+          '',
+          [
+            {
+              text: 'Try Again',
+              onPress: () => {
+                getProfile();
+              },
+            },
+          ],
+          {cancelable: false},
+        );
+      });
+  };
+
+  const getSocialAndBusinessIcon = async (values) => {
+    const user_id = await AsyncStorage.getItem('user_id');
+    setSocialLoading(true);
+    Webservice.post(APIURL.socialIcons, {
+      user_id: user_id,
+      type: activeOptions,
+    })
+      .then(async (response) => {
+        if (response.data == null) {
+          setSocialLoading(false);
+          // alert('error');
+          Alert.alert(response.originalError.message);
+
+          return;
+        }
+        console.log('Get Social Icons Response : ' + response);
+
+        if (response.data.status === true) {
+          setSocialLoading(false);
+          setIcons(response.data.data);
+          modalizeRef.current?.open();
+          setAction('add_account');
+        } else {
+          setSocialLoading(false);
+          showAlert(response.data.message);
+        }
+      })
+      .catch((error) => {
+        console.log(error.message);
+        setSocialLoading(false);
         Alert.alert(
           error.message,
           '',
@@ -105,10 +157,10 @@ const Profile = () => {
   const renderProfile = () => {
     return (
       <Block padding={[hp(2), wp(3)]} space="between" flex={false} row>
-        <Block flex={false} row>
+        <Block center flex={false} row>
           <ImageComponent name="demouser" height={100} width={100} />
           <Block margin={[0, 0, 0, wp(3)]} flex={false}>
-            <Text white bold size={24}>
+            <Text capitalize white bold size={24}>
               {strictValidObjectWithKeys(profile) && profile.name}
             </Text>
             {strictValidObjectWithKeys(profile) &&
@@ -157,7 +209,7 @@ const Profile = () => {
           borderRadius={16}
           containerStyle={styles.neoContainer}
           inset>
-          {activeOptions === 'Social' ? (
+          {activeOptions === 'social' ? (
             <NeuButton
               color="#F2F0F7"
               width={wp(20)}
@@ -171,7 +223,7 @@ const Profile = () => {
           ) : (
             <Text
               style={[styles.inactiveText, {marginRight: wp(1)}]}
-              onPress={() => setactiveOptions('Social')}
+              onPress={() => setactiveOptions('social')}
               grey
               regular
               center
@@ -179,7 +231,7 @@ const Profile = () => {
               Social
             </Text>
           )}
-          {activeOptions === 'Business' ? (
+          {activeOptions === 'business' ? (
             <NeuButton
               color="#F2F0F7"
               width={wp(20)}
@@ -188,7 +240,70 @@ const Profile = () => {
               borderRadius={6}>
               <Text
                 semibold
-                onPress={() => setactiveOptions('Business')}
+                onPress={() => setactiveOptions('business')}
+                purple
+                center
+                size={13}>
+                Business
+              </Text>
+            </NeuButton>
+          ) : (
+            <Text
+              style={[styles.inactiveText]}
+              onPress={() => setactiveOptions('business')}
+              grey
+              regular
+              center
+              size={13}>
+              Business
+            </Text>
+          )}
+        </NeuView>
+      </Block>
+    );
+  };
+  const renderModalOptions = () => {
+    return (
+      <Block middle center margin={[hp(2), 0]} flex={false}>
+        <NeuView
+          color="#F2F0F7"
+          height={hp(5)}
+          width={wp(45)}
+          borderRadius={16}
+          containerStyle={styles.neoContainer}
+          inset>
+          {modalType === 'social' ? (
+            <NeuButton
+              color="#F2F0F7"
+              width={wp(20)}
+              height={hp(3.5)}
+              style={{marginHorizontal: wp(2)}}
+              borderRadius={6}>
+              <Text semibold purple size={13}>
+                Social
+              </Text>
+            </NeuButton>
+          ) : (
+            <Text
+              style={[styles.inactiveText, {marginRight: wp(1)}]}
+              onPress={() => setModalType('social')}
+              grey
+              regular
+              center
+              size={13}>
+              Social
+            </Text>
+          )}
+          {modalType === 'business' ? (
+            <NeuButton
+              color="#F2F0F7"
+              width={wp(20)}
+              height={hp(3.5)}
+              style={{marginRight: wp(2)}}
+              borderRadius={6}>
+              <Text
+                semibold
+                onPress={() => setModalType('business')}
                 purple
                 center
                 size={13}>
@@ -198,7 +313,7 @@ const Profile = () => {
           ) : (
             <Text
               style={[styles.inactiveText, {marginLeft: wp(1)}]}
-              onPress={() => setactiveOptions('Business')}
+              onPress={() => setModalType('business')}
               grey
               regular
               size={13}>
@@ -209,46 +324,49 @@ const Profile = () => {
       </Block>
     );
   };
-  const onOpen = () => {
-    modalizeRef.current?.open();
-    setAction('add_account');
+  const onOpen = (type) => {
+    getSocialAndBusinessIcon(type);
   };
-  const _renderFooter = () => {
+  const _renderFooter = (type) => {
     return (
       <NeuButton
-        onPress={() => onOpen()}
+        onPress={() => onOpen(type)}
         active
         color="#eef2f9"
-        width={70}
-        height={70}
+        width={75}
+        height={75}
         borderRadius={16}
-        style={{marginLeft: wp(3), marginTop: hp(1)}}>
+        style={{marginLeft: wp(3), marginTop: hp(2)}}>
         <ImageComponent name="add_icon" height={30} width={30} />
       </NeuButton>
     );
   };
-  const renderSocialIcons = () => {
+  const renderSocialIcons = (data, type) => {
     return (
       <FlatList
-        ListFooterComponent={_renderFooter}
+        ListFooterComponent={_renderFooter(type)}
         contentContainerStyle={{
-          flexWrap: 'wrap',
-          flexDirection: 'row',
           flexGrow: 1,
+          paddingHorizontal: wp(1),
+          flexDirection: 'row',
+          flexWrap: 'wrap',
         }}
-        numColumns={4}
-        data={[
-          'phone_link_icon',
-          'email_link_icon',
-          'behance_link_icon',
-          'link_icon',
-          'link_icon',
-        ]}
+        numColumns={5}
+        bounces={false}
+        data={data}
         renderItem={({item}) => {
           return (
-            <TouchableOpacity>
-              <ImageComponent name={item} height={90} width={90} />
-            </TouchableOpacity>
+            <>
+              <TouchableOpacity
+                style={{paddingHorizontal: wp(1), marginTop: hp(2)}}>
+                <ImageComponent
+                  isURL
+                  name={`${APIURL.iconUrl}${item.url}`}
+                  height={70}
+                  width={70}
+                />
+              </TouchableOpacity>
+            </>
           );
         }}
       />
@@ -257,42 +375,70 @@ const Profile = () => {
   const AddSocialIcons = () => {
     return (
       <FlatList
-        contentContainerStyle={[
-          styles.containerStyle,
-          {paddingVertical: hp(3)},
-        ]}
-        numColumns={4}
-        data={[
-          'phone_link_icon',
-          'email_link_icon',
-          'behance_link_icon',
-          'link_icon',
-          'link_icon',
-          'phone_link_icon',
-          'email_link_icon',
-          'behance_link_icon',
-          'behance_link_icon',
-          'link_icon',
-          'phone_link_icon',
-          'email_link_icon',
-          'email_link_icon',
-          'behance_link_icon',
-          'link_icon',
-          'phone_link_icon',
-        ]}
+        contentContainerStyle={{
+          paddingVertical: hp(3),
+          paddingHorizontal: wp(2),
+        }}
+        numColumns={5}
+        data={Icons}
         renderItem={({item}) => {
           return (
             <>
               <TouchableOpacity
-                onPress={() => setAction('select_account')}
-                style={{paddingLeft: wp(1.5)}}>
-                <ImageComponent name={item} height={95} width={95} />
+                onPress={() => {
+                  setAction('select_account');
+                  setNewState(item);
+                }}
+                style={{paddingHorizontal: wp(1), marginTop: hp(2)}}>
+                <ImageComponent
+                  isURL
+                  name={`${APIURL.iconUrl}${item.url}`}
+                  height={70}
+                  width={70}
+                />
               </TouchableOpacity>
             </>
           );
         }}
       />
     );
+  };
+  const saveSocialAccount = async (data) => {
+    console.log(modalType, field, data.id);
+    setField('');
+    const user_id = await AsyncStorage.getItem('user_id');
+    setSocialLoading(true);
+    Webservice.post(APIURL.socialIcons, {
+      user_id: user_id,
+      id: data.id,
+      type: activeOptions,
+      username: field,
+    })
+      .then(async (response) => {
+        if (response.data == null) {
+          setSocialLoading(false);
+          // alert('error');
+          Alert.alert(response.originalError.message);
+
+          return;
+        }
+        console.log('Get Social Icons Response : ' + response);
+
+        if (response.data.status === true) {
+          setSocialLoading(false);
+          setIcons(response.data.data);
+          modalizeRef.current?.close();
+          getProfile();
+        } else {
+          setSocialLoading(false);
+          showAlert(response.data.message);
+        }
+      })
+      .catch((error) => {
+        console.log(error.message);
+        setSocialLoading(false);
+        Alert.alert(error.message);
+      });
   };
   return (
     <Block linear>
@@ -303,14 +449,21 @@ const Profile = () => {
         <Block
           borderTopLeftRadius={20}
           borderTopRightRadius={20}
-          padding={[hp(2), wp(3)]}
+          padding={[hp(2), wp(2)]}
           color="#F2EDFA">
           <Text grey regular size={16} center>
             Swipe to choose a type of account{' '}
           </Text>
           {renderOptions()}
-          <Block flex={false} center>
-            {renderSocialIcons()}
+          <Block flex={false}>
+            {strictValidObjectWithKeys(profile) &&
+              strictValidArray(profile.social) &&
+              activeOptions === 'social' &&
+              renderSocialIcons(profile.social, 'social')}
+            {strictValidObjectWithKeys(profile) &&
+              strictValidArray(profile.business) &&
+              activeOptions === 'business' &&
+              renderSocialIcons(profile.business, 'business')}
           </Block>
         </Block>
       </ScrollView>
@@ -339,21 +492,32 @@ const Profile = () => {
         {action === 'select_account' && (
           <>
             <Block margin={[hp(4), 0]} flex={false} center>
-              <ImageComponent name={'link_icon'} height={95} width={95} />
-              <Text purple semibold margin={[hp(1), 0]}>
-                Link
+              <ImageComponent
+                isURL
+                name={`${APIURL.iconUrl}${newState.url}`}
+                height={95}
+                width={95}
+              />
+              <Text capitalize purple semibold margin={[hp(1), 0]}>
+                {newState.name}
               </Text>
               <Block flex={false} margin={[hp(2), 0, 0]}>
                 <NeoInputField
-                  placeholder={'Instagram account'}
+                  placeholder={`${newState.name} account`}
                   fontColor="#707070"
                   icon=""
                   width={70}
+                  onChangeText={(a) => setField(a)}
+                  value={field}
                 />
                 <Block flex={false} margin={[hp(2), 0, 0]}>
-                  {renderOptions()}
+                  {/* {renderModalOptions()} */}
                 </Block>
-                <Button linear color="primary">
+                <Button
+                  disabled={!field}
+                  onPress={() => saveSocialAccount(newState)}
+                  linear
+                  color="primary">
                   Save
                 </Button>
               </Block>
@@ -361,7 +525,7 @@ const Profile = () => {
           </>
         )}
       </Modalize>
-      {loading ? <LoadingView /> : null}
+      {loading || socialLoading ? <LoadingView /> : null}
     </Block>
   );
 };

@@ -1,4 +1,5 @@
 import {useNavigation} from '@react-navigation/core';
+import {useRoute} from '@react-navigation/native';
 import React from 'react';
 import {
   TouchableOpacity,
@@ -12,6 +13,9 @@ import {hp, wp} from '../../../components/responsive';
 
 const ActivatedCard = () => {
   const {goBack, navigate} = useNavigation();
+  const {params} = useRoute();
+  console.log(params);
+  const {header, subtitle} = params;
   return (
     <Block linear>
       <SafeAreaView />
@@ -39,11 +43,24 @@ const ActivatedCard = () => {
           />
         </Block>
         <Block flex={false} center margin={[hp(6), 0, 0]}>
-          <Text white regular size={28} height={40}>
-            Your Card/Tag Has{' '}
+          <Text
+            center
+            style={{width: wp(90)}}
+            white
+            regular
+            size={28}
+            semibold
+            height={40}>
+            {header}
           </Text>
-          <Text white regular size={28} height={40}>
-            Been Activated!
+          <Text
+            center
+            style={{width: wp(95)}}
+            white
+            regular
+            size={28}
+            height={40}>
+            {subtitle}
           </Text>
           <Block flex={false} margin={[hp(1), 0]}>
             <ImageComponent name={'verified_icon'} height={40} width={40} />
@@ -71,3 +88,5 @@ const styles = StyleSheet.create({
   },
 });
 export default ActivatedCard;
+// Your Card/Tag Has{' '}
+//  Been Activated!

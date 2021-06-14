@@ -269,7 +269,7 @@ function DashboardSubStack() {
       <Tab.Screen name="Profile" component={Profile} />
       <Tab.Screen name="Nearby" component={NearByStackScreen} />
       <Tab.Screen name="Pro" component={Pro} />
-      <Tab.Screen name="Chat" component={ChatStack} />
+      <Tab.Screen name="Chat" component={Contacts} />
       <Tab.Screen name="Setting" component={Settings} />
     </Tab.Navigator>
   );
@@ -279,7 +279,7 @@ function DashboardStack() {
     <Stack.Navigator headerMode="none" initialRouteName="Profile">
       <Tab.Screen name="Profile" component={DashboardSubStack} />
       <Stack.Screen name="Messages" component={Messages} />
-      <Stack.Screen name="EditProfile" component={Contacts} />
+      <Stack.Screen name="EditProfile" component={EditProfile} />
       <Stack.Screen
         name="ChangePasswordSettings"
         component={ChangePasswordSettings}

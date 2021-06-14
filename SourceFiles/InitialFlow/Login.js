@@ -5,7 +5,7 @@ import {
   Keyboard,
   Alert,
   ImageBackground,
-  Dimensions,
+  SafeAreaView,
 } from 'react-native';
 import {Formik} from 'formik';
 import * as yup from 'yup';
@@ -18,9 +18,10 @@ import Webservice from '../Constants/API';
 import {APIURL} from '../Constants/APIURL';
 import Snackbar from 'react-native-snackbar';
 import {images} from '../Assets/Images/images';
-import {Block, Button, Input, Text} from '../components';
+import {Block, Button, ImageComponent, Input, Text} from '../components';
 import {hp, wp} from '../components/responsive';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import LinearGradient from 'react-native-linear-gradient';
 
 export default class Login extends Component {
   constructor(props) {
@@ -111,12 +112,11 @@ export default class Login extends Component {
 
   render() {
     return (
-      <ImageBackground
-        imageStyle={{
-          resizeMode: 'stretch', // works only here!
-        }}
-        source={images.loginBg}
-        style={styles.container}>
+      <LinearGradient colors={['#6961FF', '#E866B6']} style={styles.container}>
+        <SafeAreaView />
+        <Block flex={false} center>
+          <ImageComponent height={64} width={128} name={'nameBg'} />
+        </Block>
         <Formik
           initialValues={{
             email: '',
@@ -139,7 +139,7 @@ export default class Login extends Component {
             dirty,
           }) => (
             <ScrollView contentContainerStyle={{flexGrow: 1}} bounces={false}>
-              <Block middle padding={[0, wp(3)]}>
+              <Block flex={false} middle padding={[0, wp(3)]}>
                 <Text center size={30} semibold white margin={[hp(4), 0]}>
                   {'Login Into\nYour Account'}
                 </Text>
@@ -192,7 +192,6 @@ export default class Login extends Component {
             </ScrollView>
           )}
         </Formik>
-
         <Text
           style={{
             marginLeft: 20,
@@ -217,17 +216,15 @@ export default class Login extends Component {
             Sign Up{' '}
           </Text>
         </Text>
-
         {this.state.isloading ? <LoadingView /> : null}
-      </ImageBackground>
+      </LinearGradient>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
-    height: '100%',
+    flex: 1,
   },
   btnLogin: {
     marginLeft: 20,

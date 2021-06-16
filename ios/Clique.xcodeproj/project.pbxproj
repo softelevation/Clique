@@ -22,6 +22,7 @@
 		5822497825E3DBF60020CD69 /* Averta-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5822497325E3DBF60020CD69 /* Averta-Bold.otf */; };
 		5822497925E3DBF60020CD69 /* Averta-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5822497425E3DBF60020CD69 /* Averta-Thin.otf */; };
 		58FC2F6625FB450E00A6B156 /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58FC2F6525FB450E00A6B156 /* NetworkExtension.framework */; };
+		7C7A232C2679D1E3005B2D00 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7C7A232B2679D1E3005B2D00 /* GoogleService-Info.plist */; };
 		819F30C55CEC8D6DCAE7F5AE /* libPods-Clique.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE99FB0ABE3C81505F842613 /* libPods-Clique.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		A35760FBDACB377FC3543C61 /* libPods-Clique-CliqueTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87CC162DADE64447F6219EA1 /* libPods-Clique-CliqueTests.a */; };
@@ -71,6 +72,7 @@
 		58FC2F6525FB450E00A6B156 /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
 		5BBA16338B7B51D5F742FC4A /* Pods-Clique-CliqueTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Clique-CliqueTests.release.xcconfig"; path = "Target Support Files/Pods-Clique-CliqueTests/Pods-Clique-CliqueTests.release.xcconfig"; sourceTree = "<group>"; };
 		5D3B795E81E60D22F623D150 /* Pods-Clique-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Clique-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-Clique-tvOSTests/Pods-Clique-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		7C7A232B2679D1E3005B2D00 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Clique/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		87CC162DADE64447F6219EA1 /* libPods-Clique-CliqueTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Clique-CliqueTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A58ABF600E9752282A1DC95 /* libPods-Clique-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Clique-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -139,6 +141,7 @@
 		13B07FAE1A68108700A75B9A /* Clique */ = {
 			isa = PBXGroup;
 			children = (
+				7C7A232B2679D1E3005B2D00 /* GoogleService-Info.plist */,
 				5845115825ED213E00D05695 /* Clique.entitlements */,
 				5822496F25E3DBF60020CD69 /* Fonts */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
@@ -325,7 +328,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = MSD97L88TJ;
+						DevelopmentTeam = 9LYLUR6445;
 						LastSwiftMigration = 1120;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
@@ -373,6 +376,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
+				7C7A232C2679D1E3005B2D00 /* GoogleService-Info.plist in Resources */,
 				5822497525E3DBF60020CD69 /* Averta-Light.otf in Resources */,
 				5822497725E3DBF60020CD69 /* Averta-ExtraBold.otf in Resources */,
 				5822497925E3DBF60020CD69 /* Averta-Thin.otf in Resources */,
@@ -479,12 +483,14 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Clique-CliqueTests/Pods-Clique-CliqueTests-resources.sh",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/RNImageCropPicker/QBImagePicker.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/TOCropViewController/TOCropViewControllerBundle.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/QBImagePicker.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TOCropViewControllerBundle.bundle",
@@ -563,12 +569,14 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Clique/Pods-Clique-resources.sh",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/RNImageCropPicker/QBImagePicker.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/TOCropViewController/TOCropViewControllerBundle.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/QBImagePicker.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TOCropViewControllerBundle.bundle",
@@ -738,7 +746,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Clique/Clique.entitlements;
 				CURRENT_PROJECT_VERSION = 5;
-				DEVELOPMENT_TEAM = MSD97L88TJ;
+				DEVELOPMENT_TEAM = 9LYLUR6445;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Clique/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -748,7 +756,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.cliquenfc.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cliqueappnfc.app;
 				PRODUCT_NAME = Clique;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -764,7 +772,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Clique/Clique.entitlements;
 				CURRENT_PROJECT_VERSION = 5;
-				DEVELOPMENT_TEAM = MSD97L88TJ;
+				DEVELOPMENT_TEAM = 9LYLUR6445;
 				INFOPLIST_FILE = Clique/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 1.0.1;
@@ -773,7 +781,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.cliquenfc.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cliqueappnfc.app;
 				PRODUCT_NAME = Clique;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";

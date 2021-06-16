@@ -22,6 +22,11 @@ import {Block, Button, ImageComponent, Input, Text} from '../components';
 import {hp, wp} from '../components/responsive';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LinearGradient from 'react-native-linear-gradient';
+import {
+  GoogleSignin,
+  GoogleSigninButton,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
 
 export default class Login extends Component {
   constructor(props) {
@@ -33,6 +38,7 @@ export default class Login extends Component {
       ShowPassword: true,
       isDisable: true,
       countryCode: '91',
+      googleLoader: false,
     };
   }
 
@@ -110,6 +116,108 @@ export default class Login extends Component {
       });
   };
 
+  async componentDidMount() {
+    GoogleSignin.configure({
+      scopes: ['email'], // what API you want to access on behalf of the user, default is email and profile
+      webClientId:
+        '917108325882-necf07egskm154tngl8a0o2qg6n81ae7.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
+      offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
+    });
+  }
+
+  signIn = async () => {
+    this.setState({
+      googleLoader: true,
+    });
+    try {
+      GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      console.log(userInfo, 'user');
+      const {email, name, id, photo} = userInfo.user;
+      const data = {
+        social_type: 'G',
+        social_token: id,
+        name: name || '',
+        email: email,
+        avatar: photo || null,
+        password: '12345678',
+      };
+      console.log(data, 'data');
+      Webservice.post(APIURL.userLogin, data)
+        .then(async (response) => {
+          if (response.data == null) {
+            this.setState({googleLoader: false});
+            // alert('error');
+            Alert.alert(response.originalError.message);
+
+            return;
+          }
+          console.log(
+            'Get Register User Response : ' + JSON.stringify(response),
+          );
+
+          if (response.data.status === true) {
+            this.setState({googleLoader: false});
+            this.props.navigation.navigate('Dashboard');
+            await AsyncStorage.setItem(
+              'user_id',
+              JSON.stringify(response.data.data.user.user_id),
+            );
+          } else {
+            this.setState({googleLoader: false});
+            this.showAlert(response.data.message);
+          }
+        })
+        .catch((error) => {
+          console.log(error.message);
+          this.setState({googleLoader: false});
+          Alert.alert(
+            error.message,
+            '',
+            [
+              {
+                text: 'Try Again',
+                onPress: () => {
+                  this.onSubmit(true);
+                },
+              },
+            ],
+            {cancelable: false},
+          );
+        });
+      // dispatch(registerRequest(data));
+    } catch (error) {
+      console.log(error, 'error');
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        // sign in was cancelled
+        this.setState({
+          googleLoader: false,
+        });
+
+        //Alert.alert('cancelled');
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        // operation in progress already
+        this.setState({
+          googleLoader: false,
+        });
+
+        Alert.alert('in progress');
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        this.setState({
+          googleLoader: false,
+        });
+
+        Alert.alert('play services not available or outdated');
+      } else {
+        this.setState({
+          googleLoader: false,
+        });
+
+        Alert.alert('Something went wrong', error.toString());
+      }
+    }
+  };
+
   render() {
     return (
       <LinearGradient colors={['#6961FF', '#E866B6']} style={styles.container}>
@@ -158,14 +266,16 @@ export default class Login extends Component {
                   secureTextEntry={true}
                 />
                 <Block flex={false} margin={[hp(0.5), 0]} />
-                <Button
+                {/* <Button
                   iconStyle={{marginTop: hp(0.8)}}
                   icon="instagram"
                   iconWithText
                   color="secondary">
                   Sign in with Instagram
-                </Button>
+                </Button> */}
                 <Button
+                  onPress={() => this.signIn()}
+                  isLoading={this.state.googleLoader}
                   iconStyle={{marginTop: hp(0.8)}}
                   icon="google"
                   iconWithText

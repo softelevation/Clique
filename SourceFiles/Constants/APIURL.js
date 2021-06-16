@@ -2,7 +2,7 @@ export const APIURL = {
   BaseURL: 'http://admin.cliquesocial.co/api/',
   ImangeURL: 'http://admin.cliquesocial.co/public/storage',
   iconUrl: 'http://admin.cliquesocial.co/',
-
+  ImageUrl: 'http://admin.cliquesocial.co',
   Accept: 'Accept',
   Bearer: 'Bearer ',
 

@@ -82,23 +82,24 @@ export default class ForgotPassword extends Component {
     return (
       <Block linear>
         <SafeAreaView />
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{flexGrow: 1}}
-          bounces={false}>
-          <Block flex={false} center>
-            <ImageComponent
-              resizeMode="contain"
-              height={140}
-              width={140}
-              name={'nameBg'}
-            />
-          </Block>
-          <Block
-            color={'#F2EDFA'}
-            borderTopRightRadius={30}
-            borderTopLeftRadius={30}
-            padding={[0, wp(3)]}>
+
+        <Block flex={false} center>
+          <ImageComponent
+            resizeMode="contain"
+            height={140}
+            width={140}
+            name={'nameBg'}
+          />
+        </Block>
+        <Block
+          color={'#F2EDFA'}
+          borderTopRightRadius={30}
+          borderTopLeftRadius={30}
+          padding={[0, wp(3)]}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{flexGrow: 1}}
+            bounces={false}>
             <Text center size={30} purple semibold margin={[hp(4), 0]}>
               Forgot Password
             </Text>
@@ -111,7 +112,7 @@ export default class ForgotPassword extends Component {
               />
             </Block>
 
-            <Block middle padding={[0, wp(3)]}>
+            {/* <Block middle padding={[0, wp(3)]}>
               <Image
                 style={{
                   alignSelf: 'flex-end',
@@ -133,18 +134,18 @@ export default class ForgotPassword extends Component {
                 }}
                 source={images.applePay}
               />
-            </Block>
-            <Button onPress={() => this.btnResetTap()} linear color="primary">
-              Reset Password
-            </Button>
+            </Block> */}
+          </ScrollView>
+          <Button onPress={() => this.btnResetTap()} linear color="primary">
+            Reset Password
+          </Button>
 
-            <Text
-              style={styles.txtAlreadyAccount}
-              onPress={() => this.btnBackTap()}>
-              Back to signin screen
-            </Text>
-          </Block>
-        </ScrollView>
+          <Text
+            style={styles.txtAlreadyAccount}
+            onPress={() => this.btnBackTap()}>
+            Back to signin screen
+          </Text>
+        </Block>
 
         {this.state.isloading ? <LoadingView /> : null}
       </Block>

@@ -23,13 +23,15 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleIdentifier</key>
+			<string></string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>thewebtual</string>
+			<string>clique</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>thewebtual</string>
+				<string>com.googleusercontent.apps.917108325882-l3va2jcbgfe5darqr29i6r1opastvhiu</string>
 			</array>
 		</dict>
 	</array>

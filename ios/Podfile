@@ -26,6 +26,8 @@ target 'Clique' do
 
   pod 'react-native-video', :path => '../node_modules/react-native-video'
 
+  pod 'Firebase/Analytics'
+  
   target 'CliqueTests' do
     inherit! :complete
     # Pods for testing

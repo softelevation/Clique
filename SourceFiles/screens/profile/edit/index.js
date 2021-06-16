@@ -14,13 +14,22 @@ import {hp, wp} from '../../../components/responsive';
 import NeuView from '../../../common/neu-element/lib/NeuView';
 import NeuButton from '../../../common/neu-element/lib/NeuButton';
 import NeuInput from '../../../common/neu-element/lib/NeuInput';
-import {useNavigation} from '@react-navigation/core';
+import {useNavigation, useRoute} from '@react-navigation/core';
 import {Easing} from 'react-native-reanimated';
+import {
+  strictValidArray,
+  strictValidObjectWithKeys,
+} from '../../../utils/commonUtils';
+import {APIURL} from '../../../Constants/APIURL';
 
 const EditProfile = () => {
-  const [activeOptions, setactiveOptions] = useState('Social');
+  const {params} = useRoute();
+  const {profile} = params;
+  const [activeOptions, setactiveOptions] = useState('social');
   const {goBack} = useNavigation();
-  const [name, setName] = useState('');
+  const [name, setName] = useState(profile.name || '');
+  const [company, setcompany] = useState('');
+
   const renderHeader = () => {
     return (
       <Block center padding={[hp(2), wp(3)]} space="between" flex={false} row>
@@ -76,7 +85,7 @@ const EditProfile = () => {
           borderRadius={16}
           containerStyle={styles.neoContainer}
           inset>
-          {activeOptions === 'Social' ? (
+          {activeOptions === 'social' ? (
             <NeuButton
               color="#F2F0F7"
               width={wp(20)}
@@ -90,7 +99,7 @@ const EditProfile = () => {
           ) : (
             <Text
               style={[styles.inactiveText, {marginRight: wp(1)}]}
-              onPress={() => setactiveOptions('Social')}
+              onPress={() => setactiveOptions('social')}
               grey
               regular
               center
@@ -98,7 +107,7 @@ const EditProfile = () => {
               Social
             </Text>
           )}
-          {activeOptions === 'Business' ? (
+          {activeOptions === 'business' ? (
             <NeuButton
               color="#F2F0F7"
               width={wp(20)}
@@ -107,7 +116,7 @@ const EditProfile = () => {
               borderRadius={6}>
               <Text
                 semibold
-                onPress={() => setactiveOptions('Business')}
+                onPress={() => setactiveOptions('business')}
                 purple
                 center
                 size={13}>
@@ -117,7 +126,7 @@ const EditProfile = () => {
           ) : (
             <Text
               style={[styles.inactiveText, {marginLeft: wp(1)}]}
-              onPress={() => setactiveOptions('Business')}
+              onPress={() => setactiveOptions('business')}
               grey
               regular
               size={13}>
@@ -128,21 +137,29 @@ const EditProfile = () => {
       </Block>
     );
   };
-  const renderSocialIcons = () => {
+
+  const renderSocialIcons = (data, type) => {
     return (
-      <Block flex={false}>
-        <FlatList
-          contentContainerStyle={styles.containerStyle}
-          data={[
-            'phone_link_icon',
-            'email_link_icon',
-            'behance_link_icon',
-            'link_icon',
-          ]}
-          renderItem={({item}) => {
-            return (
+      <FlatList
+        contentContainerStyle={{
+          flexGrow: 1,
+          paddingHorizontal: wp(1),
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+        }}
+        numColumns={5}
+        bounces={false}
+        data={data}
+        renderItem={({item}) => {
+          return (
+            <>
               <Block flex={false} row>
-                <ImageComponent name={item} height={95} width={95} />
+                <ImageComponent
+                  isURL
+                  name={`${APIURL.iconUrl}${item.url}`}
+                  height={70}
+                  width={70}
+                />
                 <TouchableOpacity
                   style={styles.deleteAccountButton}
                   onPress={() => goBack()}>
@@ -154,10 +171,10 @@ const EditProfile = () => {
                   />
                 </TouchableOpacity>
               </Block>
-            );
-          }}
-        />
-      </Block>
+            </>
+          );
+        }}
+      />
     );
   };
   return (
@@ -186,7 +203,7 @@ const EditProfile = () => {
               color="#eef2f9"
               onChangeText={(a) => setName(a)}
               value={name}
-              placeholder="Elisa Jones"
+              placeholder="Enter Name"
               placeholderTextColor="grey"
             />
           </Block>
@@ -198,16 +215,23 @@ const EditProfile = () => {
               borderRadius={16}
               containerStyle={{paddingVetical: hp(1)}}
               color="#eef2f9"
-              onChangeText={(a) => setName(a)}
-              value={name}
-              placeholder="UX/UI Designer at Atom 6"
+              onChangeText={(a) => setcompany(a)}
+              value={company}
+              placeholder="ex. UX/UI Designer at Atom 6"
               placeholderTextColor="grey"
             />
           </Block>
           <Text grey semibold center margin={[hp(2), 0]}>
             Accounts
           </Text>
-          {renderSocialIcons()}
+          {strictValidObjectWithKeys(profile) &&
+            strictValidArray(profile.social) &&
+            activeOptions === 'social' &&
+            renderSocialIcons(profile.social, 'social')}
+          {strictValidObjectWithKeys(profile) &&
+            strictValidArray(profile.business) &&
+            activeOptions === 'business' &&
+            renderSocialIcons(profile.business, 'business')}
         </Block>
       </ScrollView>
       <Block color="#F2EDFA" padding={[0, wp(3)]}>

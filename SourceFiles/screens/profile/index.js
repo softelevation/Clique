@@ -25,6 +25,7 @@ import {
   strictValidArrayWithLength,
   strictValidArrayWithMinLength,
   strictValidObjectWithKeys,
+  strictValidString,
 } from '../../utils/commonUtils';
 
 const Profile = () => {
@@ -158,7 +159,19 @@ const Profile = () => {
     return (
       <Block padding={[hp(2), wp(3)]} space="between" flex={false} row>
         <Block center flex={false} row>
-          <ImageComponent name="demouser" height={100} width={100} />
+          {console.log(`${APIURL.ImageUrl}${profile.avatar}`)}
+          {strictValidObjectWithKeys(profile) &&
+          strictValidString(profile.avatar) ? (
+            <ImageComponent
+              isURL
+              name={`${APIURL.ImageUrl}${profile.avatar}`}
+              height={80}
+              width={80}
+              radius={80}
+            />
+          ) : (
+            <ImageComponent name="demouser" height={100} width={100} />
+          )}
           <Block margin={[0, 0, 0, wp(3)]} flex={false}>
             <Text capitalize white bold size={24}>
               {strictValidObjectWithKeys(profile) && profile.name}
@@ -186,7 +199,12 @@ const Profile = () => {
             </Text>
           </Block>
         </Block>
-        <TouchableOpacity onPress={() => navigate('EditProfile')}>
+        <TouchableOpacity
+          onPress={() =>
+            navigate('EditProfile', {
+              profile: profile,
+            })
+          }>
           <LinearGradient colors={['#AF2DA5', '#BC60CB']} style={styles.linear}>
             <ImageComponent
               resizeMode="contain"

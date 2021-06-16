@@ -78,7 +78,7 @@ export default class RegisterProfilePic extends Component {
   };
 
   btnSelectImage = () => {
-    this.setState({isloading: true});
+    // this.setState({isloading: true});
 
     Alert.alert(
       ValidationMsg.AppName,

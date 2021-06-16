@@ -103,7 +103,6 @@ const RecoverPassword = () => {
             </Block>
 
             {renderValidationText()}
-            {renderIcons()}
           </ScrollView>
           <Block flex={false} padding={[0, wp(3)]}>
             <Button linear color="primary">

@@ -6,6 +6,7 @@ import {
   Alert,
   ImageBackground,
   SafeAreaView,
+  Platform,
 } from 'react-native';
 import {Formik} from 'formik';
 import * as yup from 'yup';
@@ -27,6 +28,11 @@ import {
   GoogleSigninButton,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
+import {
+  LoginManager,
+  GraphRequest,
+  GraphRequestManager,
+} from 'react-native-fbsdk';
 
 export default class Login extends Component {
   constructor(props) {
@@ -39,6 +45,7 @@ export default class Login extends Component {
       isDisable: true,
       countryCode: '91',
       googleLoader: false,
+      fbLoader: false,
     };
   }
 
@@ -178,7 +185,7 @@ export default class Login extends Component {
               {
                 text: 'Try Again',
                 onPress: () => {
-                  this.onSubmit(true);
+                  this.signIn();
                 },
               },
             ],
@@ -216,6 +223,112 @@ export default class Login extends Component {
         Alert.alert('Something went wrong', error.toString());
       }
     }
+  };
+
+  fbLogin = async () => {
+    var self = this;
+    self.setState({
+      fbLoader: true,
+    });
+    if (Platform.OS === 'android') {
+      LoginManager.setLoginBehavior('web_only');
+    }
+    LoginManager.logOut();
+    LoginManager.logInWithPermissions([
+      'public_profile',
+      'email',
+      'user_friends',
+    ]).then(
+      function (result) {
+        if (result.isCancelled) {
+          console.log('Login cancelled');
+        } else {
+          const _responseInfoCallback = (error, result) => {
+            if (error) {
+              console.log('Error fetching data: ' + error.toString());
+            } else {
+              console.log(result, 'user');
+
+              const data = {
+                social_type: 'F',
+                social_token: result.id,
+                name: result.name || '',
+                email: result.email || `${result.id}@facebook.com`,
+                password: '12345678',
+                avatar: result.picture.data.url || null,
+              };
+              console.log('Success fetching data: ', data);
+              Webservice.post(APIURL.userLogin, data)
+                .then(async (response) => {
+                  if (response.data == null) {
+                    // alert('error');
+                    Alert.alert(response.originalError.message);
+                    self.setState({
+                      fbLoader: false,
+                    });
+                    return;
+                  }
+                  console.log('Get Register User Response : ' + response);
+
+                  if (response.data.status === true) {
+                    self.props.navigation.navigate('Dashboard');
+                    await AsyncStorage.setItem(
+                      'user_id',
+                      JSON.stringify(response.data.data.user.user_id),
+                    );
+                  } else {
+                    //
+                    self.showAlert(response.data.message);
+                  }
+                })
+                .catch((err) => {
+                  self.setState({fbLoader: false});
+                  console.log(err.message);
+                  Alert.alert(
+                    err.message,
+                    '',
+                    [
+                      {
+                        text: 'Try Again',
+                        onPress: () => {
+                          self.fbLogin(true);
+                        },
+                      },
+                    ],
+                    {cancelable: false},
+                  );
+                });
+            }
+          };
+          // Create a graph request asking for user information with a callback to handle the response.
+          const infoRequest = new GraphRequest(
+            '/me',
+            {
+              parameters: {
+                fields: {
+                  string:
+                    'email,name,first_name,middle_name,last_name,picture.type(large)',
+                },
+              },
+            },
+            _responseInfoCallback,
+          );
+          console.log(infoRequest, 'infoRequest');
+          // Start the graph request.
+          const res = new GraphRequestManager().addRequest(infoRequest).start();
+          console.log(
+            'Login success with permissions: ' +
+              result.grantedPermissions.toString(),
+          );
+          console.log(result, 'result', res);
+          self.setState({fbLoader: false});
+        }
+      },
+      function (error) {
+        self.setState({fbLoader: false});
+        console.log('Login fail with error: ' + error);
+      },
+    );
   };
 
   render() {
@@ -266,13 +379,15 @@ export default class Login extends Component {
                   secureTextEntry={true}
                 />
                 <Block flex={false} margin={[hp(0.5), 0]} />
-                {/* <Button
+                <Button
+                  isLoading={this.state.fbLoader}
+                  onPress={() => this.fbLogin()}
                   iconStyle={{marginTop: hp(0.8)}}
-                  icon="instagram"
+                  icon="facebook_icon"
                   iconWithText
                   color="secondary">
-                  Sign in with Instagram
-                </Button> */}
+                  Sign in with Facebook
+                </Button>
                 <Button
                   onPress={() => this.signIn()}
                   isLoading={this.state.googleLoader}

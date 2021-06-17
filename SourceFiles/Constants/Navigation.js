@@ -268,7 +268,7 @@ function DashboardSubStack() {
       initialRouteName="Profile">
       <Tab.Screen name="Profile" component={Profile} />
       <Tab.Screen name="Nearby" component={NearByStackScreen} />
-      <Tab.Screen name="Pro" component={Pro} />
+      {/* <Tab.Screen name="Pro" component={Pro} /> */}
       <Tab.Screen name="Chat" component={Contacts} />
       <Tab.Screen name="Setting" component={Settings} />
     </Tab.Navigator>

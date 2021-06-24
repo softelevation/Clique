@@ -83,7 +83,7 @@ const OwnProducts = () => {
       });
   };
   const navigateToNext = () => {
-    console.log();
+    navigate('ScanCard');
   };
   return (
     <Block linear>

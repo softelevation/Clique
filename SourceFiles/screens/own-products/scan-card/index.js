@@ -46,7 +46,12 @@ const ScanCard = () => {
             Behind Your Phone{' '}
           </Text>
           <Text
-            onPress={() => navigate('ActivatedCard')}
+            onPress={() =>
+              navigate('ActivatedCard', {
+                header: 'jhghj',
+                subtitle: 'khjbgkh',
+              })
+            }
             color="#707070"
             regular
             size={12}

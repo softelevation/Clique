@@ -12,12 +12,7 @@ import {Block, ImageComponent, Text} from '../../../components';
 import {hp, wp} from '../../../components/responsive';
 import {StyleSheet} from 'react-native';
 import {APIURL} from '../../../Constants/APIURL';
-import NfcManager, {
-  NfcEvents,
-  NfcAdapter,
-  NfcTech,
-  Ndef,
-} from 'react-native-nfc-manager';
+import NfcManager, {NfcTech, Ndef} from 'react-native-nfc-manager';
 import Webservice from '../../../Constants/API';
 import ValidationMsg from '../../../Constants/ValidationMsg';
 import {useRoute} from '@react-navigation/native';
@@ -25,12 +20,13 @@ import LoadingView from '../../../Constants/LoadingView';
 import {showAlert} from '../../../utils/mobile-utils';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const ScanCard = () => {
+const ScanTag = () => {
   const {goBack, navigate} = useNavigation();
   const {params} = useRoute();
   const [isloading, setIsloading] = useState(false);
   console.log(params, 'params');
   useEffect(() => {
+    NfcManager.start();
     CardScan();
     return () => {
       NfcManager.cancelTechnologyRequest().catch(() => 0);
@@ -57,7 +53,7 @@ const ScanCard = () => {
       // await NfcManager.writeNdefMessage(bytes);
       // console.log('successfully write ndef');
       // await NfcManager.setAlertMessageIOS('I got your tag!');
-      // _cancel();
+      _cancel();
 
       API_WRITE_CARD(tag.id);
       console.log(tag.id, 'tagId');
@@ -80,20 +76,16 @@ const ScanCard = () => {
 
   // API Get Country
   const API_WRITE_CARD = async (card_id) => {
-    const user_id = await AsyncStorage.getItem('user_id');
-
     // this.setState({isloading: isload});
     setIsloading(true);
-    Webservice.post(APIURL.writeCard, {
+    Webservice.post(APIURL.validateCard, {
       card_id: card_id,
-      user_id: user_id,
     })
       .then((response) => {
         if (response.data == null) {
           setIsloading(false);
           // alert('error');
           showAlert(response.originalError.message);
-
           return;
         }
         //   console.log(response);
@@ -103,14 +95,10 @@ const ScanCard = () => {
         if (response.data.status === true) {
           writeCard();
           showAlert(response.data.message);
-          if (params.nfc === true) {
-            navigate('ScanTag');
-          } else {
-            navigate('ActivatedCard', {
-              header: 'Congratulations',
-              subtitle: 'Your card has been linked to your account',
-            });
-          }
+          navigate('ActivatedCard', {
+            header: 'Congratulations',
+            subtitle: 'Your tag has been linked to your account',
+          });
         } else {
           _cancel();
           setIsloading(false);
@@ -135,43 +123,49 @@ const ScanCard = () => {
   }
   const writeCard = async () => {
     const user_id = await AsyncStorage.getItem('user_id');
+
     try {
-      let bytes = await buildUrlPayload(
+      // let resp = await NfcManager.requestTechnology(NfcTech.Ndef, {
+      //   alertMessage: 'Ready to write some NFC tags!'
+      // });
+      // console.log("REspo : "+resp);
+      // let ndef = await NfcManager.getNdefMessage();
+      // console.log("NDFE : "+JSON.stringify(ndef));
+
+      let bytes = buildUrlPayload(
         'http://admin.cliquesocial.co/user/profile' + user_id,
       );
-      if (bytes) {
-        await NfcManager.writeNdefMessage(bytes);
-        console.log('successfully write ndef', bytes);
+      await NfcManager.writeNdefMessage(bytes);
+      console.log('successfully write ndef');
 
-        if (Platform.OS === 'ios') {
-          // await NfcManager.setAlertMessageIOS('Card Sync Successfully');
+      if (Platform.OS === 'ios') {
+        // await NfcManager.setAlertMessageIOS('Card Sync Successfully');
 
-          Alert.alert(ValidationMsg.AppName, 'Card Sync Successfully', [
-            {
-              text: 'OK',
-              onPress: () => {
-                this._cancel();
-                // this.props.navigation.goBack();
-              },
+        Alert.alert(ValidationMsg.AppName, 'Card Sync Successfully', [
+          {
+            text: 'OK',
+            onPress: () => {
+              this._cancel();
+              // this.props.navigation.goBack();
             },
-          ]);
+          },
+        ]);
 
-          // this._cancel();
-          // this.props.navigation.goBack()
-        } else {
-          Alert.alert(ValidationMsg.AppName, 'Card Sync Successfully', [
-            {
-              text: 'OK',
-              onPress: () => {
-                this._cancel();
-                // this.props.navigation.goBack();
-              },
+        // this._cancel();
+        // this.props.navigation.goBack()
+      } else {
+        Alert.alert(ValidationMsg.AppName, 'Card Sync Successfully', [
+          {
+            text: 'OK',
+            onPress: () => {
+              this._cancel();
+              // this.props.navigation.goBack();
             },
-          ]);
-        }
+          },
+        ]);
       }
     } catch (ex) {
-      console.log('error =>', ex);
+      console.log('ex', ex);
       _cancel();
     }
   };
@@ -209,7 +203,7 @@ const ScanCard = () => {
         </Block>
         <Block flex={false} center margin={[hp(6), 0, 0]}>
           <Text purple semibold size={28} height={40}>
-            Put The Card
+            Put The Tag{' '}
           </Text>
           <Text purple semibold size={28} height={40}>
             Behind Your Phone{' '}
@@ -245,4 +239,4 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
 });
-export default ScanCard;
+export default ScanTag;

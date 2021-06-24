@@ -14,6 +14,7 @@ const NeuInput = (props) => {
     placeholderTextColor,
     secureTextEntry,
     leftPrefix,
+    keyboardType,
     ...rest
   } = props;
 
@@ -51,6 +52,7 @@ const NeuInput = (props) => {
           value={value}
           placeholderTextColor={placeholderTextColor}
           secureTextEntry={secureTextEntry}
+          keyboardType={keyboardType || 'default'}
         />
         {Prefix && (
           <View

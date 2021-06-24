@@ -48,36 +48,38 @@ const Tutorial = () => {
   const introRef = useRef();
   const navigation = useNavigation();
   const goToLogin = () => {
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 0,
-        routes: [
-          {
-            name: 'Login',
-            state: {
-              routes: [{name: 'Login'}],
-            },
-          },
-        ],
-      }),
-    );
+    navigation.navigate('Login');
+    // navigation.dispatch(
+    //   CommonActions.reset({
+    //     index: 0,
+    //     routes: [
+    //       {
+    //         name: 'Login',
+    //         state: {
+    //           routes: [{name: 'Login'}],
+    //         },
+    //       },
+    //     ],
+    //   }),
+    // );
   };
 
   const goToRegister = () => {
     const props = props;
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 0,
-        routes: [
-          {
-            name: 'Login',
-            state: {
-              routes: [{name: 'RegisterName', params: {isFromTutorial: true}}],
-            },
-          },
-        ],
-      }),
-    );
+    navigation.navigate('RegisterName', {isFromTutorial: true});
+    // navigation.dispatch(
+    //   CommonActions.reset({
+    //     index: 0,
+    //     routes: [
+    //       {
+    //         name: 'Login',
+    //         state: {
+    //           routes: [{name: 'RegisterName', params: {isFromTutorial: true}}],
+    //         },
+    //       },
+    //     ],
+    //   }),
+    // );
   };
 
   const storeIsSkipValue = async (isLogin) => {

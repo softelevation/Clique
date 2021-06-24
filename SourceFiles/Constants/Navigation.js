@@ -54,6 +54,7 @@ import EditProfile from '../screens/profile/edit';
 import Settings from '../screens/settings';
 import ChangePasswordSettings from '../screens/settings/change-password';
 import HelpAndTutorials from '../screens/settings/help-and-tutorials';
+import ScanTag from '../screens/own-products/scan-card/tag';
 
 //Constant Variable for navigation
 const Stack = createStackNavigator();
@@ -86,7 +87,8 @@ function TutorialFlow() {
 // Initial Flow Navigator
 function InitialFlow() {
   return (
-    <Stack.Navigator initialRouteName="AutoLogin" headerMode="none">
+    <Stack.Navigator initialRouteName="Tutorial" headerMode="none">
+      <Stack.Screen name="Tutorial" component={Tutorial} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="AutoLogin" component={AutoLogin} />
       <Stack.Screen name="OTPView" component={OTPView} />
@@ -107,6 +109,7 @@ function InitialFlow() {
       <Stack.Screen name="ChoosePassword" component={ChoosePassword} />
       <Stack.Screen name="OwnProducts" component={OwnProducts} />
       <Stack.Screen name="ScanCard" component={ScanCard} />
+      <Stack.Screen name="ScanTag" component={ScanTag} />
       <Stack.Screen name="ActivatedCard" component={ActivatedCard} />
       <Stack.Screen name="Contacts" component={Contacts} />
     </Stack.Navigator>
@@ -293,12 +296,11 @@ function DashboardStack() {
 
 const AppNavigator = createSwitchNavigator(
   {
-    Tutorial: TutorialFlow,
     Login: InitialFlow,
     Dashboard: DashboardStack,
   },
   {
-    initialRouteName: 'Tutorial',
+    initialRouteName: 'Login',
   },
 );
 

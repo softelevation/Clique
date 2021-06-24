@@ -127,7 +127,7 @@ const Settings = () => {
           {renderSelectType('Help and Tutorials', 'HelpAndTutorials')}
 
           <Text
-            onPress={() => navigate('Tutorial')}
+            onPress={() => navigate('Login')}
             margin={[hp(2), 0, 0]}
             size={18}
             red

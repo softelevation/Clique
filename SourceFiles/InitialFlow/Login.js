@@ -335,7 +335,7 @@ export default class Login extends Component {
     return (
       <LinearGradient colors={['#6961FF', '#E866B6']} style={styles.container}>
         <SafeAreaView />
-        <Block flex={false} center>
+        <Block padding={[hp(2), 0, 0]} flex={false} center>
           <ImageComponent height={64} width={128} name={'nameBg'} />
         </Block>
         <Formik

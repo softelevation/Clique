@@ -190,6 +190,7 @@ export default class RegisterEmail extends Component {
             <HeaderPreLogin title={'Create Account'} subtitle={'Your Email'} />
             <Block center flex={false} margin={[hp(1), 0, 0]}>
               <NeoInputField
+                keyboardType="email-address"
                 value={this.state.txtEmail}
                 placeholder={'Enter Email ID'}
                 onChangeText={async (txtEmail) => {

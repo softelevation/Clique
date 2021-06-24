@@ -17,6 +17,7 @@ const NeoInputField = ({
   placeholder,
   secure,
   inset,
+  keyboardType,
   leftIcon,
 }) => {
   const [toggleSecure, setToggleSecure] = useState(false);
@@ -24,6 +25,7 @@ const NeoInputField = ({
 
   return (
     <NeuInput
+      keyboardType={keyboardType}
       width={wp(width)}
       height={hp(height)}
       borderRadius={radius}

@@ -33,40 +33,40 @@ export default class RegisterName extends Component {
     };
   }
 
-  componentDidMount() {
-    BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
-  }
+  // componentDidMount() {
+  //   BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
+  // }
 
-  componentWillUnmount() {
-    BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
-  }
+  // componentWillUnmount() {
+  //   BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+  // }
 
-  onBackPress = () => {
-    if (Platform.OS === 'ios') {
-      return;
-    }
-    const subscription = BackHandler.addEventListener(
-      'hardwareBackPress',
-      () => {
-        if (currentCount === 1) {
-          BackHandler.exitApp();
-          subscription.remove();
-          return true;
-        }
-        this.backPressHandler();
-        return true;
-      },
-    );
-  };
-  backPressHandler = () => {
-    if (currentCount < 1) {
-      currentCount += 1;
-      this.showAlert('Press again to close!');
-    }
-    setTimeout(() => {
-      currentCount = 0;
-    }, 2000);
-  };
+  // onBackPress = () => {
+  //   if (Platform.OS === 'ios') {
+  //     return;
+  //   }
+  //   const subscription = BackHandler.addEventListener(
+  //     'hardwareBackPress',
+  //     () => {
+  //       if (currentCount === 1) {
+  //         BackHandler.exitApp();
+  //         subscription.remove();
+  //         return true;
+  //       }
+  //       this.backPressHandler();
+  //       return true;
+  //     },
+  //   );
+  // };
+  // backPressHandler = () => {
+  //   if (currentCount < 1) {
+  //     currentCount += 1;
+  //     this.showAlert('Press again to close!');
+  //   }
+  //   setTimeout(() => {
+  //     currentCount = 0;
+  //   }, 2000);
+  // };
 
   showAlert(text) {
     Snackbar.show({

@@ -29,61 +29,23 @@ const OwnProducts = () => {
   console.log(params, 'params');
 
   const createAccount = () => {
-    setloader(true);
-    Webservice.post(APIURL.newRegister, {
-      name: params.name,
-      email: params.email,
-      password: params.password,
-      avatar: params.profile,
-      bio: params.bio,
-    })
-      .then(async (response) => {
-        if (response.data == null) {
-          setloader(false);
-          // alert('error');
-          Alert.alert(response.originalError.message);
-
-          return;
-        }
-        console.log('Get Register User Response : ' + response);
-
-        if (response.data.status === 200) {
-          console.log(response.data, 'response.data');
-          setloader(false);
-          navigate('ActivatedCard', {
-            header: 'Congratulations',
-            subtitle: 'Your account has been created',
-          });
-          await AsyncStorage.setItem(
-            'user_id',
-            JSON.stringify(response.data.data.user.user_id),
-          );
-          showAlert(response.data.message);
-        } else {
-          setloader(false);
-          showAlert(response.data.message);
-        }
-      })
-      .catch((error) => {
-        console.log(error.message);
-        setloader(false);
-        Alert.alert(
-          error.message,
-          '',
-          [
-            {
-              text: 'Try Again',
-              onPress: () => {
-                createAccount(true);
-              },
-            },
-          ],
-          {cancelable: false},
-        );
-      });
+    navigate('ActivatedCard', {
+      header: 'Congratulations',
+      subtitle: 'Your account has been created',
+    });
   };
   const navigateToNext = () => {
-    navigate('ScanCard');
+    if (activeCard) {
+      navigate('ScanCard', {
+        card: activeCard,
+        nfc: activeNfc,
+      });
+    } else {
+      navigate('ScanTag', {
+        card: activeCard,
+        nfc: activeNfc,
+      });
+    }
   };
   return (
     <Block linear>
@@ -124,8 +86,8 @@ const OwnProducts = () => {
           <Block center row flex={false}>
             <ImageComponent
               name={activeCard ? 'ActiveCard_icon' : 'inActiveCard_icon'}
-              height={245}
-              width={200}
+              height={200}
+              width={155}
             />
             <Block flex={false}>
               <ImageComponent
@@ -152,10 +114,10 @@ const OwnProducts = () => {
           <Block row center flex={false}>
             <ImageComponent
               name={activeNfc ? 'ActiveNfc_icon' : 'inActiveNfc_icon'}
-              height={190}
-              width={190}
+              height={150}
+              width={150}
             />
-            <Block flex={false}>
+            <Block padding={[0, wp(3)]} flex={false}>
               <ImageComponent
                 name={activeNfc ? 'verified_icon' : 'not_verified_icon'}
                 height={40}
@@ -187,7 +149,7 @@ const OwnProducts = () => {
             // onPress={() => navigate('ScanCard')}
             linear
             color="primary">
-            {activeCard || activeNfc ? 'Next' : 'Skip & Create Account'}
+            {activeCard || activeNfc ? 'Next' : 'Skip'}
           </Button>
         </Block>
       </Block>

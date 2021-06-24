@@ -140,12 +140,12 @@ export default class Nearby extends Component {
   }
 
   // API NEARBY USER CALL
-  API_NEARBY_USERS(isload) {
+  API_NEARBY_USERS = async (isload) => {
     this.setState({isloading: isload});
-    let user = this.state.userData.user;
+    const user_id = await AsyncStorage.getItem('user_id');
 
     Webservice.post(APIURL.nearbyUsers, {
-      user_id: user.user_id,
+      user_id: user_id,
       lat: this.state.latitude,
       long: this.state.longitude,
     })
@@ -190,15 +190,15 @@ export default class Nearby extends Component {
           {cancelable: false},
         );
       });
-  }
+  };
 
   // API Add Constact
-  API_ADD_CONTACT(isload, contact_id) {
+  API_ADD_CONTACT = async (isload, contact_id) => {
     this.setState({isloading: isload});
-    let user = this.state.userData.user;
+    const user_id = await AsyncStorage.getItem('user_id');
 
     Webservice.post(APIURL.addContact, {
-      user_id: user.user_id,
+      user_id: user_id,
       contact_id: contact_id,
     })
       .then((response) => {
@@ -224,7 +224,7 @@ export default class Nearby extends Component {
         console.log(error.message);
         this.setState({isloading: false});
       });
-  }
+  };
 
   //Action Methods
   btnAddContactTap = (user) => {

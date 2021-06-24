@@ -80,6 +80,67 @@ export default class RegisterName extends Component {
       bio: this.state.txtBio,
     });
   };
+  createAccount = () => {
+    this.setState({
+      isloading: true,
+    });
+    Webservice.post(APIURL.newRegister, {
+      name: this.props.route.params.name,
+      email: this.props.route.params.email,
+      password: this.props.route.params.password,
+      avatar: this.props.route.params.profile,
+      bio: this.props.route.params.bio,
+    })
+      .then(async (response) => {
+        if (response.data == null) {
+          this.setState({
+            isloading: false,
+          });
+          // alert('error');
+          Alert.alert(response.originalError.message);
+
+          return;
+        }
+        console.log('Get Register User Response : ' + response);
+
+        if (response.data.status === 200) {
+          console.log(response.data, 'response.data');
+          this.setState({
+            isloading: false,
+          });
+          this.props.navigation.navigate('OwnProducts');
+          await AsyncStorage.setItem(
+            'user_id',
+            JSON.stringify(response.data.data.user.user_id),
+          );
+          this.showAlert(response.data.message);
+        } else {
+          this.setState({
+            isloading: false,
+          });
+          this.showAlert(response.data.message);
+        }
+      })
+      .catch((error) => {
+        console.log(error.message);
+        this.setState({
+          isloading: true,
+        });
+        Alert.alert(
+          error.message,
+          '',
+          [
+            {
+              text: 'Try Again',
+              onPress: () => {
+                this.createAccount(true);
+              },
+            },
+          ],
+          {cancelable: false},
+        );
+      });
+  };
 
   btnSkipTap = () => {
     this.props.navigation.navigate('OwnProducts', {
@@ -138,8 +199,10 @@ export default class RegisterName extends Component {
             width={140}
             name={'nameBg'}
           />
-          <TouchableOpacity onPress={() => this.btnSkipTap()}>
-            <LinearGradient
+          <TouchableOpacity
+            style={styles.linear}
+            onPress={() => this.btnSkipTap()}>
+            {/* <LinearGradient
               colors={['#AF2DA5', '#BC60CB']}
               style={styles.linear}>
               <Text
@@ -150,7 +213,7 @@ export default class RegisterName extends Component {
                 }}>
                 Skip
               </Text>
-            </LinearGradient>
+            </LinearGradient> */}
           </TouchableOpacity>
         </Block>
         <Block
@@ -188,10 +251,10 @@ export default class RegisterName extends Component {
           <Block flex={false} margin={[0, 0, hp(3), 0]}>
             <Button
               disabled={!this.state.txtBio}
-              onPress={() => this.btnNextTap()}
+              onPress={() => this.createAccount()}
               linear
               color="primary">
-              Next
+              Create Account
             </Button>
           </Block>
         </Block>

@@ -113,14 +113,6 @@ export default class SyncToCard extends Component {
 
       await this.setState({card_id: tag.id});
 
-      // let bytes = buildUrlPayload('https://dev.thewebtual.com/clique/user/profile/'+this.state.user.user_id);
-      // await NfcManager.writeNdefMessage(bytes);
-      // console.log('successfully write ndef');
-      // await NfcManager.setAlertMessageIOS('I got your tag!');
-      // this._cancel();
-
-      // this._cancel();
-
       this.API_WRITE_CARD(false);
 
       // this._cancel();

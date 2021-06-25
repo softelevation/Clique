@@ -50,15 +50,6 @@ const ScanCard = () => {
 
       console.log('Tag ID: ' + JSON.stringify(tag.id));
       console.log('Tag type: ' + JSON.stringify(tag.type));
-
-      // await this.setState({card_id: tag.id});
-
-      // let bytes = buildUrlPayload('https://dev.thewebtual.com/clique/user/profile/'+this.state.user.user_id);
-      // await NfcManager.writeNdefMessage(bytes);
-      // console.log('successfully write ndef');
-      // await NfcManager.setAlertMessageIOS('I got your tag!');
-      // _cancel();
-
       API_WRITE_CARD(tag.id);
       console.log(tag.id, 'tagId');
 
@@ -137,7 +128,7 @@ const ScanCard = () => {
     const user_id = await AsyncStorage.getItem('user_id');
     try {
       let bytes = await buildUrlPayload(
-        'http://admin.cliquesocial.co/user/profile' + user_id,
+        'http://admin.cliquesocial.co/user/profile/' + user_id,
       );
       if (bytes) {
         await NfcManager.writeNdefMessage(bytes);

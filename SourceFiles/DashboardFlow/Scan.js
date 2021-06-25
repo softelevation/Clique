@@ -134,7 +134,7 @@ export default class Scan extends Component {
       console.log('SRT ' + JSON.stringify(str));
       var CardUserID = str[str.length - 1];
       //Proper Find Parameters
-      var url1 = 'thewebtual://clique/user/profile?userid=' + CardUserID;
+      var url1 = 'socialclique://clique/user/profile?userid=' + CardUserID;
 
       console.log('URL 1 = ' + url1);
       var regex = /[?&]([^=#]+)=([^&#]*)/g,

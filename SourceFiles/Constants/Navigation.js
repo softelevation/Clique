@@ -62,7 +62,7 @@ const Tab = createBottomTabNavigator();
 
 //Deeplink
 const linking = {
-  prefixes: ['thewebtual://'],
+  prefixes: ['socialclique://'],
   config: {
     screens: {
       Dashboard: 'Dashboard',

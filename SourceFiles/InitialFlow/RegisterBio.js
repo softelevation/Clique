@@ -89,7 +89,7 @@ export default class RegisterName extends Component {
       email: this.props.route.params.email,
       password: this.props.route.params.password,
       avatar: this.props.route.params.profile,
-      bio: this.props.route.params.bio,
+      bio: this.state.txtBio,
     })
       .then(async (response) => {
         if (response.data == null) {

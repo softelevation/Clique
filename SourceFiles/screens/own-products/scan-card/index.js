@@ -52,8 +52,6 @@ const ScanCard = () => {
       console.log('Tag type: ' + JSON.stringify(tag.type));
       API_WRITE_CARD(tag.id);
       console.log(tag.id, 'tagId');
-
-      // this._cancel();
     } catch (ex) {
       _cancel();
       console.warn('ex in Scan to card', ex);
@@ -64,7 +62,6 @@ const ScanCard = () => {
   };
 
   const _cancel = () => {
-    // this.setState({text: '', url: URL});
     NfcManager.cancelTechnologyRequest().catch(() => 0);
     NfcManager.unregisterTagEvent().catch(() => 0);
   };
@@ -100,20 +97,17 @@ const ScanCard = () => {
             navigate('ActivatedCard', {
               header: 'Congratulations',
               subtitle: 'Your card has been linked to your account',
+              error: false,
             });
           }
         } else {
           _cancel();
           setIsloading(false);
-          Alert.alert('Fail', response.data.message, [
-            {
-              text: 'OK',
-              onPress: () => {
-                _cancel();
-                // this.props.navigation.goBack();
-              },
-            },
-          ]);
+          navigate('ActivatedCard', {
+            header: 'Error',
+            subtitle: response.data.message,
+            error: true,
+          });
         }
       })
       .catch((error) => {
@@ -133,32 +127,10 @@ const ScanCard = () => {
       if (bytes) {
         await NfcManager.writeNdefMessage(bytes);
         console.log('successfully write ndef', bytes);
-
         if (Platform.OS === 'ios') {
-          // await NfcManager.setAlertMessageIOS('Card Sync Successfully');
-
-          Alert.alert(ValidationMsg.AppName, 'Card Sync Successfully', [
-            {
-              text: 'OK',
-              onPress: () => {
-                this._cancel();
-                // this.props.navigation.goBack();
-              },
-            },
-          ]);
-
-          // this._cancel();
-          // this.props.navigation.goBack()
+          await NfcManager.setAlertMessageIOS('Card Sync Successfully');
         } else {
-          Alert.alert(ValidationMsg.AppName, 'Card Sync Successfully', [
-            {
-              text: 'OK',
-              onPress: () => {
-                this._cancel();
-                // this.props.navigation.goBack();
-              },
-            },
-          ]);
+          Alert.alert(ValidationMsg.AppName, 'Card Sync Successfully');
         }
       }
     } catch (ex) {

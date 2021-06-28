@@ -72,7 +72,7 @@ const ScanTag = () => {
     // this.setState({isloading: isload});
     setIsloading(true);
     Webservice.post(APIURL.validateCard, {
-      card_id: card_id,
+      tag_id: card_id,
     })
       .then((response) => {
         if (response.data == null) {

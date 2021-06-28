@@ -45,6 +45,7 @@ export const images = {
   help_icon: require('./icons/helptutorial.png'),
   most_searched_icon: require('./icons/most-searched.png'),
   facebook_icon: require('./icons/facebook.png'),
+  sync_icon: require('./icons/sync.png'),
 
   // Forgot
   forgotBg: require('./forgot/forgot.png'),

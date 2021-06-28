@@ -288,6 +288,9 @@ function DashboardStack() {
         component={ChangePasswordSettings}
       />
       <Stack.Screen name="HelpAndTutorials" component={HelpAndTutorials} />
+      <Stack.Screen name="ScanCard" component={ScanCard} />
+      <Stack.Screen name="ScanTag" component={ScanTag} />
+      <Stack.Screen name="ActivatedCard" component={ActivatedCard} />
     </Stack.Navigator>
   );
 }

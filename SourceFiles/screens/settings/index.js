@@ -14,7 +14,8 @@ import {
 import {useNavigation} from '@react-navigation/core';
 
 const Settings = () => {
-  const [activeOptions, setactiveOptions] = React.useState('Social');
+  const [card, setCard] = React.useState('Social');
+  const [nfc, setNfc] = React.useState(true);
   const {navigate} = useNavigation();
   const renderOptions = (value1, value2) => {
     return (
@@ -26,7 +27,7 @@ const Settings = () => {
           borderRadius={16}
           containerStyle={styles.neoContainer}
           inset>
-          {activeOptions === 'Social' ? (
+          {card ? (
             <NeuButton
               color="#F2F0F7"
               width={wp(45)}
@@ -39,8 +40,8 @@ const Settings = () => {
             </NeuButton>
           ) : (
             <Text
-              style={[styles.inactiveText, {marginRight: wp(1), width: wp(35)}]}
-              onPress={() => setactiveOptions('Social')}
+              style={[styles.inactiveText, {marginRight: wp(1), width: wp(42)}]}
+              onPress={() => setCard(true)}
               grey
               regular
               center
@@ -48,7 +49,7 @@ const Settings = () => {
               Enabled
             </Text>
           )}
-          {activeOptions === 'Business' ? (
+          {!card ? (
             <NeuButton
               color="#F2F0F7"
               width={wp(45)}
@@ -57,7 +58,7 @@ const Settings = () => {
               borderRadius={6}>
               <Text
                 semibold
-                onPress={() => setactiveOptions('Business')}
+                onPress={() => setCard(false)}
                 purple
                 center
                 size={13}>
@@ -67,8 +68,8 @@ const Settings = () => {
           ) : (
             <Text
               center
-              style={[styles.inactiveText, {marginLeft: wp(1), width: wp(35)}]}
-              onPress={() => setactiveOptions('Business')}
+              style={[styles.inactiveText, {marginLeft: wp(1), width: wp(42)}]}
+              onPress={() => setCard(false)}
               grey
               regular
               size={13}>
@@ -79,11 +80,97 @@ const Settings = () => {
       </Block>
     );
   };
-
+  const renderNfcOptions = (value1, value2) => {
+    return (
+      <Block middle center margin={[hp(2), 0, 0]} flex={false}>
+        <NeuView
+          color="#F2F0F7"
+          height={hp(5)}
+          width={wp(90)}
+          borderRadius={16}
+          containerStyle={styles.neoContainer}
+          inset>
+          {nfc ? (
+            <NeuButton
+              color="#F2F0F7"
+              width={wp(45)}
+              height={hp(3.5)}
+              style={{marginHorizontal: wp(2)}}
+              borderRadius={6}>
+              <Text semibold purple size={13}>
+                Enabled
+              </Text>
+            </NeuButton>
+          ) : (
+            <Text
+              style={[styles.inactiveText, {marginRight: wp(1), width: wp(42)}]}
+              onPress={() => setNfc(true)}
+              grey
+              regular
+              center
+              size={13}>
+              Enabled
+            </Text>
+          )}
+          {!nfc ? (
+            <NeuButton
+              color="#F2F0F7"
+              width={wp(45)}
+              height={hp(3.5)}
+              style={{marginRight: wp(2)}}
+              borderRadius={6}>
+              <Text
+                semibold
+                onPress={() => setNfc(false)}
+                purple
+                center
+                size={13}>
+                Disabled
+              </Text>
+            </NeuButton>
+          ) : (
+            <Text
+              center
+              style={[styles.inactiveText, {marginLeft: wp(1), width: wp(42)}]}
+              onPress={() => setNfc(false)}
+              grey
+              regular
+              size={13}>
+              Disabled
+            </Text>
+          )}
+        </NeuView>
+      </Block>
+    );
+  };
   const renderSelectType = (title, nav) => {
     return (
       <CustomButton
         onPress={() => navigate(nav)}
+        activeOpacity={0.7}
+        center
+        margin={[hp(3), 0, 0]}
+        flex={false}>
+        <NeuView
+          color="#F2F0F7"
+          height={hp(5)}
+          width={wp(90)}
+          borderRadius={16}
+          containerStyle={styles.navStyle}
+          inset>
+          <Text regular left grey size={13}>
+            {title}
+          </Text>
+          <ImageComponent name="arrow_back_icon" height={12} width={16} />
+        </NeuView>
+      </CustomButton>
+    );
+  };
+  const renderSelectTypeView = (title, nav) => {
+    return (
+      <CustomButton
+        activeOpacity={0.7}
+        // onPress={() => navigate(nav)}
         center
         margin={[hp(3), 0, 0]}
         flex={false}>
@@ -108,18 +195,18 @@ const Settings = () => {
       <HeaderSettings title="Settings" />
       <ScrollView contentContainerStyle={{paddingBottom: hp(2)}}>
         <Block flex={false} padding={[0, wp(3)]}>
-          <Text size={18} grey semibold>
+          <Text uppercase size={18} grey semibold>
             Card Settings
           </Text>
           {renderOptions('Enabled', 'Disabled')}
-          {renderSelectType('Lost My Card')}
-          {renderSelectType('Sync Card')}
-          <Text size={18} margin={[hp(2), 0, 0]} grey semibold>
-            Card Settings
+          {renderSelectTypeView('Lost My Card')}
+          {renderSelectTypeView('Sync Card')}
+          <Text uppercase size={18} margin={[hp(2), 0, 0]} grey semibold>
+            Nfc Settings
           </Text>
-          {renderOptions('Enabled', 'Disabled')}
-          {renderSelectType('Lost my NFC Tag')}
-          {renderSelectType('Sync NFC Tag')}
+          {renderNfcOptions('Enabled', 'Disabled')}
+          {renderSelectTypeView('Lost my NFC Tag')}
+          {renderSelectTypeView('Sync NFC Tag')}
           <Text size={18} margin={[hp(2), 0, 0]} grey semibold>
             Other Settings
           </Text>

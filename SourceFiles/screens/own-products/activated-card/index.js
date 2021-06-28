@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/core';
-import {useRoute} from '@react-navigation/native';
+import {CommonActions, useRoute} from '@react-navigation/native';
 import React from 'react';
 import {
   TouchableOpacity,
@@ -12,7 +12,7 @@ import {Block, Button, ImageComponent, Text} from '../../../components';
 import {hp, wp} from '../../../components/responsive';
 
 const ActivatedCard = () => {
-  const {goBack, navigate} = useNavigation();
+  const navigation = useNavigation();
   const {params} = useRoute();
   console.log(params);
   const {header, subtitle} = params;
@@ -21,7 +21,7 @@ const ActivatedCard = () => {
       <SafeAreaView />
       <ScrollView bounces={false} contentContainerStyle={styles.container}>
         <Block padding={[hp(2), wp(3), 0]} space="between" flex={false}>
-          <TouchableOpacity onPress={() => goBack()}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
             <LinearGradient
               colors={['#5542B6', '#7653DB']}
               style={styles.linear}>
@@ -67,7 +67,23 @@ const ActivatedCard = () => {
           </Block>
         </Block>
         <Block flex={false} padding={[0, wp(3)]}>
-          <Button onPress={() => navigate('Dashboard')} color="primary">
+          <Button
+            onPress={() =>
+              navigation.dispatch(
+                CommonActions.reset({
+                  // index: 1,
+                  routes: [
+                    {
+                      name: 'Dashboard',
+                      state: {
+                        routes: [{name: 'Profile'}],
+                      },
+                    },
+                  ],
+                }),
+              )
+            }
+            color="primary">
             Back to Home
           </Button>
         </Block>

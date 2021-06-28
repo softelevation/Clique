@@ -32,7 +32,7 @@ const HelpAndTutorials = () => {
             </NeuButton>
           ) : (
             <Text
-              style={[styles.inactiveText, {marginRight: wp(1), width: wp(35)}]}
+              style={[styles.inactiveText, {marginRight: wp(1), width: wp(42)}]}
               onPress={() => setactiveOptions('most')}
               grey
               regular
@@ -60,7 +60,7 @@ const HelpAndTutorials = () => {
           ) : (
             <Text
               center
-              style={[styles.inactiveText, {marginLeft: wp(1), width: wp(35)}]}
+              style={[styles.inactiveText, {marginLeft: wp(1), width: wp(42)}]}
               onPress={() => setactiveOptions('recent')}
               grey
               regular

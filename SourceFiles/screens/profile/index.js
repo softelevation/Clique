@@ -142,13 +142,19 @@ const Profile = () => {
         <Text white semibold size={18}>
           {'My Profile'}
         </Text>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() =>
+            navigate('ScanCard', {
+              card: true,
+              nfc: false,
+            })
+          }>
           <LinearGradient colors={['#AF2DA5', '#BC60CB']} style={styles.linear}>
             <ImageComponent
               resizeMode="contain"
               height={14}
               width={14}
-              name={'share_icon'}
+              name={'sync_icon'}
             />
           </LinearGradient>
         </TouchableOpacity>
@@ -159,7 +165,6 @@ const Profile = () => {
     return (
       <Block padding={[hp(2), wp(3)]} space="between" flex={false} row>
         <Block center flex={false} row>
-          {console.log(`${APIURL.ImageUrl}${profile.avatar}`)}
           {strictValidObjectWithKeys(profile) &&
           strictValidString(profile.avatar) ? (
             <ImageComponent
@@ -177,7 +182,7 @@ const Profile = () => {
               {strictValidObjectWithKeys(profile) && profile.name}
             </Text>
             {strictValidObjectWithKeys(profile) &&
-              strictValidArrayWithLength(profile.company_data) && (
+              strictValidString(profile.bio) && (
                 <Text
                   style={{width: wp(55)}}
                   capitalize
@@ -185,13 +190,7 @@ const Profile = () => {
                   size={14}
                   white
                   regular>
-                  {strictValidObjectWithKeys(profile) &&
-                    strictValidArrayWithLength(profile.company_data) &&
-                    profile.company_data[0].job_position}{' '}
-                  at{' '}
-                  {strictValidObjectWithKeys(profile) &&
-                    strictValidArrayWithLength(profile.company_data) &&
-                    profile.company_data[0].name}
+                  {profile.bio}
                 </Text>
               )}
             <Text margin={[hp(0.5), 0, 0]} size={16} semibold white>

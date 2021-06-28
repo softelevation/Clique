@@ -81,6 +81,7 @@ export default class Login extends Component {
     Webservice.post(APIURL.userLogin, {
       email: values.email,
       password: values.password,
+      social_type: 'N',
     })
       .then(async (response) => {
         if (response.data == null) {

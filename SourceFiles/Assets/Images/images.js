@@ -46,6 +46,7 @@ export const images = {
   most_searched_icon: require('./icons/most-searched.png'),
   facebook_icon: require('./icons/facebook.png'),
   sync_icon: require('./icons/sync.png'),
+  nfc_icon: require('./icons/nfc.png'),
 
   // Forgot
   forgotBg: require('./forgot/forgot.png'),

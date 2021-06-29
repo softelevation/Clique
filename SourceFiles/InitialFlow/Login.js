@@ -247,6 +247,9 @@ export default class Login extends Component {
           const _responseInfoCallback = (error, result) => {
             if (error) {
               console.log('Error fetching data: ' + error.toString());
+              self.setState({
+                fbLoader: false,
+              });
             } else {
               console.log(result, 'user');
 

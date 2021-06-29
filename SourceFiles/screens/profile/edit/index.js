@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {
+  Alert,
   FlatList,
   SafeAreaView,
   ScrollView,
@@ -15,12 +16,18 @@ import NeuView from '../../../common/neu-element/lib/NeuView';
 import NeuButton from '../../../common/neu-element/lib/NeuButton';
 import NeuInput from '../../../common/neu-element/lib/NeuInput';
 import {useNavigation, useRoute} from '@react-navigation/core';
-import {Easing} from 'react-native-reanimated';
 import {
   strictValidArray,
   strictValidObjectWithKeys,
+  strictValidString,
 } from '../../../utils/commonUtils';
 import {APIURL} from '../../../Constants/APIURL';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import ValidationMsg from '../../../Constants/ValidationMsg';
+import ImagePicker from 'react-native-image-crop-picker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Webservice from '../../../Constants/API';
+import {showAlert} from '../../../utils/mobile-utils';
 
 const EditProfile = () => {
   const {params} = useRoute();
@@ -28,8 +35,172 @@ const EditProfile = () => {
   const [activeOptions, setactiveOptions] = useState('social');
   const {goBack} = useNavigation();
   const [name, setName] = useState(profile.name || '');
-  const [company, setcompany] = useState('');
+  const [company, setcompany] = useState(profile.bio || '');
+  const [email, setEmail] = useState(profile.email || '');
+  const [profileImage, setProfileImage] = useState('');
+  const [loading, setloading] = useState(false);
+  console.log(profileImage, 'profileImage', 'userprofileupdate');
 
+  const submitadata = async (values) => {
+    const user_id = await AsyncStorage.getItem('user_id');
+    setloading(true);
+    Webservice.post(APIURL.userprofileupdate, {
+      user_id: user_id,
+      name: name,
+      bio: company,
+      avatar: profileImage.base64,
+      // type: activeOptions,
+    })
+      .then(async (response) => {
+        if (response.data == null) {
+          setloading(false);
+          // alert('error');
+          Alert.alert(response.originalError.message);
+
+          return;
+        }
+        console.log('Get Social Icons Response : ' + response);
+
+        if (response.data.status === true) {
+          setloading(false);
+          goBack();
+        } else {
+          setloading(false);
+          showAlert(response.data.message);
+        }
+      })
+      .catch((error) => {
+        console.log(error.message);
+        setloading(false);
+        Alert.alert(error.message, '', {cancelable: false});
+      });
+  };
+  const btnSelectImage = () => {
+    // this.setState({isloading: true});
+
+    Alert.alert(
+      ValidationMsg.AppName,
+      'Choose your Suitable Option',
+      [
+        {
+          text: 'Camera',
+          onPress: () => {
+            launchCamera(
+              {
+                mediaType: 'photo',
+                includeBase64: true,
+                quality: 0.7,
+              },
+              (response) => {
+                console.log(JSON.stringify(response));
+
+                if (response.didCancel) {
+                  console.log('User cancelled photo picker');
+                } else if (response.errorCode) {
+                  console.log('ImagePicker Error: ', response.errorCode);
+
+                  if (response.errorCode == 'permission') {
+                    alert('Please allow Camera permission from Setting');
+                  }
+                } else if (response.customButton) {
+                  console.log(
+                    'User tapped custom button: ',
+                    response.customButton,
+                  );
+                } else {
+                  ImagePicker.openCropper({
+                    compressImageQuality: 0.7,
+                    path: response.uri,
+                    width: 300,
+                    includeBase64: true,
+                    cropperCircleOverlay: true,
+                    height: 300,
+                  })
+                    .then((image) => {
+                      console.log(image);
+
+                      var dict = {};
+                      dict.base64 = image.data;
+                      dict.uri = image.path;
+                      dict.type = image.mime;
+                      setProfileImage(dict);
+                    })
+                    .catch((e) => {
+                      // alert(e);
+
+                      console.log(' Error :=>  ' + e);
+                    });
+
+                  // this.setState({ ProfileImgData: response, isloading : false })
+                }
+              },
+            );
+          },
+        },
+        {
+          text: 'Gallery',
+          onPress: () => {
+            launchImageLibrary(
+              {
+                mediaType: 'photo',
+                includeBase64: true,
+                quality: 0.7,
+              },
+              (response) => {
+                console.log(JSON.stringify(response));
+
+                // this.setState({ isloading: false })
+
+                if (response.didCancel) {
+                  console.log('User cancelled photo picker');
+                } else if (response.errorCode) {
+                  console.log('ImagePicker Error: ', response.error);
+
+                  if (response.errorCode == 'permission') {
+                    alert('Please allow Camera permission from Setting');
+                  }
+                } else if (response.customButton) {
+                  console.log(
+                    'User tapped custom button: ',
+                    response.customButton,
+                  );
+                } else {
+                  ImagePicker.openCropper({
+                    compressImageQuality: 0.7,
+                    path: response.uri,
+                    width: 300,
+                    includeBase64: true,
+                    cropperCircleOverlay: true,
+                    height: 300,
+                  })
+                    .then((image) => {
+                      console.log(image);
+
+                      var dict = {};
+                      dict.base64 = image.data;
+                      dict.uri = image.path;
+                      dict.type = image.mime;
+                      // this.setState({ProfileImgData: dict, isloading: false});
+                      setProfileImage(dict);
+                    })
+                    .catch((e) => {
+                      // alert(e);
+
+                      console.log(' Error :=>  ' + e);
+                    });
+                }
+              },
+            );
+          },
+        },
+        {
+          text: 'Cancel',
+          style: 'destructive',
+        },
+      ],
+      {cancelable: true},
+    );
+  };
   const renderHeader = () => {
     return (
       <Block center padding={[hp(2), wp(3)]} space="between" flex={false} row>
@@ -53,11 +224,32 @@ const EditProfile = () => {
       </Block>
     );
   };
+
+  const renderProfileImagePath = () => {
+    if (profileImage.uri) {
+      return profileImage.uri;
+    }
+    if (
+      strictValidObjectWithKeys(profile) &&
+      strictValidString(profile.avatar)
+    ) {
+      return `${APIURL.ImageUrl}${profile.avatar}`;
+    }
+
+    return 'demouser';
+  };
   const renderProfile = () => {
     return (
       <Block alignSelf="center" padding={[0, wp(3)]} flex={false}>
-        <ImageComponent name="demouser" height={100} width={100} />
+        <ImageComponent
+          isURL
+          name={renderProfileImagePath()}
+          height={80}
+          width={80}
+          radius={80}
+        />
         <TouchableOpacity
+          onPress={() => btnSelectImage()}
           style={{
             position: 'absolute',
             top: 0,
@@ -153,20 +345,23 @@ const EditProfile = () => {
         renderItem={({item}) => {
           return (
             <>
-              <Block flex={false} row>
+              <Block
+                style={{paddingHorizontal: wp(1), marginTop: hp(2)}}
+                flex={false}
+                row>
                 <ImageComponent
                   isURL
                   name={`${APIURL.iconUrl}${item.url}`}
-                  height={70}
-                  width={70}
+                  height={90}
+                  width={90}
                 />
                 <TouchableOpacity
                   style={styles.deleteAccountButton}
                   onPress={() => goBack()}>
                   <ImageComponent
                     resizeMode="contain"
-                    height={30}
-                    width={30}
+                    height={40}
+                    width={40}
                     name={'delete_icon'}
                   />
                 </TouchableOpacity>
@@ -182,7 +377,6 @@ const EditProfile = () => {
       <StatusBar barStyle="light-content" />
       <SafeAreaView />
       {renderHeader()}
-
       <ScrollView contentContainerStyle={styles.container} bounces={false}>
         <Block
           style={{flexGrow: 1}}
@@ -191,9 +385,9 @@ const EditProfile = () => {
           padding={[hp(2), wp(3)]}
           color="#F2EDFA">
           {renderProfile()}
-          <Block margin={[hp(2), 0]} alignSelf="center" flex={false}>
-            <Text grey semibold center margin={[0, 0, hp(2)]}>
-              Name
+          <Block margin={[hp(1), 0]} alignSelf="center" flex={false}>
+            <Text uppercase grey semibold center margin={[0, 0, hp(2)]}>
+              {name}
             </Text>
             <NeuInput
               width={wp(75)}
@@ -207,7 +401,20 @@ const EditProfile = () => {
               placeholderTextColor="grey"
             />
           </Block>
-          {renderOptions()}
+          <Block margin={[hp(1), 0]} alignSelf="center" flex={false}>
+            <NeuInput
+              width={wp(75)}
+              height={hp(5)}
+              borderRadius={16}
+              containerStyle={{paddingVetical: hp(1)}}
+              color="#eef2f9"
+              onChangeText={(a) => setEmail(a)}
+              value={email}
+              placeholder="Email"
+              placeholderTextColor="grey"
+              editable={false}
+            />
+          </Block>
           <Block margin={[hp(1), 0]} alignSelf="center" flex={false}>
             <NeuInput
               width={wp(75)}
@@ -219,8 +426,14 @@ const EditProfile = () => {
               value={company}
               placeholder="ex. UX/UI Designer at Atom 6"
               placeholderTextColor="grey"
+              maxLength={30}
             />
+            <Text margin={[hp(1.5), 0, 0]} right regular size={14} purple>
+              {company.length}/30
+            </Text>
           </Block>
+
+          {renderOptions()}
           <Text grey semibold center margin={[hp(2), 0]}>
             Accounts
           </Text>
@@ -235,7 +448,11 @@ const EditProfile = () => {
         </Block>
       </ScrollView>
       <Block color="#F2EDFA" padding={[0, wp(3)]}>
-        <Button color="primary" linear>
+        <Button
+          isLoading={loading}
+          onPress={() => submitadata()}
+          color="primary"
+          linear>
           Save
         </Button>
       </Block>

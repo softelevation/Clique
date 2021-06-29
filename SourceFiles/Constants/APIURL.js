@@ -37,4 +37,5 @@ export const APIURL = {
   newRegister: 'new-register',
   socialIcons: 'gettempicone',
   validateCard: 'validatecard',
+  userprofileupdate: 'userprofileupdate',
 };

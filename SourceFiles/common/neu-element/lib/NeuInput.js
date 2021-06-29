@@ -15,6 +15,8 @@ const NeuInput = (props) => {
     secureTextEntry,
     leftPrefix,
     keyboardType,
+    editable = true,
+    maxLength,
     ...rest
   } = props;
 
@@ -53,6 +55,8 @@ const NeuInput = (props) => {
           placeholderTextColor={placeholderTextColor}
           secureTextEntry={secureTextEntry}
           keyboardType={keyboardType || 'default'}
+          editable={editable}
+          maxLength={maxLength}
         />
         {Prefix && (
           <View

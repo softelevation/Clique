@@ -12,7 +12,7 @@ import {Block, Text, ImageComponent, Button} from '../../components';
 import {hp, wp} from '../../components/responsive';
 import NeuView from '../../common/neu-element/lib/NeuView';
 import NeuButton from '../../common/neu-element/lib/NeuButton';
-import {useNavigation} from '@react-navigation/core';
+import {useNavigation, useFocusEffect} from '@react-navigation/core';
 import {Modalize} from 'react-native-modalize';
 import NeoInputField from '../../components/neo-input';
 import Webservice from '../../Constants/API';
@@ -22,8 +22,6 @@ import {showAlert} from '../../utils/mobile-utils';
 import LoadingView from '../../Constants/LoadingView';
 import {
   strictValidArray,
-  strictValidArrayWithLength,
-  strictValidArrayWithMinLength,
   strictValidObjectWithKeys,
   strictValidString,
 } from '../../utils/commonUtils';
@@ -41,9 +39,16 @@ const Profile = () => {
   const [Icons, setIcons] = useState([]);
   const [newState, setNewState] = useState({});
   const [field, setField] = useState('');
-  React.useEffect(() => {
-    getProfile();
-  }, []);
+  // React.useEffect(() => {
+  //   getProfile();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      getProfile();
+    }, []),
+  );
 
   const getProfile = async (values) => {
     const user_id = await AsyncStorage.getItem('user_id');
@@ -152,9 +157,9 @@ const Profile = () => {
           <LinearGradient colors={['#AF2DA5', '#BC60CB']} style={styles.linear}>
             <ImageComponent
               resizeMode="contain"
-              height={14}
-              width={14}
-              name={'sync_icon'}
+              height={20}
+              width={20}
+              name={'nfc_icon'}
             />
           </LinearGradient>
         </TouchableOpacity>
@@ -350,10 +355,10 @@ const Profile = () => {
         onPress={() => onOpen(type)}
         active
         color="#eef2f9"
-        width={75}
-        height={75}
+        width={85}
+        height={85}
         borderRadius={16}
-        style={{marginLeft: wp(3), marginTop: hp(2)}}>
+        style={{marginHorizontal: wp(1), marginTop: hp(2.5)}}>
         <ImageComponent name="add_icon" height={30} width={30} />
       </NeuButton>
     );
@@ -379,8 +384,8 @@ const Profile = () => {
                 <ImageComponent
                   isURL
                   name={`${APIURL.iconUrl}${item.url}`}
-                  height={70}
-                  width={70}
+                  height={90}
+                  width={90}
                 />
               </TouchableOpacity>
             </>
@@ -576,6 +581,8 @@ const styles = StyleSheet.create({
   containerStyle: {
     alignItems: 'center',
   },
-  neoContainer: {flexDirection: 'row'},
+  neoContainer: {
+    flexDirection: 'row',
+  },
 });
 export default Profile;

@@ -47,6 +47,7 @@ export const images = {
   facebook_icon: require('./icons/facebook.png'),
   sync_icon: require('./icons/sync.png'),
   nfc_icon: require('./icons/nfc.png'),
+  cancel_icon: require('./icons/cancel.png'),
 
   // Forgot
   forgotBg: require('./forgot/forgot.png'),

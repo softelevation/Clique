@@ -35,7 +35,16 @@ const componentStyles = () => {
       width: 40,
       height: 40,
     },
-    accent: {backgroundColor: 'red', borderColor: light.warning},
+    accent: {
+      backgroundColor: '#ED5E69',
+      borderColor: '#ED5E69',
+      paddingVertical: t1 * 1.5,
+    },
+    link: {
+      backgroundColor: '#006CFF',
+      borderColor: '#006CFF',
+      paddingVertical: t1 * 1.5,
+    },
     primary: {
       backgroundColor: '#fff',
       paddingVertical: t1 * 1.7,
@@ -82,7 +91,7 @@ const Button = ({
 }) => {
   const styles = componentStyles();
   const renderTextColor = () => {
-    if (color === 'secondary') {
+    if (color === 'secondary' || color === 'accent' || color === 'link') {
       return '#fff';
     } else if (color === 'facebook') {
       return '#6F3AC8';
@@ -145,6 +154,7 @@ const Button = ({
     return (
       <TouchableOpacity
         activeOpacity={disabled ? opacity || 0.8 : 0.2}
+        disabled={!!disabled}
         {...rest}>
         <LinearGradient
           start={{x: 0, y: 0}}

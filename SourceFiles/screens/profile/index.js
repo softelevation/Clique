@@ -2,6 +2,8 @@ import React, {useRef, useState} from 'react';
 import {
   Alert,
   FlatList,
+  Linking,
+  Platform,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -36,6 +38,7 @@ const Profile = () => {
   const [profile, setprofile] = useState({});
   const [loading, setloading] = useState(false);
   const [socialLoading, setSocialLoading] = useState(false);
+  const [deleteSocialLoading, setDeleteSocialLoading] = useState(false);
   const [Icons, setIcons] = useState([]);
   const [newState, setNewState] = useState({});
   const [field, setField] = useState('');
@@ -50,6 +53,56 @@ const Profile = () => {
     }, []),
   );
 
+  const openPhoneNumber = async (phone) => {
+    let phoneNumber = '';
+
+    if (Platform.OS === 'android') {
+      phoneNumber = `tel:${phone}`;
+    } else {
+      phoneNumber = `telprompt:${phone}`;
+    }
+
+    Linking.openURL(phoneNumber);
+  };
+
+  const openUrl = async (url) => {
+    const supported = await Linking.canOpenURL(url);
+    if (supported) {
+      // Opening the link with some app, if the URL scheme is "http" the web link should be opened
+      // by some browser in the mobile
+      await Linking.openURL(url);
+    } else {
+      Alert.alert(`Don't know how to open this URL: ${url}`);
+    }
+  };
+  const openMessages = async (phone) => {
+    const separator = Platform.OS === 'ios' ? '&' : '?';
+    const url = `sms:${phone}${separator}body=${'Hi'}`;
+
+    Linking.canOpenURL(url)
+      .then((supported) => {
+        if (!supported) {
+          console.log('Unsupported url: ' + url);
+        } else {
+          return Linking.openURL(url);
+        }
+      })
+      .catch((err) => console.error('An error occurred', err));
+  };
+
+  const openLink = async (url, name) => {
+    // Checking if the link is supported for links with custom URL scheme.
+
+    switch (name) {
+      case 'Phone':
+        return openPhoneNumber(url);
+      case 'Messages':
+        return openMessages(url);
+      default:
+        return openUrl(url);
+    }
+  };
+
   const getProfile = async (values) => {
     const user_id = await AsyncStorage.getItem('user_id');
     setloading(true);
@@ -60,11 +113,10 @@ const Profile = () => {
         if (response.data == null) {
           setloading(false);
           // alert('error');
-          Alert.alert(response.originalError.message);
+          showAlert(response.originalError.message);
 
           return;
         }
-        console.log('Get Register User Response : ' + response);
 
         if (response.data.status === true) {
           setloading(false);
@@ -75,7 +127,6 @@ const Profile = () => {
         }
       })
       .catch((error) => {
-        console.log(error.message);
         setloading(false);
         Alert.alert(
           error.message,
@@ -104,15 +155,15 @@ const Profile = () => {
         if (response.data == null) {
           setSocialLoading(false);
           // alert('error');
-          Alert.alert(response.originalError.message);
+          showAlert(response.originalError.message);
 
           return;
         }
-        console.log('Get Social Icons Response : ' + response);
 
         if (response.data.status === true) {
           setSocialLoading(false);
           setIcons(response.data.data);
+
           modalizeRef.current?.open();
           setAction('add_account');
         } else {
@@ -121,7 +172,6 @@ const Profile = () => {
         }
       })
       .catch((error) => {
-        console.log(error.message);
         setSocialLoading(false);
         Alert.alert(
           error.message,
@@ -130,7 +180,7 @@ const Profile = () => {
             {
               text: 'Try Again',
               onPress: () => {
-                getProfile();
+                getSocialAndBusinessIcon();
               },
             },
           ],
@@ -373,20 +423,28 @@ const Profile = () => {
           flexDirection: 'row',
           flexWrap: 'wrap',
         }}
-        numColumns={5}
+        numColumns={4}
         bounces={false}
         data={data}
         renderItem={({item}) => {
           return (
             <>
               <TouchableOpacity
+                onPress={() => {
+                  modalizeRef.current?.open();
+                  setAction('open_link');
+                  setNewState(item);
+                  setField(item.link);
+                }}
                 style={{paddingHorizontal: wp(1), marginTop: hp(2)}}>
-                <ImageComponent
-                  isURL
-                  name={`${APIURL.iconUrl}${item.url}`}
-                  height={90}
-                  width={90}
-                />
+                {strictValidObjectWithKeys(item.icone) && (
+                  <ImageComponent
+                    isURL
+                    name={`${APIURL.iconUrl}${item.icone.url}`}
+                    height={90}
+                    width={90}
+                  />
+                )}
               </TouchableOpacity>
             </>
           );
@@ -426,29 +484,28 @@ const Profile = () => {
     );
   };
   const saveSocialAccount = async (data) => {
-    console.log(modalType, field, data.id);
-    setField('');
     const user_id = await AsyncStorage.getItem('user_id');
     setSocialLoading(true);
     Webservice.post(APIURL.socialIcons, {
       user_id: user_id,
       id: data.id,
       type: activeOptions,
-      username: field,
+      link: field,
     })
       .then(async (response) => {
         if (response.data == null) {
           setSocialLoading(false);
           // alert('error');
-          Alert.alert(response.originalError.message);
+          showAlert(response.originalError.message);
 
           return;
         }
-        console.log('Get Social Icons Response : ' + response);
 
         if (response.data.status === true) {
           setSocialLoading(false);
           setIcons(response.data.data);
+          setField('');
+          setAction('');
           modalizeRef.current?.close();
           getProfile();
         } else {
@@ -457,11 +514,80 @@ const Profile = () => {
         }
       })
       .catch((error) => {
-        console.log(error.message);
         setSocialLoading(false);
-        Alert.alert(error.message);
+        showAlert(error.message);
       });
   };
+  const updateSocialAccount = async (data) => {
+    const user_id = await AsyncStorage.getItem('user_id');
+    setSocialLoading(true);
+    Webservice.post(APIURL.socialIcons, {
+      user_id: user_id,
+      id: data.icone_id,
+      type: activeOptions,
+      link: field,
+    })
+      .then(async (response) => {
+        if (response.data == null) {
+          setSocialLoading(false);
+          // alert('error');
+          showAlert(response.originalError.message);
+
+          return;
+        }
+
+        if (response.data.status === true) {
+          setSocialLoading(false);
+          setIcons(response.data.data);
+          setAction('');
+          setField('');
+          modalizeRef.current?.close();
+          getProfile();
+        } else {
+          setSocialLoading(false);
+          showAlert(response.data.message);
+        }
+      })
+      .catch((error) => {
+        setSocialLoading(false);
+        showAlert(error.message);
+      });
+  };
+  const deleteSocialAccount = async (data) => {
+    const user_id = await AsyncStorage.getItem('user_id');
+    setDeleteSocialLoading(true);
+    Webservice.post(APIURL.socialIcons, {
+      user_id: user_id,
+      id: data.id,
+      action: 'delete',
+    })
+      .then(async (response) => {
+        if (response.data == null) {
+          setDeleteSocialLoading(false);
+          // alert('error');
+          showAlert(response.originalError.message);
+
+          return;
+        }
+
+        if (response.data.status === true) {
+          setDeleteSocialLoading(false);
+          setIcons(response.data.data);
+          setAction('');
+          setField('');
+          modalizeRef.current?.close();
+          getProfile();
+        } else {
+          setDeleteSocialLoading(false);
+          showAlert(response.data.message);
+        }
+      })
+      .catch((error) => {
+        setDeleteSocialLoading(false);
+        showAlert(error.message);
+      });
+  };
+
   return (
     <Block linear>
       <SafeAreaView />
@@ -496,6 +622,10 @@ const Profile = () => {
         modalStyle={{backgroundColor: '#F2F0F7'}}
         scrollViewProps={{
           scrollEnabled: false,
+        }}
+        onClose={() => {
+          setNewState({});
+          setField('');
         }}
         handleStyle={{backgroundColor: '#6B37C3', marginTop: hp(1)}}
         handlePosition="inside"
@@ -537,10 +667,82 @@ const Profile = () => {
                 </Block>
                 <Button
                   disabled={!field}
+                  isLoading={socialLoading}
                   onPress={() => saveSocialAccount(newState)}
                   linear
                   color="primary">
                   Save
+                </Button>
+              </Block>
+            </Block>
+          </>
+        )}
+        {action === 'open_link' && (
+          <>
+            <TouchableOpacity
+              onPress={() => {
+                modalizeRef.current?.close();
+                setNewState({});
+                setField('');
+              }}>
+              <Block flex={false} right margin={[hp(2), wp(3), 0, 0]}>
+                <ImageComponent
+                  color="#ED5E69"
+                  name={'cancel_icon'}
+                  height={20}
+                  width={20}
+                />
+              </Block>
+            </TouchableOpacity>
+            <Block margin={[hp(2), 0]} flex={false} center>
+              {strictValidObjectWithKeys(newState.icone) && (
+                <ImageComponent
+                  isURL
+                  name={`${APIURL.iconUrl}${newState.icone.url}`}
+                  height={95}
+                  width={95}
+                />
+              )}
+              {strictValidObjectWithKeys(newState.icone) && (
+                <Text capitalize purple semibold margin={[hp(1), 0]}>
+                  {newState.icone.name}
+                </Text>
+              )}
+              <Block flex={false} margin={[hp(2), 0, 0]}>
+                {strictValidObjectWithKeys(newState.icone) && (
+                  <NeoInputField
+                    placeholder={`${newState.icone.name} account`}
+                    fontColor="#707070"
+                    icon=""
+                    width={70}
+                    onChangeText={(a) => setField(a)}
+                    value={field}
+                  />
+                )}
+                <Block space="between" row flex={false} margin={[hp(2), 0, 0]}>
+                  {/* {renderModalOptions()} */}
+                  <Button
+                    style={{width: wp(32)}}
+                    linear
+                    onPress={() => openLink(newState.link, newState.icone.name)}
+                    color="primary">
+                    Open Link
+                  </Button>
+                  <Button
+                    style={{width: wp(32)}}
+                    onPress={() => deleteSocialAccount(newState)}
+                    isLoading={deleteSocialLoading}
+                    color="accent">
+                    Delete
+                  </Button>
+                </Block>
+                <Button
+                  disabled={!field}
+                  isLoading={socialLoading}
+                  onPress={() => updateSocialAccount(newState)}
+                  linear
+                  color="primary">
+                  Update Account
                 </Button>
               </Block>
             </Block>

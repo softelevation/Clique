@@ -63,7 +63,22 @@ export default class App extends Component {
     };
   }
 
+  callProfile = async () => {
+    try {
+      const value = await AsyncStorage.getItem('user_id');
+      if (value !== null) {
+        // value previously stored
+        NavigationService.navigate('Dashboard');
+      } else {
+        console.log('User Data: null ' + value);
+      }
+    } catch (e) {
+      console.log('Error : ' + e);
+    }
+  };
+
   async componentDidMount() {
+    this.callProfile();
     await this.getData();
     AppState.addEventListener('change', this._handleAppStateChange);
     Linking.addEventListener('url', this.handleDeepLink);

@@ -433,7 +433,7 @@ const EditProfile = () => {
             </Text>
           </Block>
 
-          {renderOptions()}
+          {/* {renderOptions()}
           <Text grey semibold center margin={[hp(2), 0]}>
             Accounts
           </Text>
@@ -444,10 +444,10 @@ const EditProfile = () => {
           {strictValidObjectWithKeys(profile) &&
             strictValidArray(profile.business) &&
             activeOptions === 'business' &&
-            renderSocialIcons(profile.business, 'business')}
+            renderSocialIcons(profile.business, 'business')} */}
         </Block>
       </ScrollView>
-      <Block color="#F2EDFA" padding={[0, wp(3)]}>
+      <Block flex={false} color="#F2EDFA" padding={[0, wp(3), hp(4)]}>
         <Button
           isLoading={loading}
           onPress={() => submitadata()}

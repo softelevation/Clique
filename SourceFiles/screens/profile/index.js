@@ -634,8 +634,8 @@ const Profile = () => {
         {action === 'add_account' && (
           <>
             <Block margin={[hp(4), 0, 0]} flex={false} center>
-              <Text grey size={16}>
-                Add New Account
+              <Text capitalize grey size={16}>
+                Add New {activeOptions} Account
               </Text>
             </Block>
             {AddSocialIcons()}

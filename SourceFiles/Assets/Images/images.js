@@ -48,6 +48,11 @@ export const images = {
   sync_icon: require('./icons/sync.png'),
   nfc_icon: require('./icons/nfc.png'),
   cancel_icon: require('./icons/cancel.png'),
+  clique_pro_icon: require('./icons/cliquepro.png'),
+  broken_link_icon: require('./icons/broken-link.png'),
+  data_analysis_icon: require('./icons/data-analysis.png'),
+  swap_icon: require('./icons/swap.png'),
+  pro_icon: require('./icons/pro_icon.png'),
 
   // Forgot
   forgotBg: require('./forgot/forgot.png'),

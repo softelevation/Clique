@@ -33,41 +33,6 @@ export default class RegisterName extends Component {
     };
   }
 
-  // componentDidMount() {
-  //   BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
-  // }
-
-  // componentWillUnmount() {
-  //   BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
-  // }
-
-  // onBackPress = () => {
-  //   if (Platform.OS === 'ios') {
-  //     return;
-  //   }
-  //   const subscription = BackHandler.addEventListener(
-  //     'hardwareBackPress',
-  //     () => {
-  //       if (currentCount === 1) {
-  //         BackHandler.exitApp();
-  //         subscription.remove();
-  //         return true;
-  //       }
-  //       this.backPressHandler();
-  //       return true;
-  //     },
-  //   );
-  // };
-  // backPressHandler = () => {
-  //   if (currentCount < 1) {
-  //     currentCount += 1;
-  //     this.showAlert('Press again to close!');
-  //   }
-  //   setTimeout(() => {
-  //     currentCount = 0;
-  //   }, 2000);
-  // };
-
   showAlert(text) {
     Snackbar.show({
       text: text,
@@ -110,28 +75,22 @@ export default class RegisterName extends Component {
   }
 
   render() {
-    let RedPlay = IMG.InitialFlow.RedPlay;
-    let MinUserInstagram = IMG.OtherFlow.InstaIcon;
-
     return (
       <Block linear>
         <SafeAreaView />
-
         <Block padding={[hp(2), 0, 0]} space={'between'} row flex={false}>
-          {this.state.isFromTutorial === false ? (
-            <TouchableOpacity onPress={() => this.btnBackTap()}>
-              <LinearGradient
-                colors={['#5542B6', '#7653DB']}
-                style={styles.linear}>
-                <ImageComponent
-                  resizeMode="contain"
-                  height={14}
-                  width={14}
-                  name={'BackIcon'}
-                />
-              </LinearGradient>
-            </TouchableOpacity>
-          ) : null}
+          <TouchableOpacity onPress={() => this.btnBackTap()}>
+            <LinearGradient
+              colors={['#5542B6', '#7653DB']}
+              style={styles.linear}>
+              <ImageComponent
+                resizeMode="contain"
+                height={14}
+                width={14}
+                name={'BackIcon'}
+              />
+            </LinearGradient>
+          </TouchableOpacity>
 
           <View style={{alignItems: 'center', flex: 1}}>
             <ImageComponent

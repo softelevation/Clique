@@ -2,7 +2,10 @@ import React, {Component} from 'react';
 
 //Navigation Libraries
 import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import {
+  CardStyleInterpolators,
+  createStackNavigator,
+} from '@react-navigation/stack';
 import {createSwitchNavigator} from '@react-navigation/compat';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
@@ -70,6 +73,10 @@ const linking = {
   },
 };
 
+const animationOptions = {
+  animationEnabled: true,
+  cardStyleInterpolator: CardStyleInterpolators.forScaleFromCenterAndroid,
+};
 // Tutorial Flow Navigator
 
 function TutorialFlow() {
@@ -271,26 +278,81 @@ function DashboardSubStack() {
       initialRouteName="Profile">
       <Tab.Screen name="Profile" component={Profile} />
       <Tab.Screen name="Nearby" component={NearByStackScreen} />
-      {/* <Tab.Screen name="Pro" component={Pro} /> */}
+      <Tab.Screen
+        name="Pro"
+        component={Chat}
+        // listeners={({navigation}) => ({
+
+        //   tabPress: (e) => {
+        //     console.log(e, 'e');
+        //     e && e.preventDefault();
+        //     navigation.navigate('ProCard');
+        //   },
+        // })}
+      />
       <Tab.Screen name="Chat" component={Contacts} />
       <Tab.Screen name="Setting" component={Settings} />
     </Tab.Navigator>
   );
 }
+function ModalStack() {
+  return (
+    <Stack.Navigator
+      headerMode="none"
+      screenOptions={{animationEnabled: false}}
+      mode="modal">
+      <Stack.Screen
+        name="CreateNew"
+        component={Pro}
+        options={{animationEnabled: true}}
+      />
+    </Stack.Navigator>
+  );
+}
 function DashboardStack() {
   return (
-    <Stack.Navigator headerMode="none" initialRouteName="Profile">
+    <Stack.Navigator mode="modal" headerMode="none" initialRouteName="Profile">
       <Tab.Screen name="Profile" component={DashboardSubStack} />
-      <Stack.Screen name="Messages" component={Messages} />
-      <Stack.Screen name="EditProfile" component={EditProfile} />
+      <Stack.Screen
+        options={animationOptions}
+        name="Messages"
+        component={Messages}
+      />
+      <Stack.Screen
+        options={animationOptions}
+        name="EditProfile"
+        component={EditProfile}
+      />
       <Stack.Screen
         name="ChangePasswordSettings"
         component={ChangePasswordSettings}
+        options={animationOptions}
       />
-      <Stack.Screen name="HelpAndTutorials" component={HelpAndTutorials} />
-      <Stack.Screen name="ScanCard" component={ScanCard} />
-      <Stack.Screen name="ScanTag" component={ScanTag} />
-      <Stack.Screen name="ActivatedCard" component={ActivatedCard} />
+      <Stack.Screen
+        name="HelpAndTutorials"
+        component={HelpAndTutorials}
+        options={animationOptions}
+      />
+      <Stack.Screen
+        options={animationOptions}
+        name="ScanCard"
+        component={ScanCard}
+      />
+      <Stack.Screen
+        options={animationOptions}
+        name="ScanTag"
+        component={ScanTag}
+      />
+      <Stack.Screen
+        options={animationOptions}
+        name="ActivatedCard"
+        component={ActivatedCard}
+      />
+      <Stack.Screen
+        // options={animationOptions}
+        name="ProCard"
+        component={ModalStack}
+      />
     </Stack.Navigator>
   );
 }

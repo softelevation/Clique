@@ -8,9 +8,17 @@ import {
   ScrollView,
   StyleSheet,
   TouchableOpacity,
+  ImageBackground,
+  SectionList,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {Block, Text, ImageComponent, Button} from '../../components';
+import {
+  Block,
+  Text,
+  ImageComponent,
+  Button,
+  CustomButton,
+} from '../../components';
 import {hp, wp} from '../../components/responsive';
 import NeuView from '../../common/neu-element/lib/NeuView';
 import NeuButton from '../../common/neu-element/lib/NeuButton';
@@ -24,9 +32,12 @@ import {showAlert} from '../../utils/mobile-utils';
 import LoadingView from '../../Constants/LoadingView';
 import {
   strictValidArray,
+  strictValidArrayWithLength,
   strictValidObjectWithKeys,
   strictValidString,
 } from '../../utils/commonUtils';
+import {t2} from '../../components/theme/fontsize';
+import {light} from '../../components/theme/colors';
 
 const Profile = () => {
   const {navigate} = useNavigation();
@@ -454,31 +465,61 @@ const Profile = () => {
   };
   const AddSocialIcons = () => {
     return (
-      <FlatList
+      <SectionList
+        scrollEnabled={false}
         contentContainerStyle={{
-          paddingVertical: hp(3),
+          paddingVertical: hp(2),
           paddingHorizontal: wp(2),
         }}
-        numColumns={5}
-        data={Icons}
-        renderItem={({item}) => {
-          return (
-            <>
-              <TouchableOpacity
-                onPress={() => {
-                  setAction('select_account');
-                  setNewState(item);
+        sections={Icons}
+        keyExtractor={(item, index) => item + index}
+        renderSectionHeader={({section}) => (
+          <>
+            <Text center bold margin={[t2, 0, 0]} capitalize grey size={20}>
+              Add {section.title}
+            </Text>
+            {strictValidArrayWithLength(section.data) && (
+              <FlatList
+                numColumns={5}
+                data={section.data}
+                renderItem={({item}) => {
+                  return (
+                    <>
+                      <TouchableOpacity
+                        onPress={() => {
+                          if (item.is_pro === '1') {
+                            navigate('ProCard');
+                            setAction('');
+                            modalizeRef.current?.close();
+                          } else {
+                            setAction('select_account');
+                            setNewState(item);
+                          }
+                        }}
+                        style={{paddingHorizontal: wp(1), marginTop: hp(2)}}>
+                        <ImageBackground
+                          source={{uri: `${APIURL.iconUrl}${item.url}`}}
+                          style={styles.bgImage}>
+                          {item.is_pro === '1' && (
+                            <Block style={styles.pro}>
+                              <ImageComponent
+                                name={'pro_icon'}
+                                height={40}
+                                width={40}
+                              />
+                            </Block>
+                          )}
+                        </ImageBackground>
+                      </TouchableOpacity>
+                    </>
+                  );
                 }}
-                style={{paddingHorizontal: wp(1), marginTop: hp(2)}}>
-                <ImageComponent
-                  isURL
-                  name={`${APIURL.iconUrl}${item.url}`}
-                  height={70}
-                  width={70}
-                />
-              </TouchableOpacity>
-            </>
-          );
+              />
+            )}
+          </>
+        )}
+        renderItem={({item}) => {
+          return null;
         }}
       />
     );
@@ -588,6 +629,56 @@ const Profile = () => {
       });
   };
 
+  const renderSectionHeader = ({section}) => {
+    return (
+      <>
+        <Text center bold margin={[t2, 0, 0]} capitalize grey size={20}>
+          Add {section.title}
+        </Text>
+        {strictValidArrayWithLength(section.data) && (
+          <FlatList
+            numColumns={5}
+            data={section.data}
+            renderItem={({item}) => {
+              return (
+                <>
+                  <TouchableOpacity
+                    onPress={() => {
+                      if (item.is_pro === '1') {
+                        navigate('ProCard');
+                        setAction('');
+                        modalizeRef.current?.close();
+                      } else {
+                        setAction('select_account');
+                        setNewState(item);
+                      }
+                    }}
+                    style={{paddingHorizontal: wp(1), marginTop: hp(2)}}>
+                    <ImageBackground
+                      source={{uri: `${APIURL.iconUrl}${item.url}`}}
+                      style={styles.bgImage}>
+                      {item.is_pro === '1' && (
+                        <Block style={styles.pro}>
+                          <ImageComponent
+                            name={'pro_icon'}
+                            height={40}
+                            width={40}
+                          />
+                        </Block>
+                      )}
+                    </ImageBackground>
+                  </TouchableOpacity>
+                </>
+              );
+            }}
+          />
+        )}
+      </>
+    );
+  };
+  const renderItem = () => {
+    return null;
+  };
   return (
     <Block linear>
       <SafeAreaView />
@@ -615,13 +706,33 @@ const Profile = () => {
           </Block>
         </Block>
       </ScrollView>
+      {/* <Modalize
+        ref={modalizeRef}
+        childrenStyle={{
+          borderTopLeftRadius: 12,
+          borderTopRightRadius: 12,
+          overflow: 'hidden',
+        }}
+        sectionListProps={{
+          sections: Icons,
+          renderItem: renderItem,
+          renderSectionHeader: renderSectionHeader,
+          keyExtractor: (item, index) => `${item.title}-${index}`,
+          showsVerticalScrollIndicator: false,
+        }}
+      /> */}
       <Modalize
-        // overlayStyle={modalizeStyle}
         adjustToContentHeight={toggle}
         tapGestureEnabled={false}
-        modalStyle={{backgroundColor: '#F2F0F7'}}
+        modalStyle={[
+          {backgroundColor: '#F2F0F7'},
+          action === 'add_account' ? {flexGrow: 1} : {flexGrow: 0},
+        ]}
         scrollViewProps={{
-          scrollEnabled: false,
+          scrollEnabled: true,
+          contentContainerStyle: {
+            paddingBottom: hp(3),
+          },
         }}
         onClose={() => {
           setNewState({});
@@ -630,14 +741,32 @@ const Profile = () => {
         handleStyle={{backgroundColor: '#6B37C3', marginTop: hp(1)}}
         handlePosition="inside"
         ref={modalizeRef}>
-        {/* <AgentList data={strictValidArray(agentsData) && agentsData} /> */}
         {action === 'add_account' && (
           <>
-            <Block margin={[hp(4), 0, 0]} flex={false} center>
-              <Text capitalize grey size={16}>
-                Add New {activeOptions} Account
-              </Text>
-            </Block>
+            <CustomButton
+              onPress={() => {
+                modalizeRef.current?.close();
+                setAction('');
+              }}
+              margin={[hp(4), wp(3), 0]}
+              flex={false}
+              style={{alignSelf: 'flex-end'}}>
+              <NeuView
+                concave
+                color="#eef2f9"
+                width={40}
+                height={40}
+                borderRadius={20}
+                customGradient={['#FAF8F8', '#DCC8FA']}>
+                <ImageComponent
+                  resizeMode="contain"
+                  height={14}
+                  width={14}
+                  name={'close_icon'}
+                  color={light.purple}
+                />
+              </NeuView>
+            </CustomButton>
             {AddSocialIcons()}
           </>
         )}
@@ -650,6 +779,7 @@ const Profile = () => {
                 height={95}
                 width={95}
               />
+
               <Text capitalize purple semibold margin={[hp(1), 0]}>
                 {newState.name}
               </Text>
@@ -662,9 +792,7 @@ const Profile = () => {
                   onChangeText={(a) => setField(a)}
                   value={field}
                 />
-                <Block flex={false} margin={[hp(2), 0, 0]}>
-                  {/* {renderModalOptions()} */}
-                </Block>
+                <Block flex={false} margin={[hp(2), 0, 0]} />
                 <Button
                   disabled={!field}
                   isLoading={socialLoading}
@@ -720,7 +848,6 @@ const Profile = () => {
                   />
                 )}
                 <Block space="between" row flex={false} margin={[hp(2), 0, 0]}>
-                  {/* {renderModalOptions()} */}
                   <Button
                     style={{width: wp(32)}}
                     linear
@@ -786,5 +913,10 @@ const styles = StyleSheet.create({
   neoContainer: {
     flexDirection: 'row',
   },
+  bgImage: {
+    height: 70,
+    width: 70,
+  },
+  pro: {position: 'absolute', right: -10, top: -15},
 });
 export default Profile;

@@ -95,9 +95,14 @@ const BottomTab = ({state, descriptors, navigation}) => {
             type: 'tabPress',
             target: route.key,
           });
+          console.log(event, 'event');
 
           if (!isFocused && !event.defaultPrevented) {
-            navigation.navigate(route.name);
+            if (route.name === 'Pro') {
+              navigation.navigate('ProCard');
+            } else {
+              navigation.navigate(route.name);
+            }
           }
         };
 

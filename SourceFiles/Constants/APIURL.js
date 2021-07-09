@@ -38,4 +38,5 @@ export const APIURL = {
   socialIcons: 'gettempicone',
   validateCard: 'validatecard',
   userprofileupdate: 'userprofileupdate',
+  makePayment: 'makepayment',
 };

@@ -8,7 +8,7 @@ import {hp, wp} from '../../components/responsive';
 import {t1, t2} from '../../components/theme/fontsize';
 
 const Pro = () => {
-  const {goBack} = useNavigation();
+  const {goBack, navigate} = useNavigation();
 
   const renderLinks = (icon, title, subtitle) => {
     return (
@@ -74,8 +74,28 @@ const Pro = () => {
         )}
       </Block>
       <Block padding={[hp(3), wp(4)]}>
-        <Button color="primary">Monthly $ 4.99 / month</Button>
-        <Button color="secondary">Yearly $ 3.99 / year (SAVE 20%)</Button>
+        <Button
+          onPress={() =>
+            navigate('Payment', {
+              title: 'Monthly $ 4.99 / month',
+              type: 'Monthly',
+              price: 4.99,
+            })
+          }
+          color="primary">
+          Monthly $ 4.99 / month
+        </Button>
+        <Button
+          onPress={() =>
+            navigate('Payment', {
+              title: 'Yearly $ 3.99 / year (SAVE 20%)',
+              type: 'Yearly',
+              price: 3.99 * 12,
+            })
+          }
+          color="secondary">
+          Yearly $ 3.99 / year (SAVE 20%)
+        </Button>
       </Block>
     </Block>
   );

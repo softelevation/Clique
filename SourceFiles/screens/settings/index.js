@@ -4,14 +4,10 @@ import HeaderSettings from '../../common/header-setting';
 import {hp, wp} from '../../components/responsive';
 import NeuView from '../../common/neu-element/lib/NeuView';
 import NeuButton from '../../common/neu-element/lib/NeuButton';
-import {
-  Block,
-  Text,
-  ImageComponent,
-  CustomButton,
-  Button,
-} from '../../components';
+import {Block, Text, ImageComponent, CustomButton} from '../../components';
 import {useNavigation} from '@react-navigation/core';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import {LoginManager} from 'react-native-fbsdk';
 
 const Settings = () => {
   const [card, setCard] = React.useState('Social');
@@ -189,6 +185,18 @@ const Settings = () => {
       </CustomButton>
     );
   };
+
+  const signOut = async () => {
+    try {
+      await GoogleSignin.revokeAccess();
+      await GoogleSignin.signOut();
+      await LoginManager.logOut();
+      navigate('Login');
+      this.setState({user: null}); // Remember to remove the user from your app's state as well
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <Block color="#F2EDFA">
       <SafeAreaView />
@@ -214,7 +222,7 @@ const Settings = () => {
           {renderSelectType('Help and Tutorials', 'HelpAndTutorials')}
 
           <Text
-            onPress={() => navigate('Login')}
+            onPress={() => signOut()}
             margin={[hp(2), 0, 0]}
             size={18}
             red

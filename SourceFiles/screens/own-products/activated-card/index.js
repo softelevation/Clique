@@ -10,6 +10,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import {Block, Button, ImageComponent, Text} from '../../../components';
 import {hp, wp} from '../../../components/responsive';
+import {t1} from '../../../components/theme/fontsize';
 
 const ActivatedCard = () => {
   const navigation = useNavigation();
@@ -54,12 +55,12 @@ const ActivatedCard = () => {
             {header}
           </Text>
           <Text
+            margin={[t1, 0, 0]}
             center
             style={{width: wp(95)}}
             white
             regular
-            size={28}
-            height={40}>
+            size={28}>
             {subtitle}
           </Text>
           <Block flex={false} margin={[hp(1), 0]}>

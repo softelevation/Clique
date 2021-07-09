@@ -19,6 +19,11 @@ const NeoInputField = ({
   inset,
   keyboardType,
   leftIcon,
+  maxLength,
+  onBlur,
+  secureTextEntry,
+  error,
+  errorText,
 }) => {
   const [toggleSecure, setToggleSecure] = useState(false);
   const isSecure = toggleSecure ? false : secure;
@@ -59,9 +64,13 @@ const NeoInputField = ({
       }
       onChangeText={onChangeText}
       value={value}
-      secureTextEntry={isSecure}
+      secureTextEntry={isSecure || secureTextEntry}
       placeholder={placeholder}
       inset={inset}
+      maxLength={maxLength}
+      onBlur={onBlur}
+      error={error}
+      errorText={errorText}
     />
   );
 };

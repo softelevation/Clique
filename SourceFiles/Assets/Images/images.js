@@ -54,6 +54,16 @@ export const images = {
   swap_icon: require('./icons/swap.png'),
   pro_icon: require('./icons/pro_icon.png'),
 
+  //Card
+  mastercard: require('./icons/mastercard.png'),
+  jcb: require('./icons/jcb.png'),
+  discover: require('./icons/discover.png'),
+  diner: require('./icons/diners-club.png'),
+  visa: require('./icons/visa.png'),
+  amex: require('./icons/amex.png'),
+  expiry_icon: require('./icons/expiry.png'),
+  cvv_icon: require('./icons/cvv.png'),
+
   // Forgot
   forgotBg: require('./forgot/forgot.png'),
   nameBg: require('./forgot/nameBg.png'),

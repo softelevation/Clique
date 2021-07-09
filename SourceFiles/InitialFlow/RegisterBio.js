@@ -201,20 +201,8 @@ export default class RegisterName extends Component {
           />
           <TouchableOpacity
             style={styles.linear}
-            onPress={() => this.btnSkipTap()}>
-            {/* <LinearGradient
-              colors={['#AF2DA5', '#BC60CB']}
-              style={styles.linear}>
-              <Text
-                style={{
-                  fontSize: SetFontSize.ts12,
-                  color: CommonColors.whiteColor,
-                  fontFamily: ConstantKeys.Averta_REGULAR,
-                }}>
-                Skip
-              </Text>
-            </LinearGradient> */}
-          </TouchableOpacity>
+            onPress={() => this.btnSkipTap()}
+          />
         </Block>
         <Block
           color={'#F2EDFA'}

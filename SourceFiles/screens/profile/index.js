@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useRef, useState} from 'react';
 import {
   Alert,
@@ -53,10 +54,6 @@ const Profile = () => {
   const [Icons, setIcons] = useState([]);
   const [newState, setNewState] = useState({});
   const [field, setField] = useState('');
-  // React.useEffect(() => {
-  //   getProfile();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -68,7 +65,7 @@ const Profile = () => {
     let phoneNumber = '';
 
     if (Platform.OS === 'android') {
-      phoneNumber = `tel:${phone}`;
+      phoneNumber = `${phone}`;
     } else {
       phoneNumber = `telprompt:${phone}`;
     }
@@ -79,8 +76,6 @@ const Profile = () => {
   const openUrl = async (url) => {
     const supported = await Linking.canOpenURL(url);
     if (supported) {
-      // Opening the link with some app, if the URL scheme is "http" the web link should be opened
-      // by some browser in the mobile
       await Linking.openURL(url);
     } else {
       Alert.alert(`Don't know how to open this URL: ${url}`);
@@ -233,13 +228,24 @@ const Profile = () => {
         <Block center flex={false} row>
           {strictValidObjectWithKeys(profile) &&
           strictValidString(profile.avatar) ? (
-            <ImageComponent
-              isURL
-              name={`${APIURL.ImageUrl}${profile.avatar}`}
-              height={80}
-              width={80}
-              radius={80}
-            />
+            <Block
+              flex={false}
+              borderWidth={3}
+              borderRadius={80}
+              borderColor={profile.is_pro === '0' ? '#fff' : '#FFDF00'}>
+              {profile.is_pro === '1' && (
+                <Block style={[styles.pro, {right: -15, top: -10}]}>
+                  <ImageComponent name={'pro_icon'} height={45} width={45} />
+                </Block>
+              )}
+              <ImageComponent
+                isURL
+                name={`${APIURL.ImageUrl}${profile.avatar}`}
+                height={80}
+                width={80}
+                radius={80}
+              />
+            </Block>
           ) : (
             <ImageComponent name="demouser" height={100} width={100} />
           )}
@@ -408,7 +414,11 @@ const Profile = () => {
     );
   };
   const onOpen = (type) => {
-    getSocialAndBusinessIcon(type);
+    if (type === 'business' && profile.is_pro === '0') {
+      navigate('ProCard');
+    } else {
+      getSocialAndBusinessIcon(type);
+    }
   };
   const _renderFooter = (type) => {
     return (
@@ -428,12 +438,7 @@ const Profile = () => {
     return (
       <FlatList
         ListFooterComponent={_renderFooter(type)}
-        contentContainerStyle={{
-          flexGrow: 1,
-          paddingHorizontal: wp(1),
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-        }}
+        contentContainerStyle={styles.socialIcons}
         numColumns={4}
         bounces={false}
         data={data}
@@ -471,6 +476,7 @@ const Profile = () => {
           paddingVertical: hp(2),
           paddingHorizontal: wp(2),
         }}
+        showsVerticalScrollIndicator={false}
         sections={Icons}
         keyExtractor={(item, index) => item + index}
         renderSectionHeader={({section}) => (
@@ -684,16 +690,20 @@ const Profile = () => {
       <SafeAreaView />
       {renderHeader()}
       {renderProfile()}
-      <ScrollView contentContainerStyle={styles.container} bounces={false}>
-        <Block
-          borderTopLeftRadius={20}
-          borderTopRightRadius={20}
-          padding={[hp(2), wp(2)]}
-          color="#F2EDFA">
-          <Text grey regular size={16} center>
-            Swipe to choose a type of account{' '}
-          </Text>
-          {renderOptions()}
+
+      <Block
+        borderTopLeftRadius={20}
+        borderTopRightRadius={20}
+        padding={[hp(2), wp(2)]}
+        color="#F2EDFA">
+        <Text grey regular size={16} center>
+          Swipe to choose a type of account{' '}
+        </Text>
+        {renderOptions()}
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.container}
+          bounces={false}>
           <Block flex={false}>
             {strictValidObjectWithKeys(profile) &&
               strictValidArray(profile.social) &&
@@ -704,8 +714,9 @@ const Profile = () => {
               activeOptions === 'business' &&
               renderSocialIcons(profile.business, 'business')}
           </Block>
-        </Block>
-      </ScrollView>
+        </ScrollView>
+      </Block>
+
       {/* <Modalize
         ref={modalizeRef}
         childrenStyle={{
@@ -730,6 +741,7 @@ const Profile = () => {
         ]}
         scrollViewProps={{
           scrollEnabled: true,
+          showsVerticalScrollIndicator: false,
           contentContainerStyle: {
             paddingBottom: hp(3),
           },
@@ -883,6 +895,7 @@ const Profile = () => {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
+    marginBottom: hp(3),
   },
   linear: {
     height: 40,
@@ -917,6 +930,12 @@ const styles = StyleSheet.create({
     height: 70,
     width: 70,
   },
-  pro: {position: 'absolute', right: -10, top: -15},
+  pro: {position: 'absolute', right: -10, top: -15, zIndex: 99},
+  socialIcons: {
+    flexGrow: 1,
+    paddingHorizontal: wp(1),
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
 });
 export default Profile;

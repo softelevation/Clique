@@ -2,6 +2,7 @@ import React from 'react';
 import {TextInput, StyleSheet, View} from 'react-native';
 import NeuView from './NeuView';
 import PropTypes from 'prop-types';
+import {Text} from '../../../components';
 
 const NeuInput = (props) => {
   const {
@@ -17,6 +18,9 @@ const NeuInput = (props) => {
     keyboardType,
     editable = true,
     maxLength,
+    onBlur,
+    errorText,
+    error,
     ...rest
   } = props;
 
@@ -57,6 +61,7 @@ const NeuInput = (props) => {
           keyboardType={keyboardType || 'default'}
           editable={editable}
           maxLength={maxLength}
+          onBlur={onBlur}
         />
         {Prefix && (
           <View
@@ -69,6 +74,11 @@ const NeuInput = (props) => {
           </View>
         )}
       </View>
+      {errorText && error && (
+        <Text style={{textAlign: 'left'}} size={12} errorColor>
+          {errorText}
+        </Text>
+      )}
     </NeuView>
   );
 };

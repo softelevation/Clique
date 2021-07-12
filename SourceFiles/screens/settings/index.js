@@ -12,7 +12,7 @@ import {LoginManager} from 'react-native-fbsdk';
 const Settings = () => {
   const [card, setCard] = React.useState('Social');
   const [nfc, setNfc] = React.useState(true);
-  const {navigate} = useNavigation();
+  const navigation = useNavigation();
   const renderOptions = (value1, value2) => {
     return (
       <Block middle center margin={[hp(2), 0, 0]} flex={false}>
@@ -188,11 +188,13 @@ const Settings = () => {
 
   const signOut = async () => {
     try {
-      await GoogleSignin.revokeAccess();
+      // await GoogleSignin.revokeAccess();
       await GoogleSignin.signOut();
       await LoginManager.logOut();
-      navigate('Login');
-      this.setState({user: null}); // Remember to remove the user from your app's state as well
+      // navigation.navigate('Login');
+      navigation.reset({
+        routes: [{name: 'Login'}],
+      });
     } catch (error) {
       console.error(error);
     }

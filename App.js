@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import {AppState, Linking} from 'react-native';
+import {AppState, Linking, StatusBar} from 'react-native';
 
 import AppIntroSlider from 'react-native-app-intro-slider';
 import Navigation from './SourceFiles/Constants/Navigation';
@@ -16,6 +16,12 @@ import * as NavigationService from './SourceFiles/Constants/NavigationService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {ConstantKeys} from './SourceFiles/Constants/ConstantKey';
+import {PersistGate} from 'redux-persist/integration/react';
+import {sagaMiddleware, store, persistor} from './SourceFiles/redux/store';
+import rootSaga from './SourceFiles/redux/saga';
+import {Provider} from 'react-redux';
+
+sagaMiddleware.run(rootSaga);
 
 var UserCardID = '';
 
@@ -199,6 +205,15 @@ export default class App extends Component {
   };
 
   render() {
-    return <Navigation />;
+    return (
+      <>
+        <Provider store={store}>
+          <StatusBar barStyle="light-content" />
+          <PersistGate loading={null} persistor={persistor}>
+            <Navigation />
+          </PersistGate>
+        </Provider>
+      </>
+    );
   }
 }

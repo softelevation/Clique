@@ -63,6 +63,7 @@ export const images = {
   amex: require('./icons/amex.png'),
   expiry_icon: require('./icons/expiry.png'),
   cvv_icon: require('./icons/cvv.png'),
+  user_verified_icon: require('./icons/check.png'),
 
   // Forgot
   forgotBg: require('./forgot/forgot.png'),

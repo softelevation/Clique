@@ -21,6 +21,8 @@ const NeuInput = (props) => {
     onBlur,
     errorText,
     error,
+    multiline = false,
+    textAlignVertical,
     ...rest
   } = props;
 
@@ -62,6 +64,8 @@ const NeuInput = (props) => {
           editable={editable}
           maxLength={maxLength}
           onBlur={onBlur}
+          multiline={multiline}
+          textAlignVertical={textAlignVertical}
         />
         {Prefix && (
           <View

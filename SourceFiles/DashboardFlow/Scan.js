@@ -210,7 +210,7 @@ export default class Scan extends Component {
             </View>
 
             <View style={{flex: 1}}>
-              <Video
+              {/* <Video
                 source={require('../Assets/Images/Video/scanVideo.mp4')} // Can be a URL or a local file.
                 ref={(ref) => {
                   this.player = ref;
@@ -221,7 +221,7 @@ export default class Scan extends Component {
                 style={{
                   flex: 1,
                 }}
-              />
+              /> */}
 
               <Text
                 style={{

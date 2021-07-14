@@ -9,6 +9,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import {Block} from '../components';
 import NeuView from './neu-element/lib/NeuView';
 import NeuButton from './neu-element/lib/NeuButton';
+import {useSelector} from 'react-redux';
 
 const styles = StyleSheet.create({
   ButtonContainer: {
@@ -83,13 +84,17 @@ const renderHeightWidth = (type) => {
 };
 
 const BottomTab = ({state, descriptors, navigation}) => {
+  const [profile, loading] = useSelector((v) => [
+    v.profile.data,
+    v.profile.loading,
+  ]);
+  console.log(profile, loading, 'profile');
   return (
     <View style={styles.ButtonContainer}>
       {state.routes.map((route, index) => {
         const {options} = descriptors[route.key];
         const label = route.name;
         const isFocused = state.index === index;
-
         const onPress = () => {
           const event = navigation.emit({
             type: 'tabPress',
@@ -98,7 +103,7 @@ const BottomTab = ({state, descriptors, navigation}) => {
           console.log(event, 'event');
 
           if (!isFocused && !event.defaultPrevented) {
-            if (route.name === 'Pro') {
+            if (route.name === 'Pro' && profile.is_pro === '0') {
               navigation.navigate('ProCard');
             } else {
               navigation.navigate(route.name);

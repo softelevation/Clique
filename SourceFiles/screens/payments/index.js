@@ -1,5 +1,5 @@
 import {useNavigation, useRoute} from '@react-navigation/native';
-import {Formik, ErrorMessage} from 'formik';
+import {Formik} from 'formik';
 import React, {useRef, useState} from 'react';
 import {
   TouchableOpacity,
@@ -201,6 +201,7 @@ const Payment = () => {
                       onBlur={() => setFieldTouched('cc_number')}
                       error={touched.cc_number && errors.cc_number}
                       icon={cardImage}
+                      keyboardType="number-pad"
                     />
                   </Block>
                   <Block
@@ -224,6 +225,7 @@ const Payment = () => {
                       }}
                       error={touched.cc_expiry && errors.cc_expiry}
                       icon=""
+                      keyboardType="number-pad"
                     />
                     <NeoInputField
                       style={{width: wp(12)}}
@@ -238,6 +240,7 @@ const Payment = () => {
                       onChangeText={handleChange('cc_cvv')}
                       onBlur={() => setFieldTouched('cc_cvv')}
                       error={touched.cc_expiry && errors.cc_expiry}
+                      keyboardType="number-pad"
                     />
                   </Block>
                   <Block flex={false} margin={[hp(1), 0, 0]}>

@@ -121,17 +121,16 @@ const Nearby = () => {
         console.log('Latitude : ' + position.coords.latitude);
 
         // set Timeout for display animation jkp
-
-        if (location.latitude > 0) {
+        setTimeout(() => {
           API_NEARBY_USERS(true);
-        }
+        }, 2000);
       },
       (error) => {
         console.log(error.message);
         getOneTimeLocation();
       },
       {
-        enableHighAccuracy: false,
+        enableHighAccuracy: true,
         timeout: 100000,
         maximumAge: 3600000,
       },

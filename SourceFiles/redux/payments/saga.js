@@ -1,5 +1,5 @@
 import {ActionConstants} from '../constants';
-import {makePaymentError, makePaymentSuccess} from '../action';
+import {makePaymentError, makePaymentSuccess} from './action';
 import {put, call, all, takeLatest} from 'redux-saga/effects';
 import {paymentApi} from './api';
 

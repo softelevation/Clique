@@ -418,18 +418,22 @@ const EditProfile = () => {
           <Block margin={[hp(1), 0]} alignSelf="center" flex={false}>
             <NeuInput
               width={wp(75)}
-              height={hp(5)}
+              height={hp(15)}
               borderRadius={16}
-              containerStyle={{paddingVetical: hp(1)}}
+              containerStyle={{paddingVetical: hp(1), height: hp(15)}}
               color="#eef2f9"
               onChangeText={(a) => setcompany(a)}
               value={company}
               placeholder="ex. UX/UI Designer at Atom 6"
               placeholderTextColor="grey"
-              maxLength={30}
+              maxLength={280}
+              multiline={true}
+              style={{height: hp(15)}}
+              textAlignVertical={'top'}
+              textStyle={{height: hp(15)}}
             />
             <Text margin={[hp(1.5), 0, 0]} right regular size={14} purple>
-              {company.length}/30
+              {company.length}/280
             </Text>
           </Block>
 

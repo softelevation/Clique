@@ -8,6 +8,7 @@ import {Block, Text, ImageComponent, CustomButton} from '../../components';
 import {useNavigation} from '@react-navigation/core';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {LoginManager} from 'react-native-fbsdk';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Settings = () => {
   const [card, setCard] = React.useState('Social');
@@ -189,6 +190,8 @@ const Settings = () => {
   const signOut = async () => {
     try {
       // await GoogleSignin.revokeAccess();
+      const keys = await AsyncStorage.getAllKeys();
+      await AsyncStorage.multiRemove(keys);
       await GoogleSignin.signOut();
       await LoginManager.logOut();
       // navigation.navigate('Login');

@@ -94,11 +94,11 @@ export default class Login extends Component {
 
         if (response.data.status === true) {
           this.setState({isloading: false});
-          this.props.navigation.navigate('Dashboard');
           await AsyncStorage.setItem(
             'user_id',
             JSON.stringify(response.data.data.user.user_id),
           );
+          this.props.navigation.navigate('Dashboard');
         } else {
           this.setState({isloading: false});
           this.showAlert(response.data.message);
@@ -165,11 +165,12 @@ export default class Login extends Component {
 
           if (response.data.status === true) {
             this.setState({googleLoader: false});
-            this.props.navigation.navigate('Dashboard');
+
             await AsyncStorage.setItem(
               'user_id',
               JSON.stringify(response.data.data.user.user_id),
             );
+            this.props.navigation.navigate('Dashboard');
           } else {
             this.setState({googleLoader: false});
             this.showAlert(response.data.message);
@@ -274,11 +275,14 @@ export default class Login extends Component {
                   console.log('Get Register User Response : ' + response);
 
                   if (response.data.status === true) {
-                    self.props.navigation.navigate('Dashboard');
+                    self.setState({
+                      fbLoader: false,
+                    });
                     await AsyncStorage.setItem(
                       'user_id',
                       JSON.stringify(response.data.data.user.user_id),
                     );
+                    self.props.navigation.navigate('Dashboard');
                   } else {
                     //
                     self.showAlert(response.data.message);

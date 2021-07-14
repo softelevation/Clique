@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {
   View,
-  Text,
   SafeAreaView,
   StyleSheet,
   StatusBar,
@@ -14,6 +13,7 @@ import {
   PermissionsAndroid,
   ScrollView,
   Linking,
+  Platform,
 } from 'react-native';
 
 //Constants
@@ -36,10 +36,18 @@ import QRCode from 'react-native-qrcode-svg';
 import {Neomorph, Shadow, NeomorphFlex} from 'react-native-neomorph-shadows';
 import LinearGradient from 'react-native-linear-gradient';
 import Clipboard from '@react-native-clipboard/clipboard';
+import {Block, Button, ImageComponent, Text} from '../components';
+import {
+  strictValidArray,
+  strictValidObjectWithKeys,
+  strictValidString,
+} from '../utils/commonUtils';
+import {hp, wp} from '../components/responsive';
 
 export default class UserProfile extends Component {
   constructor(props) {
     super(props);
+    console.log(props, 'props');
     this.state = {
       isloading: false,
       userData: {},
@@ -57,7 +65,7 @@ export default class UserProfile extends Component {
   }
 
   componentDidMount() {
-    this.getData();
+    this.API_USERDETAILS(true);
   }
 
   getData = async () => {
@@ -94,14 +102,16 @@ export default class UserProfile extends Component {
   }
 
   // API Get Country
-  API_USERDETAILS(isload) {
+  API_USERDETAILS = async (isload) => {
+    const user_id = await AsyncStorage.getItem('user_id');
     this.setState({isloading: isload});
 
     Webservice.post(APIURL.usersDetails, {
       user_id: this.state.profileID,
-      login_id: this.state.user.user_id,
+      login_id: user_id,
     })
       .then((response) => {
+        console.log(response, 'response', 'response');
         if (response.data == null) {
           this.setState({isloading: false});
           // alert('error');
@@ -177,14 +187,15 @@ export default class UserProfile extends Component {
           {cancelable: false},
         );
       });
-  }
+  };
 
   // API Add Constact
-  API_ADD_CONTACT(isload, contact_id) {
+  API_ADD_CONTACT = async (isload, contact_id) => {
+    const user_id = await AsyncStorage.getItem('user_id');
     this.setState({isloading: isload});
 
     Webservice.post(APIURL.addContact, {
-      user_id: this.state.user.user_id,
+      user_id: user_id,
       contact_id: contact_id,
     })
       .then((response) => {
@@ -198,7 +209,7 @@ export default class UserProfile extends Component {
         this.setState({isloading: false});
         console.log('Get Add Contact Response : ' + JSON.stringify(response));
 
-        if (response.data.status == true) {
+        if (response.data.status === true) {
           this.setState({isloading: false});
           this.showAlert(response.data.message);
           this.props.navigation.goBack();
@@ -211,12 +222,13 @@ export default class UserProfile extends Component {
         console.log(error.message);
         this.setState({isloading: false});
       });
-  }
+  };
 
-  API_REMOVE_CONTACT(isload, contact_id) {
+  API_REMOVE_CONTACT = async (isload, contact_id) => {
+    const user_id = await AsyncStorage.getItem('user_id');
     this.setState({isloading: isload});
     Webservice.post(APIURL.removeContact, {
-      user_id: this.state.user.user_id,
+      user_id: user_id,
       contact_id: contact_id,
     })
       .then((response) => {
@@ -245,7 +257,7 @@ export default class UserProfile extends Component {
         console.log(error.message);
         this.setState({isloading: false});
       });
-  }
+  };
 
   //Action Methods
   btnBackTap = () => {
@@ -408,6 +420,150 @@ export default class UserProfile extends Component {
     }
   }
 
+  renderHeader = () => {
+    //    gradientStart: '#E866B6',
+    // gradientEnd: '#6961FF',
+    return (
+      <Block center padding={[hp(2), wp(3)]} space="between" flex={false} row>
+        <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+          <LinearGradient colors={['#5542B6', '#7653DB']} style={styles.linear}>
+            <ImageComponent
+              resizeMode="contain"
+              height={14}
+              width={14}
+              name={'BackIcon'}
+              color="#F2EDFA"
+            />
+          </LinearGradient>
+        </TouchableOpacity>
+      </Block>
+    );
+  };
+  renderProfile = () => {
+    return (
+      <Block margin={[0, wp(3), hp(2)]} center flex={false} row>
+        {strictValidObjectWithKeys(this.state.profileData) &&
+          strictValidString(this.state.profileData.avatar) && (
+            <Block
+              flex={false}
+              borderWidth={3}
+              borderRadius={80}
+              borderColor={'#fff'}>
+              <ImageComponent
+                isURL
+                name={`${APIURL.ImageUrl}${this.state.profileData.avatar}`}
+                height={80}
+                width={80}
+                radius={80}
+              />
+            </Block>
+          )}
+        <Block margin={[0, 0, 0, wp(3)]} flex={false}>
+          <Text capitalize white bold size={24}>
+            {strictValidObjectWithKeys(this.state.profileData) &&
+              this.state.profileData.name}
+          </Text>
+          {strictValidObjectWithKeys(this.state.profileData) &&
+            strictValidString(this.state.profileData.bio) && (
+              <Text
+                style={{width: wp(55)}}
+                capitalize
+                margin={[hp(0.5), 0, 0]}
+                size={14}
+                white
+                numberOfLines={2}
+                regular>
+                {this.state.profileData.bio}
+              </Text>
+            )}
+        </Block>
+      </Block>
+    );
+  };
+  openPhoneNumber = async (phone) => {
+    let phoneNumber = '';
+    const replacePhone = phone.replace('tel:', '');
+    if (Platform.OS === 'android') {
+      phoneNumber = `tel:${replacePhone}`;
+    } else {
+      phoneNumber = `telprompt:${replacePhone}`;
+    }
+
+    Linking.openURL(phoneNumber);
+  };
+
+  openUrl = async (url) => {
+    const supported = await Linking.canOpenURL(url);
+    if (supported) {
+      await Linking.openURL(url);
+    } else {
+      Alert.alert(`Don't know how to open this URL: ${url}`);
+    }
+  };
+  openMessages = async (phone) => {
+    const separator = Platform.OS === 'ios' ? '&' : '?';
+    const url = `sms:${phone}${separator}body=${'Hi'}`;
+
+    Linking.canOpenURL(url)
+      .then((supported) => {
+        if (!supported) {
+          console.log('Unsupported url: ' + url);
+        } else {
+          return Linking.openURL(url);
+        }
+      })
+      .catch((err) => console.error('An error occurred', err));
+  };
+
+  openFacebook = (url) => {
+    return Linking.openURL(`fb://profile/${url}`).catch(() => {
+      Linking.openURL('https://www.facebook.com/' + url);
+    });
+  };
+
+  openLink = async (url, name) => {
+    // Checking if the link is supported for links with custom URL scheme.
+    console.log(url, name);
+    switch (name) {
+      case 'Phone':
+        return this.openPhoneNumber(url);
+      case 'Messages':
+        return this.openMessages(url);
+      default:
+        return this.openUrl(url, name);
+    }
+  };
+  renderSocialIcons = (data, type) => {
+    console.log(data, 'data');
+    return (
+      <FlatList
+        contentContainerStyle={styles.socialIcons}
+        numColumns={4}
+        bounces={false}
+        data={data}
+        renderItem={({item}) => {
+          console.log(item);
+          return (
+            <>
+              <TouchableOpacity
+                onPress={() => this.openLink(item.link, item.icone.name)}
+                style={{paddingHorizontal: wp(1), marginTop: hp(2)}}>
+                {strictValidObjectWithKeys(item.icone) && (
+                  <ImageComponent
+                    isURL
+                    name={`${APIURL.iconUrl}${item.icone.url}`}
+                    height={hp(10)}
+                    width={wp(22)}
+                  />
+                )}
+              </TouchableOpacity>
+            </>
+          );
+        }}
+      />
+    );
+  };
+
   render() {
     let BusinessIcon = IMG.OtherFlow.BusinessIcon;
     let SocialIcon = IMG.OtherFlow.SocialIcon;
@@ -422,644 +578,61 @@ export default class UserProfile extends Component {
     let SpotifyIcon = IMG.OtherFlow.SpotifyIcon;
     let PayIcon = IMG.OtherFlow.PayIcon;
     let LinkIcon = IMG.OtherFlow.LinkIcon;
-
+    console.log(this.state.profileData, 'this.state.profileData');
+    const {profileData} = this.state;
     return (
-      <>
-        <SafeAreaView
-          style={{flex: 0, backgroundColor: CommonColors.appBarColor}}
-        />
-
-        <StatusBar
-          barStyle={'light-content'}
-          backgroundColor={CommonColors.appBarColor}
-        />
-        <SafeAreaView style={styles.container}>
-          <View style={{flex: 1, backgroundColor: CommonColors.primaryColor}}>
-            <View style={styles.headerView}>
-              <TouchableOpacity
-                style={{
-                  marginLeft: 15,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  height: 40,
-                  width: 40,
-                }}
-                onPress={() => this.btnBackTap()}>
-                <Image
-                  style={{
-                    width: 20,
-                    height: 20,
-                    resizeMode: 'contain',
-                    tintColor: CommonColors.whiteColor,
-                  }}
-                  source={BackIcon}
-                />
-              </TouchableOpacity>
-
-              <Text style={styles.headerText}>Profile</Text>
-
-              <TouchableOpacity
-                style={{
-                  marginLeft: 15,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  height: 40,
-                  width: 40,
-                }}
-              />
-            </View>
-
-            <View style={{flex: 1}}>
-              {this.state.profileData != null ? (
-                <View
-                  style={{flex: 1, backgroundColor: CommonColors.PurpleColor}}>
-                  <ScrollView
-                    style={{
-                      flex: 1,
-                      backgroundColor: CommonColors.primaryColor,
-                    }}
-                    bounces={false}>
-                    <View style={{width: '100%', height: 250}}>
-                      <FastImage
-                        source={{
-                          uri: String(
-                            this.state.userData.asset_url +
-                              this.state.profileData.avatar,
-                          ),
-                        }}
-                        style={{flex: 1}}
-                        resizeMode={FastImage.resizeMode.cover}
-                      />
-
-                      <View
-                        style={{
-                          position: 'absolute',
-                          backgroundColor: CommonColors.transprentDark,
-                          bottom: 0,
-                          width: '100%',
-                        }}>
-                        <Text
-                          style={{
-                            marginLeft: 20,
-                            marginRight: 20,
-                            textAlign: 'left',
-                            marginTop: 15,
-                            fontSize: SetFontSize.ts25,
-                            color: CommonColors.whiteColor,
-                            fontFamily: ConstantKeys.Averta_BOLD,
-                          }}>
-                          {this.state.profileData.name}
-                        </Text>
-
-                        {this.state.profileData.bio != '' ? (
-                          <Text
-                            style={{
-                              marginLeft: 20,
-                              marginRight: 20,
-                              textAlign: 'left',
-                              marginTop: 5,
-                              fontSize: SetFontSize.ts14,
-                              color: CommonColors.whiteColor,
-                              fontFamily: ConstantKeys.Averta_REGULAR,
-                              marginBottom: 10,
-                            }}>
-                            {this.state.profileData.bio}
-                          </Text>
-                        ) : null}
-                      </View>
-                    </View>
-
-                    <TouchableOpacity
-                      style={{
-                        marginLeft: 20,
-                        marginRight: 20,
-                        marginTop: 10,
-                        height: 50,
-                        backgroundColor: CommonColors.appBarColor,
-                        flexDirection: 'row',
-                        borderRadius: 15,
-                        alignItems: 'center',
-                      }}
-                      onPress={() =>
-                        Linking.openURL(`tel:${this.state.profileData.mobile}`)
-                      }>
-                      <Image
-                        style={{marginLeft: 10, height: 30, width: 30}}
-                        source={CallIcon}
-                      />
-                      <Text
-                        style={{
-                          marginLeft: 10,
-                          color: CommonColors.whiteColor,
-                          fontSize: SetFontSize.ts16,
-                          fontFamily: ConstantKeys.Averta_REGULAR,
-                        }}>
-                        {this.state.profileData.mobile}
-                      </Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                      style={{
-                        marginLeft: 20,
-                        marginRight: 20,
-                        marginTop: 10,
-                        height: 50,
-                        backgroundColor: CommonColors.appBarColor,
-                        flexDirection: 'row',
-                        borderRadius: 15,
-                        alignItems: 'center',
-                      }}
-                      onPress={() =>
-                        Linking.openURL(
-                          `mailto:${this.state.profileData.email}`,
-                        )
-                      }>
-                      <Image
-                        style={{marginLeft: 10, height: 30, width: 30}}
-                        source={SocialMailIcon}
-                      />
-                      <Text
-                        style={{
-                          marginLeft: 10,
-                          color: CommonColors.whiteColor,
-                          fontSize: SetFontSize.ts16,
-                          fontFamily: ConstantKeys.Averta_REGULAR,
-                        }}>
-                        {this.state.profileData.email}
-                      </Text>
-                    </TouchableOpacity>
-
-                    {this.state.CompanyData.length != 0 ? (
-                      <View
-                        style={{
-                          marginTop: 15,
-                          marginLeft: 20,
-                          marginRight: 20,
-                          borderRadius: 15,
-                        }}>
-                        <View
-                          style={{
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            marginTop: 15,
-                            marginLeft: 15,
-                            marginRight: 15,
-                          }}>
-                          <Image source={BusinessIcon} />
-                          <Text
-                            style={{
-                              marginLeft: 10,
-                              fontSize: SetFontSize.ts14,
-                              color: CommonColors.whiteColor,
-                              fontFamily: ConstantKeys.Averta_REGULAR,
-                            }}>
-                            Job Position
-                          </Text>
-                        </View>
-
-                        <View style={{marginTop: 5}}>
-                          <FlatList
-                            data={this.state.CompanyData}
-                            keyExtractor={(item) => item.itemId}
-                            scrollEnabled={false}
-                            renderItem={({item, index}) =>
-                              item.job_position != '' ? (
-                                <TouchableOpacity
-                                  style={{
-                                    height: 60,
-                                    alignItems: 'center',
-                                    flexDirection: 'row',
-                                    backgroundColor: CommonColors.appBarColor,
-                                    borderRadius: 10,
-                                    paddingLeft: 10,
-                                    paddingRight: 10,
-                                    marginTop: 10,
-                                  }}
-                                  onPress={() =>
-                                    this.props.navigation.navigate(
-                                      'JobDetail',
-                                      {data: JSON.stringify(item)},
-                                    )
-                                  }>
-                                  <Image
-                                    style={{
-                                      height: 50,
-                                      width: 50,
-                                      borderRadius: 25,
-                                    }}
-                                    source={{
-                                      uri: String(
-                                        this.state.userData.asset_url +
-                                          item.logo,
-                                      ),
-                                    }}
-                                  />
-
-                                  <View
-                                    style={{flex: 1, justifyContent: 'center'}}>
-                                    <Text
-                                      style={{
-                                        marginLeft: 10,
-                                        fontSize: SetFontSize.ts16,
-                                        color: CommonColors.whiteColor,
-                                        fontFamily: ConstantKeys.Averta_REGULAR,
-                                      }}
-                                      numberOfLines={1}>
-                                      {item.job_position}
-                                    </Text>
-                                    <Text
-                                      style={{
-                                        marginTop: 5,
-                                        marginLeft: 10,
-                                        fontSize: SetFontSize.ts14,
-                                        color: CommonColors.whiteColor,
-                                        fontFamily: ConstantKeys.Averta_REGULAR,
-                                      }}
-                                      numberOfLines={1}>
-                                      {item.name}
-                                    </Text>
-                                  </View>
-
-                                  <Image
-                                    style={{
-                                      height: 15,
-                                      width: 15,
-                                      resizeMode: 'contain',
-                                    }}
-                                    source={RightArrowIcon}
-                                  />
-                                </TouchableOpacity>
-                              ) : null
-                            }
-                          />
-                        </View>
-                      </View>
-                    ) : null}
-
-                    {this.state.SocialData.length != 0 ? (
-                      <View
-                        style={{
-                          marginTop: 20,
-                          marginLeft: 20,
-                          marginRight: 20,
-                          borderRadius: 15,
-                        }}>
-                        <View
-                          style={{
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            marginTop: 15,
-                            marginLeft: 15,
-                            marginRight: 15,
-                          }}>
-                          <Image source={SocialIcon} />
-                          <Text
-                            style={{
-                              marginLeft: 10,
-                              fontSize: SetFontSize.ts14,
-                              color: CommonColors.whiteColor,
-                              fontFamily: ConstantKeys.Averta_REGULAR,
-                            }}>
-                            Social Netorks
-                          </Text>
-                        </View>
-
-                        <View style={{marginTop: 5}}>
-                          <FlatList
-                            data={this.state.SocialData}
-                            keyExtractor={(item) => item.itemId}
-                            renderItem={({item, index}) =>
-                              item.media_value != '' ? (
-                                <TouchableOpacity
-                                  style={{
-                                    height: 50,
-                                    alignItems: 'center',
-                                    flexDirection: 'row',
-                                    backgroundColor: CommonColors.appBarColor,
-                                    borderRadius: 10,
-                                    paddingLeft: 10,
-                                    paddingRight: 10,
-                                    marginTop: 10,
-                                  }}
-                                  onPress={() => this.SocialTap(item)}
-                                  onLongPress={() =>
-                                    this.CopyTextToClipBoard(item)
-                                  }>
-                                  <Image
-                                    style={{
-                                      height: 30,
-                                      width: 30,
-                                      borderRadius: 15,
-                                      resizeMode: 'contain',
-                                    }}
-                                    source={this.renderImage(item)}
-                                  />
-
-                                  <Text
-                                    style={{
-                                      flex: 1,
-                                      marginLeft: 10,
-                                      fontSize: SetFontSize.ts16,
-                                      color: CommonColors.whiteColor,
-                                      fontFamily: ConstantKeys.Averta_REGULAR,
-                                    }}>
-                                    {item.media_value}
-                                  </Text>
-                                </TouchableOpacity>
-                              ) : null
-                            }
-                          />
-                        </View>
-                      </View>
-                    ) : null}
-
-                    {this.state.MusicData.length != 0 ? (
-                      <View
-                        style={{
-                          marginTop: 15,
-                          marginLeft: 20,
-                          marginRight: 20,
-                          borderRadius: 15,
-                        }}>
-                        <View
-                          style={{
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            marginTop: 15,
-                            marginLeft: 15,
-                            marginRight: 15,
-                          }}>
-                          <Image source={MusicIcon} />
-                          <Text
-                            style={{
-                              marginLeft: 10,
-                              fontSize: SetFontSize.ts14,
-                              color: CommonColors.whiteColor,
-                              fontFamily: ConstantKeys.Averta_BOLD,
-                            }}>
-                            Music
-                          </Text>
-                        </View>
-
-                        <View style={{marginTop: 5}}>
-                          <FlatList
-                            data={this.state.MusicData}
-                            keyExtractor={(item) => item.itemId}
-                            renderItem={({item, index}) =>
-                              item.media_value != '' ? (
-                                <TouchableOpacity
-                                  style={{
-                                    height: 50,
-                                    alignItems: 'center',
-                                    flexDirection: 'row',
-                                    backgroundColor: CommonColors.appBarColor,
-                                    marginTop: 10,
-                                    paddingLeft: 10,
-                                    paddingRight: 10,
-                                    borderRadius: 10,
-                                  }}
-                                  onPress={() => this.MusicTap(item)}
-                                  onLongPress={() =>
-                                    this.CopyTextToClipBoard(item)
-                                  }>
-                                  <Image
-                                    style={{
-                                      height: 30,
-                                      width: 30,
-                                      borderRadius: 15,
-                                    }}
-                                    source={SpotifyIcon}
-                                  />
-
-                                  <Text
-                                    style={{
-                                      flex: 1,
-                                      marginLeft: 10,
-                                      fontSize: SetFontSize.ts16,
-                                      color: CommonColors.whiteColor,
-                                      fontFamily: ConstantKeys.Averta_REGULAR,
-                                    }}>
-                                    {item.media_value}
-                                  </Text>
-                                </TouchableOpacity>
-                              ) : null
-                            }
-                          />
-                        </View>
-                      </View>
-                    ) : null}
-
-                    {this.state.PaymentData.length != 0 ? (
-                      <View
-                        style={{
-                          marginTop: 15,
-                          marginLeft: 20,
-                          marginRight: 20,
-                          borderRadius: 15,
-                        }}>
-                        <View
-                          style={{
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            marginTop: 15,
-                            marginLeft: 15,
-                            marginRight: 15,
-                          }}>
-                          <Image source={PaymentIcon} />
-                          <Text
-                            style={{
-                              marginLeft: 10,
-                              fontSize: SetFontSize.ts14,
-                              color: CommonColors.whiteColor,
-                              fontFamily: ConstantKeys.Averta_REGULAR,
-                            }}>
-                            Payment
-                          </Text>
-                        </View>
-
-                        <View style={{marginTop: 5}}>
-                          <FlatList
-                            data={this.state.PaymentData}
-                            keyExtractor={(item) => item.itemId}
-                            renderItem={({item, index}) =>
-                              item.media_value != '' ? (
-                                <TouchableOpacity
-                                  style={{
-                                    height: 50,
-                                    alignItems: 'center',
-                                    flexDirection: 'row',
-                                    backgroundColor: CommonColors.appBarColor,
-                                    marginTop: 10,
-                                    paddingLeft: 10,
-                                    paddingRight: 10,
-                                    borderRadius: 10,
-                                  }}
-                                  onPress={() =>
-                                    this.props.navigation.navigate('QrCode', {
-                                      upiId: item.media_value,
-                                    })
-                                  }>
-                                  <Image
-                                    style={{
-                                      height: 30,
-                                      width: 30,
-                                      borderRadius: 15,
-                                    }}
-                                    source={PayIcon}
-                                  />
-
-                                  <Text
-                                    style={{
-                                      flex: 1,
-                                      marginLeft: 10,
-                                      fontSize: SetFontSize.ts16,
-                                      color: CommonColors.whiteColor,
-                                      fontFamily: ConstantKeys.Averta_REGULAR,
-                                    }}>
-                                    {item.media_value}
-                                  </Text>
-
-                                  {/* <Image style={{ height: 30, width: 30, resizeMode: 'contain', tintColor : CommonColors.whiteColor }}
-                                  source={{ uri: 'https://pngimg.com/uploads/qr_code/qr_code_PNG3.png' }} /> */}
-                                </TouchableOpacity>
-                              ) : null
-                            }
-                          />
-                        </View>
-                      </View>
-                    ) : null}
-
-                    {this.state.ExternalLinkData.length != 0 ? (
-                      <View
-                        style={{
-                          marginTop: 15,
-                          marginLeft: 20,
-                          marginRight: 20,
-                          borderRadius: 15,
-                        }}>
-                        <View
-                          style={{
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            marginTop: 15,
-                            marginLeft: 15,
-                            marginRight: 15,
-                          }}>
-                          <Image source={ExternalLinkIcon} />
-                          <Text
-                            style={{
-                              marginLeft: 10,
-                              fontSize: SetFontSize.ts14,
-                              color: CommonColors.whiteColor,
-                              fontFamily: ConstantKeys.Averta_REGULAR,
-                            }}>
-                            External Links
-                          </Text>
-                        </View>
-
-                        <View style={{marginTop: 5}}>
-                          <FlatList
-                            data={this.state.ExternalLinkData}
-                            keyExtractor={(item) => item.itemId}
-                            renderItem={({item, index}) =>
-                              item.media_value != '' ? (
-                                <TouchableOpacity
-                                  style={{
-                                    height: 50,
-                                    alignItems: 'center',
-                                    flexDirection: 'row',
-                                    backgroundColor: CommonColors.appBarColor,
-                                    marginTop: 10,
-                                    borderRadius: 10,
-                                    paddingRight: 10,
-                                    paddingLeft: 10,
-                                  }}
-                                  onPress={() => this.ExternalLinkTap(item)}
-                                  onLongPress={() =>
-                                    this.CopyTextToClipBoard(item)
-                                  }>
-                                  <Image
-                                    style={{
-                                      height: 30,
-                                      width: 30,
-                                      borderRadius: 15,
-                                    }}
-                                    source={LinkIcon}
-                                  />
-
-                                  <Text
-                                    style={{
-                                      flex: 1,
-                                      marginLeft: 10,
-                                      fontSize: SetFontSize.ts16,
-                                      color: CommonColors.whiteColor,
-                                      fontFamily: ConstantKeys.Averta_REGULAR,
-                                    }}>
-                                    {item.media_value}
-                                  </Text>
-                                </TouchableOpacity>
-                              ) : null
-                            }
-                          />
-                        </View>
-                      </View>
-                    ) : null}
-                  </ScrollView>
-                  <View style={{height: 50}}>
-                    {this.state.isContact == 1 ? (
-                      <TouchableOpacity
-                        style={{
-                          height: 50,
-                          backgroundColor: CommonColors.errorColor,
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                        }}
-                        onPress={() => this.btnRemoveContactTap()}>
-                        <Text
-                          style={{
-                            color: CommonColors.whiteColor,
-                            fontSize: SetFontSize.ts16,
-                            fontFamily: ConstantKeys.Averta_BOLD,
-                          }}>
-                          Remove From Contacts
-                        </Text>
-                      </TouchableOpacity>
-                    ) : (
-                      <TouchableOpacity
-                        style={{
-                          height: 50,
-                          backgroundColor: CommonColors.arrowColor,
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                        }}
-                        onPress={() => this.btnAddContactTap()}>
-                        <Text
-                          style={{
-                            color: CommonColors.blackColor,
-                            fontSize: SetFontSize.ts16,
-                            fontFamily: ConstantKeys.Averta_BOLD,
-                          }}>
-                          Add To Contacts
-                        </Text>
-                      </TouchableOpacity>
-                    )}
-                  </View>
-                </View>
-              ) : null}
-
-              {this.state.isloading ? <LoadingView /> : null}
-            </View>
-          </View>
-        </SafeAreaView>
-      </>
+      <Block linear>
+        <SafeAreaView />
+        {this.renderHeader()}
+        {this.renderProfile()}
+        <Block
+          borderTopLeftRadius={20}
+          borderTopRightRadius={20}
+          padding={[hp(2), wp(2)]}
+          color="#F2EDFA">
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.container}
+            bounces={false}>
+            {!this.state.isloading && (
+              <>
+                {this.state.isContact === 0 ? (
+                  <Button
+                    onPress={() => this.btnAddContactTap()}
+                    color="primary"
+                    linear>
+                    Request for Connection
+                  </Button>
+                ) : (
+                  <Button
+                    onPress={() => this.btnRemoveContactTap()}
+                    color="primary"
+                    linear>
+                    Remove from Connection
+                  </Button>
+                )}
+              </>
+            )}
+            <Block flex={false}>
+              {strictValidObjectWithKeys(profileData) &&
+                strictValidArray(profileData.social_data) &&
+                this.renderSocialIcons(profileData.social, 'social')}
+              {/* {strictValidObjectWithKeys(profileData) &&
+                  strictValidArray(profileData.business) &&
+                  activeOptions === 'business' &&
+                  renderSocialIcons(profileData.business, 'business')} */}
+            </Block>
+          </ScrollView>
+        </Block>
+        {this.state.isloading ? <LoadingView /> : null}
+      </Block>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: CommonColors.primaryColor,
+    flexGrow: 1,
   },
   headerView: {
     height: 74,
@@ -1075,5 +648,12 @@ const styles = StyleSheet.create({
     fontSize: SetFontSize.ts16,
     color: CommonColors.whiteColor,
     textAlign: 'center',
+  },
+  linear: {
+    height: 40,
+    width: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 20,
   },
 });

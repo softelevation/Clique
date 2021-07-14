@@ -39,6 +39,8 @@ import {
 } from '../../utils/commonUtils';
 import {t2} from '../../components/theme/fontsize';
 import {light} from '../../components/theme/colors';
+import {profileRequest} from './action';
+import {useDispatch} from 'react-redux';
 
 const Profile = () => {
   const {navigate} = useNavigation();
@@ -54,20 +56,27 @@ const Profile = () => {
   const [Icons, setIcons] = useState([]);
   const [newState, setNewState] = useState({});
   const [field, setField] = useState('');
+  const dispatch = useDispatch();
 
   useFocusEffect(
     React.useCallback(() => {
       getProfile();
+      callProfile();
     }, []),
   );
 
+  const callProfile = async () => {
+    const user_id = await AsyncStorage.getItem('user_id');
+    dispatch(profileRequest(user_id));
+  };
+
   const openPhoneNumber = async (phone) => {
     let phoneNumber = '';
-
+    const replacePhone = phone.replace('tel:', '');
     if (Platform.OS === 'android') {
-      phoneNumber = `${phone}`;
+      phoneNumber = `tel:${replacePhone}`;
     } else {
-      phoneNumber = `telprompt:${phone}`;
+      phoneNumber = `telprompt:${replacePhone}`;
     }
 
     Linking.openURL(phoneNumber);
@@ -94,6 +103,12 @@ const Profile = () => {
         }
       })
       .catch((err) => console.error('An error occurred', err));
+  };
+
+  const openFacebook = (url) => {
+    return Linking.openURL(`fb://profile/${url}`).catch(() => {
+      Linking.openURL('https://www.facebook.com/' + url);
+    });
   };
 
   const openLink = async (url, name) => {
@@ -200,9 +215,12 @@ const Profile = () => {
         <Text white semibold size={18}>
           {'      '}
         </Text>
-        <Text white semibold size={18}>
-          {'My Profile'}
-        </Text>
+        <ImageComponent
+          resizeMode="contain"
+          height={55}
+          width={159}
+          name={'nameBg'}
+        />
         <TouchableOpacity
           onPress={() =>
             navigate('ScanCard', {
@@ -233,11 +251,11 @@ const Profile = () => {
               borderWidth={3}
               borderRadius={80}
               borderColor={profile.is_pro === '0' ? '#fff' : '#FFDF00'}>
-              {profile.is_pro === '1' && (
+              {/* {profile.is_pro === '1' && (
                 <Block style={[styles.pro, {right: -15, top: -10}]}>
                   <ImageComponent name={'pro_icon'} height={45} width={45} />
                 </Block>
-              )}
+              )} */}
               <ImageComponent
                 isURL
                 name={`${APIURL.ImageUrl}${profile.avatar}`}
@@ -250,9 +268,16 @@ const Profile = () => {
             <ImageComponent name="demouser" height={100} width={100} />
           )}
           <Block margin={[0, 0, 0, wp(3)]} flex={false}>
-            <Text capitalize white bold size={24}>
-              {strictValidObjectWithKeys(profile) && profile.name}
-            </Text>
+            <Block center flex={false} row>
+              <Text margin={[0, wp(2), 0, 0]} capitalize white bold size={24}>
+                {strictValidObjectWithKeys(profile) && profile.name}
+              </Text>
+              <ImageComponent
+                name="user_verified_icon"
+                height={25}
+                width={25}
+              />
+            </Block>
             {strictValidObjectWithKeys(profile) &&
               strictValidString(profile.bio) && (
                 <Text
@@ -261,12 +286,13 @@ const Profile = () => {
                   margin={[hp(0.5), 0, 0]}
                   size={14}
                   white
+                  numberOfLines={2}
                   regular>
                   {profile.bio}
                 </Text>
               )}
             <Text margin={[hp(0.5), 0, 0]} size={16} semibold white>
-              0 Connections
+              1 Connections
             </Text>
           </Block>
         </Block>
@@ -426,11 +452,11 @@ const Profile = () => {
         onPress={() => onOpen(type)}
         active
         color="#eef2f9"
-        width={85}
-        height={85}
+        height={hp(9.3)}
+        width={wp(19.3)}
         borderRadius={16}
-        style={{marginHorizontal: wp(1), marginTop: hp(2.5)}}>
-        <ImageComponent name="add_icon" height={30} width={30} />
+        style={{marginHorizontal: wp(1.1), marginTop: hp(2.5)}}>
+        <ImageComponent name="add_icon" height={25} width={25} />
       </NeuButton>
     );
   };
@@ -457,8 +483,8 @@ const Profile = () => {
                   <ImageComponent
                     isURL
                     name={`${APIURL.iconUrl}${item.icone.url}`}
-                    height={90}
-                    width={90}
+                    height={hp(10)}
+                    width={wp(22)}
                   />
                 )}
               </TouchableOpacity>
@@ -791,7 +817,6 @@ const Profile = () => {
                 height={95}
                 width={95}
               />
-
               <Text capitalize purple semibold margin={[hp(1), 0]}>
                 {newState.name}
               </Text>
@@ -927,8 +952,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   bgImage: {
-    height: 70,
-    width: 70,
+    height: hp(8.2),
+    width: wp(17.5),
+    //  height={hp(10)}
+    //                 width={wp(22)}
   },
   pro: {position: 'absolute', right: -10, top: -15, zIndex: 99},
   socialIcons: {

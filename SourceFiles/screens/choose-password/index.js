@@ -17,6 +17,7 @@ import NeoInputField from '../../components/neo-input';
 import {useRoute} from '@react-navigation/native';
 import * as yup from 'yup';
 import {Formik} from 'formik';
+import {t1} from '../../components/theme/fontsize';
 
 const ChoosePassword = () => {
   const navigation = useNavigation();
@@ -27,10 +28,22 @@ const ChoosePassword = () => {
     confirm_pass: null,
   });
 
-  const renderValidationText = () => {
+  const renderValidationText = (values) => {
     return (
       <Block flex={false} margin={[hp(2), wp(2), 0]}>
-        <Text margin={[hp(0.5), 0]} grey size={14}>
+        <Text
+          // style={
+          //   values.password.length > 5
+          //     ? {
+          //         textDecorationLine: 'line-through',
+          //       }
+          //     : {
+          //         textDecorationLine: 'none',
+          //       }
+          // }
+          margin={[hp(0.5), 0]}
+          grey
+          size={14}>
           {'- Use 6 to 64 characters.'}
         </Text>
         <Text margin={[hp(0.5), 0]} grey size={14}>
@@ -53,6 +66,44 @@ const ChoosePassword = () => {
       password: values.password,
     });
   };
+  const errorText = (err) => {
+    return (
+      <Text
+        style={{alignSelf: 'flex-start'}}
+        margin={[t1, wp(3), 0]}
+        size={14}
+        red>
+        {err}
+      </Text>
+    );
+  };
+
+  const checkColor = (type) => {
+    switch (type) {
+      case 0:
+        return '#E3674B';
+      case 1:
+        return '#E3674B';
+      case 2:
+        return '#E3674B';
+      case 3:
+        return '#4BB6E3';
+      case 4:
+        return '#4BB6E3';
+      case 5:
+        return '#4BB6E3';
+      case 6:
+        return '#4BB6E3';
+      case 7:
+        return '#4BE351';
+      case 8:
+        return '#4BE351';
+      case '':
+        return '#E3674B';
+      default:
+        return '#4BE351';
+    }
+  };
 
   return (
     <Block linear>
@@ -64,7 +115,15 @@ const ChoosePassword = () => {
         }}
         onSubmit={onSubmit}
         validationSchema={yup.object().shape({
-          password: yup.string().min(8).required(),
+          password: yup
+            .string()
+            .required('Please Enter your password')
+            .min(6, 'Password is too short - should be 6 chars minimum.')
+            .matches(
+              // eslint-disable-next-line prettier/prettier
+              '^(?=.*[a-z])(?=.*[0-9])(?=.{8,})',
+              'Password should be at least one letter and one number:',
+            ),
           confirm_password: yup
             .string()
             .when('password', {
@@ -76,7 +135,7 @@ const ChoosePassword = () => {
                   'Both password need to be the same',
                 ),
             })
-            .required(),
+            .required('Please Enter your confirm password'),
         })}>
         {({
           values,
@@ -103,7 +162,7 @@ const ChoosePassword = () => {
                   />
                 </LinearGradient>
               </TouchableOpacity>
-
+              {console.log(errors, 'errors')}
               <ImageComponent
                 resizeMode="contain"
                 height={140}
@@ -132,6 +191,8 @@ const ChoosePassword = () => {
                     value={values.password}
                     secure
                   />
+                  {errors.password && errorText(errors.password)}
+
                   <Block flex={false} margin={[hp(1), 0]} />
                   <NeoInputField
                     placeholder={'Confirm Password'}
@@ -141,6 +202,8 @@ const ChoosePassword = () => {
                     onChangeText={handleChange('confirm_password')}
                     value={values.confirm_password}
                   />
+                  {errors.confirm_password &&
+                    errorText(errors.confirm_password)}
                 </Block>
                 <Block row margin={[hp(1.5), wp(2)]} flex={false}>
                   <Text grey size={14}>
@@ -157,14 +220,21 @@ const ChoosePassword = () => {
                           flex={false}
                           borderRadius={10}
                           margin={[0, wp(0.7)]}
-                          style={styles.dot}
+                          style={[
+                            styles.dot,
+                            {
+                              backgroundColor: checkColor(
+                                values.password.length,
+                              ),
+                            },
+                          ]}
                         />
                       );
                     }}
                   />
                 </Block>
 
-                {renderValidationText()}
+                {renderValidationText(values)}
               </ScrollView>
               <Block flex={false} padding={[0, wp(3)]}>
                 <Button
@@ -203,7 +273,7 @@ const styles = StyleSheet.create({
   dot: {
     height: 10,
     width: 10,
-    backgroundColor: '#4BE351',
+    // backgroundColor: '#4BE351',
   },
   container: {flexGrow: 1},
   shadow: {

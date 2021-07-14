@@ -19,12 +19,12 @@ const Contacts = () => {
           <Block padding={[0, wp(3)]} row center flex={false}>
             <ImageComponent
               name="demouser"
-              height={50}
-              width={50}
-              radius={100}
+              height={60}
+              width={60}
+              radius={60}
             />
-            <Text margin={[0, 0, 0, wp(3)]} grey size={16}>
-              Jerome Bell
+            <Text semibold margin={[0, 0, 0, wp(3)]} grey size={16}>
+              Tejus V Reddy
             </Text>
           </Block>
         </Neomorph>
@@ -34,7 +34,7 @@ const Contacts = () => {
   return (
     <Block linear>
       <SafeAreaView />
-      <HeaderPostLogin title="My Contacts" />
+      <HeaderPostLogin title="My Connections" />
       <Block
         color={'#F2EDFA'}
         padding={[hp(2), 0]}
@@ -44,7 +44,7 @@ const Contacts = () => {
         <FlatList
           contentContainerStyle={styles.container}
           showsVerticalScrollIndicator={false}
-          data={[1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8]}
+          data={[1]}
           renderItem={_renderItem}
         />
       </Block>

@@ -60,6 +60,7 @@ import HelpAndTutorials from '../screens/settings/help-and-tutorials';
 import ScanTag from '../screens/own-products/scan-card/tag';
 import Payment from '../screens/payments';
 import Success from '../screens/success';
+import ProfileAnalytics from '../screens/pro/analytics';
 
 //Constant Variable for navigation
 const Stack = createStackNavigator();
@@ -280,7 +281,7 @@ function DashboardSubStack() {
       initialRouteName="Profile">
       <Tab.Screen name="Profile" component={Profile} />
       <Tab.Screen name="Nearby" component={NearByStackScreen} />
-      <Tab.Screen name="Pro" component={Chat} />
+      <Tab.Screen name="Pro" component={ProfileAnalytics} />
       <Tab.Screen name="Chat" component={Contacts} />
       <Tab.Screen name="Setting" component={Settings} />
     </Tab.Navigator>
@@ -353,6 +354,11 @@ function DashboardStack() {
         options={animationOptions}
         name="Success"
         component={Success}
+      />
+      <Stack.Screen
+        options={animationOptions}
+        name="ProfileAnalytics"
+        component={ProfileAnalytics}
       />
     </Stack.Navigator>
   );

@@ -132,9 +132,19 @@ export default class Login extends Component {
     });
   }
 
+  googleSignOut = async () => {
+    try {
+      await GoogleSignin.revokeAccess();
+      await GoogleSignin.signOut();
+      return true;
+    } catch (error) {
+      return false;
+    }
+  };
+
   signIn = async () => {
     this.setState({
-      googleLoader: true,
+      isloading: true,
     });
     try {
       GoogleSignin.hasPlayServices();
@@ -150,10 +160,11 @@ export default class Login extends Component {
         password: '12345678',
       };
       console.log(data, 'data');
+      this.setState({isloading: true});
       Webservice.post(APIURL.userLogin, data)
         .then(async (response) => {
           if (response.data == null) {
-            this.setState({googleLoader: false});
+            this.setState({isloading: false});
             // alert('error');
             Alert.alert(response.originalError.message);
 
@@ -164,21 +175,22 @@ export default class Login extends Component {
           );
 
           if (response.data.status === true) {
-            this.setState({googleLoader: false});
+            this.setState({isloading: false});
 
             await AsyncStorage.setItem(
               'user_id',
               JSON.stringify(response.data.data.user.user_id),
             );
             this.props.navigation.navigate('Dashboard');
+            await this.googleSignOut();
           } else {
-            this.setState({googleLoader: false});
+            this.setState({isloading: false});
             this.showAlert(response.data.message);
           }
         })
         .catch((error) => {
           console.log(error.message);
-          this.setState({googleLoader: false});
+          this.setState({isloading: false});
           Alert.alert(
             error.message,
             '',
@@ -199,26 +211,26 @@ export default class Login extends Component {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // sign in was cancelled
         this.setState({
-          googleLoader: false,
+          isloading: false,
         });
 
         //Alert.alert('cancelled');
       } else if (error.code === statusCodes.IN_PROGRESS) {
         // operation in progress already
         this.setState({
-          googleLoader: false,
+          isloading: false,
         });
 
         Alert.alert('in progress');
       } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
         this.setState({
-          googleLoader: false,
+          isloading: false,
         });
 
         Alert.alert('play services not available or outdated');
       } else {
         this.setState({
-          googleLoader: false,
+          isloading: false,
         });
 
         Alert.alert('Something went wrong', error.toString());
@@ -229,7 +241,7 @@ export default class Login extends Component {
   fbLogin = async () => {
     var self = this;
     self.setState({
-      fbLoader: true,
+      isloading: true,
     });
     if (Platform.OS === 'android') {
       LoginManager.setLoginBehavior('web_only');
@@ -243,16 +255,21 @@ export default class Login extends Component {
       function (result) {
         if (result.isCancelled) {
           console.log('Login cancelled');
+          self.setState({
+            isloading: false,
+          });
         } else {
           const _responseInfoCallback = (error, result) => {
             if (error) {
               console.log('Error fetching data: ' + error.toString());
               self.setState({
-                fbLoader: false,
+                isloading: false,
               });
             } else {
               console.log(result, 'user');
-
+              self.setState({
+                isloading: true,
+              });
               const data = {
                 social_type: 'F',
                 social_token: result.id,
@@ -268,7 +285,7 @@ export default class Login extends Component {
                     // alert('error');
                     Alert.alert(response.originalError.message);
                     self.setState({
-                      fbLoader: false,
+                      isloading: false,
                     });
                     return;
                   }
@@ -276,20 +293,21 @@ export default class Login extends Component {
 
                   if (response.data.status === true) {
                     self.setState({
-                      fbLoader: false,
+                      isloading: false,
                     });
                     await AsyncStorage.setItem(
                       'user_id',
                       JSON.stringify(response.data.data.user.user_id),
                     );
                     self.props.navigation.navigate('Dashboard');
+                    await LoginManager.logOut();
                   } else {
                     //
                     self.showAlert(response.data.message);
                   }
                 })
                 .catch((err) => {
-                  self.setState({fbLoader: false});
+                  self.setState({isloading: false});
                   console.log(err.message);
                   Alert.alert(
                     err.message,
@@ -328,11 +346,11 @@ export default class Login extends Component {
               result.grantedPermissions.toString(),
           );
           console.log(result, 'result', res);
-          self.setState({fbLoader: false});
+          self.setState({isloading: false});
         }
       },
       function (error) {
-        self.setState({fbLoader: false});
+        self.setState({isloading: false});
         console.log('Login fail with error: ' + error);
       },
     );
@@ -387,7 +405,6 @@ export default class Login extends Component {
                 />
                 <Block flex={false} margin={[hp(0.5), 0]} />
                 <Button
-                  isLoading={this.state.fbLoader}
                   onPress={() => this.fbLogin()}
                   iconStyle={{marginTop: hp(0.8)}}
                   icon="facebook_icon"
@@ -397,7 +414,6 @@ export default class Login extends Component {
                 </Button>
                 <Button
                   onPress={() => this.signIn()}
-                  isLoading={this.state.googleLoader}
                   iconStyle={{marginTop: hp(0.8)}}
                   icon="google"
                   iconWithText

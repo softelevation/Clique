@@ -2,18 +2,14 @@ import React from 'react';
 import {FlatList, SafeAreaView, ScrollView, StyleSheet} from 'react-native';
 import HeaderSettings from '../../../common/header-setting';
 import {hp, wp} from '../../../components/responsive';
-import NeuView from '../../../common/neu-element/lib/NeuView';
-import NeuButton from '../../../common/neu-element/lib/NeuButton';
-import {
-  Block,
-  Text,
-  ImageComponent,
-  CustomButton,
-  Button,
-} from '../../../components';
+import {Block, Text, Button} from '../../../components';
 import NeoInputField from '../../../components/neo-input';
+import * as yup from 'yup';
+import {Formik} from 'formik';
+import {t1} from '../../../components/theme/fontsize';
+import {checkColor} from '../../../utils/mobile-utils';
+
 const ChangePasswordSettings = () => {
-  const [activeOptions, setactiveOptions] = React.useState('Social');
   const renderValidationText = () => {
     return (
       <Block flex={false} margin={[hp(2), wp(5), 0]}>
@@ -32,55 +28,127 @@ const ChangePasswordSettings = () => {
       </Block>
     );
   };
+
+  const errorText = (err) => {
+    return (
+      <Text
+        style={{alignSelf: 'flex-start'}}
+        margin={[t1, wp(3), 0]}
+        size={14}
+        red>
+        {err}
+      </Text>
+    );
+  };
+
+  const onSubmit = () => {};
   return (
     <Block color="#F2EDFA">
       <SafeAreaView />
       <HeaderSettings title="Change Password" />
-      <ScrollView contentContainerStyle={{paddingBottom: hp(2)}}>
-        <Block padding={[hp(2), wp(3)]} flex={false} center>
-          <NeoInputField
-            placeholder={'Password'}
-            fontColor="#707070"
-            icon="eye"
-            secure
-          />
-          <Block flex={false} margin={[hp(1), 0]} />
-          <NeoInputField
-            placeholder={'Confirm Password'}
-            fontColor="#707070"
-            icon="eye"
-            secure
-          />
-        </Block>
-        <Block row margin={[hp(1.5), wp(5)]} flex={false}>
-          <Text grey size={14}>
-            You’re almost there!
-          </Text>
-          <FlatList
-            data={[1, 2, 3, 4, 5, 6]}
-            horizontal
-            contentContainerStyle={styles.flatlist}
-            scrollEnabled={false}
-            renderItem={({item}) => {
-              return (
-                <Block
-                  flex={false}
-                  borderRadius={10}
-                  margin={[0, wp(0.7)]}
-                  style={styles.dot}
-                />
-              );
-            }}
-          />
-        </Block>
+      <Formik
+        initialValues={{
+          password: '',
+          confirm_password: '',
+        }}
+        onSubmit={onSubmit}
+        validationSchema={yup.object().shape({
+          password: yup
+            .string()
+            .required('Please Enter your password')
+            .min(6, 'Password is too short - should be 6 chars minimum.')
+            .matches(
+              // eslint-disable-next-line prettier/prettier
+              '^(?=.*[a-z])(?=.*[0-9])(?=.{8,})',
+              'Password should be at least one letter and one number:',
+            ),
+          confirm_password: yup
+            .string()
+            .when('password', {
+              is: (val) => (val && val.length > 0 ? true : false),
+              then: yup
+                .string()
+                .oneOf(
+                  [yup.ref('password')],
+                  'Both password need to be the same',
+                ),
+            })
+            .required('Please Enter your confirm password'),
+        })}>
+        {({
+          values,
+          handleChange,
+          errors,
+          setFieldTouched,
+          touched,
+          setFieldValue,
+          handleSubmit,
+          dirty,
+          isValid,
+        }) => (
+          <ScrollView contentContainerStyle={{paddingBottom: hp(2)}}>
+            <Block padding={[hp(2), wp(3)]} flex={false} center>
+              <NeoInputField
+                placeholder={'Password'}
+                fontColor="#707070"
+                icon="eye"
+                onChangeText={handleChange('password')}
+                value={values.password}
+                secure
+              />
+              {errors.password && errorText(errors.password)}
 
-        {renderValidationText()}
-        <Block flex={false} padding={[hp(7), wp(5)]}>
-          <Button linear color="primary">
-            Change Password
-          </Button>
-        </Block>
-      </ScrollView>
+              <Block flex={false} margin={[hp(1), 0]} />
+              <NeoInputField
+                placeholder={'Confirm Password'}
+                fontColor="#707070"
+                icon="eye"
+                secure
+                onChangeText={handleChange('confirm_password')}
+                value={values.confirm_password}
+              />
+              {errors.confirm_password && errorText(errors.confirm_password)}
+            </Block>
+            <Block row margin={[hp(1.5), wp(5)]} flex={false}>
+              <Text grey size={14}>
+                You’re almost there!
+              </Text>
+              <FlatList
+                data={[1, 2, 3, 4, 5, 6]}
+                horizontal
+                contentContainerStyle={styles.flatlist}
+                scrollEnabled={false}
+                renderItem={({item}) => {
+                  return (
+                    <Block
+                      flex={false}
+                      borderRadius={10}
+                      margin={[0, wp(0.7)]}
+                      style={[
+                        styles.dot,
+                        {
+                          backgroundColor: checkColor(values.password.length),
+                        },
+                      ]}
+                    />
+                  );
+                }}
+              />
+            </Block>
+
+            {renderValidationText()}
+            <Block flex={false} padding={[hp(7), wp(5)]}>
+              <Button
+                disabled={!isValid || !dirty}
+                onPress={handleSubmit}
+                linear
+                color="primary">
+                Change Password
+              </Button>
+            </Block>
+          </ScrollView>
+        )}
+      </Formik>
     </Block>
   );
 };

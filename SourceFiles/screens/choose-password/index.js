@@ -18,6 +18,7 @@ import {useRoute} from '@react-navigation/native';
 import * as yup from 'yup';
 import {Formik} from 'formik';
 import {t1} from '../../components/theme/fontsize';
+import {checkColor} from '../../utils/mobile-utils';
 
 const ChoosePassword = () => {
   const navigation = useNavigation();
@@ -76,33 +77,6 @@ const ChoosePassword = () => {
         {err}
       </Text>
     );
-  };
-
-  const checkColor = (type) => {
-    switch (type) {
-      case 0:
-        return '#E3674B';
-      case 1:
-        return '#E3674B';
-      case 2:
-        return '#E3674B';
-      case 3:
-        return '#4BB6E3';
-      case 4:
-        return '#4BB6E3';
-      case 5:
-        return '#4BB6E3';
-      case 6:
-        return '#4BB6E3';
-      case 7:
-        return '#4BE351';
-      case 8:
-        return '#4BE351';
-      case '':
-        return '#E3674B';
-      default:
-        return '#4BE351';
-    }
   };
 
   return (

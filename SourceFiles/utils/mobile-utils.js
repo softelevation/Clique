@@ -126,3 +126,29 @@ export const getCardColor = (card) => {
       return '';
   }
 };
+export const checkColor = (type) => {
+  switch (type) {
+    case 0:
+      return '#E3674B';
+    case 1:
+      return '#E3674B';
+    case 2:
+      return '#E3674B';
+    case 3:
+      return '#4BB6E3';
+    case 4:
+      return '#4BB6E3';
+    case 5:
+      return '#4BB6E3';
+    case 6:
+      return '#4BB6E3';
+    case 7:
+      return '#4BE351';
+    case 8:
+      return '#4BE351';
+    case '':
+      return '#E3674B';
+    default:
+      return '#4BE351';
+  }
+};

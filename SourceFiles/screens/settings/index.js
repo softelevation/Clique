@@ -14,7 +14,8 @@ const Settings = () => {
   const [card, setCard] = React.useState('Social');
   const [nfc, setNfc] = React.useState(true);
   const navigation = useNavigation();
-  const renderOptions = (value1, value2) => {
+
+  const renderOptions = () => {
     return (
       <Block middle center margin={[hp(2), 0, 0]} flex={false}>
         <NeuView
@@ -77,7 +78,7 @@ const Settings = () => {
       </Block>
     );
   };
-  const renderNfcOptions = (value1, value2) => {
+  const renderNfcOptions = () => {
     return (
       <Block middle center margin={[hp(2), 0, 0]} flex={false}>
         <NeuView
@@ -143,7 +144,7 @@ const Settings = () => {
   const renderSelectType = (title, nav) => {
     return (
       <CustomButton
-        onPress={() => navigate(nav)}
+        onPress={() => navigation.navigate(nav)}
         activeOpacity={0.7}
         center
         margin={[hp(3), 0, 0]}
@@ -167,7 +168,6 @@ const Settings = () => {
     return (
       <CustomButton
         activeOpacity={0.7}
-        // onPress={() => navigate(nav)}
         center
         margin={[hp(3), 0, 0]}
         flex={false}>
@@ -189,12 +189,10 @@ const Settings = () => {
 
   const signOut = async () => {
     try {
-      // await GoogleSignin.revokeAccess();
       const keys = await AsyncStorage.getAllKeys();
       await AsyncStorage.multiRemove(keys);
       await GoogleSignin.signOut();
       await LoginManager.logOut();
-      // navigation.navigate('Login');
       navigation.reset({
         routes: [{name: 'Login'}],
       });
@@ -206,7 +204,9 @@ const Settings = () => {
     <Block color="#F2EDFA">
       <SafeAreaView />
       <HeaderSettings title="Settings" />
-      <ScrollView contentContainerStyle={{paddingBottom: hp(2)}}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{paddingBottom: hp(2)}}>
         <Block flex={false} padding={[0, wp(3)]}>
           <Text uppercase size={18} grey semibold>
             Card Settings

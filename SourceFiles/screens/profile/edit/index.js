@@ -7,7 +7,6 @@ import {
   StatusBar,
   StyleSheet,
   TouchableOpacity,
-  View,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {Block, Text, ImageComponent, Button} from '../../../components';
@@ -28,6 +27,9 @@ import ImagePicker from 'react-native-image-crop-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Webservice from '../../../Constants/API';
 import {showAlert} from '../../../utils/mobile-utils';
+import LoadingView from '../../../Constants/LoadingView';
+import Slider from '@react-native-community/slider';
+import {CommonColors} from '../../../Constants/ColorConstant';
 
 const EditProfile = () => {
   const {params} = useRoute();
@@ -39,7 +41,8 @@ const EditProfile = () => {
   const [email, setEmail] = useState(profile.email || '');
   const [profileImage, setProfileImage] = useState('');
   const [loading, setloading] = useState(false);
-  console.log(profileImage, 'profileImage', 'userprofileupdate');
+  const [deleteSocialLoading, setDeleteSocialLoading] = useState(false);
+  const [radius, setRadius] = useState(236);
 
   const submitadata = async (values) => {
     const user_id = await AsyncStorage.getItem('user_id');
@@ -329,16 +332,45 @@ const EditProfile = () => {
       </Block>
     );
   };
+  const deleteSocialAccount = async (data) => {
+    const user_id = await AsyncStorage.getItem('user_id');
+    setDeleteSocialLoading(true);
+    Webservice.post(APIURL.socialIcons, {
+      user_id: user_id,
+      id: data.id,
+      action: 'delete',
+    })
+      .then(async (response) => {
+        if (response.data == null) {
+          setDeleteSocialLoading(false);
+          // alert('error');
+          showAlert(response.originalError.message);
+
+          return;
+        }
+
+        if (response.data.status === true) {
+          setDeleteSocialLoading(false);
+          // setIcons(response.data.data);
+          // setAction('');
+          // setField('');
+          // getProfile();
+          goBack();
+        } else {
+          setDeleteSocialLoading(false);
+          showAlert(response.data.message);
+        }
+      })
+      .catch((error) => {
+        setDeleteSocialLoading(false);
+        showAlert(error.message);
+      });
+  };
 
   const renderSocialIcons = (data, type) => {
     return (
       <FlatList
-        contentContainerStyle={{
-          flexGrow: 1,
-          paddingHorizontal: wp(1),
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-        }}
+        contentContainerStyle={styles.flexStyle}
         numColumns={5}
         bounces={false}
         data={data}
@@ -349,15 +381,17 @@ const EditProfile = () => {
                 style={{paddingHorizontal: wp(1), marginTop: hp(2)}}
                 flex={false}
                 row>
-                <ImageComponent
-                  isURL
-                  name={`${APIURL.iconUrl}${item.url}`}
-                  height={90}
-                  width={90}
-                />
+                {strictValidObjectWithKeys(item.icone) && (
+                  <ImageComponent
+                    isURL
+                    name={`${APIURL.iconUrl}${item.icone.url}`}
+                    height={hp(10)}
+                    width={wp(22)}
+                  />
+                )}
                 <TouchableOpacity
                   style={styles.deleteAccountButton}
-                  onPress={() => goBack()}>
+                  onPress={() => deleteSocialAccount(item)}>
                   <ImageComponent
                     resizeMode="contain"
                     height={40}
@@ -373,94 +407,125 @@ const EditProfile = () => {
     );
   };
   return (
-    <Block linear>
-      <StatusBar barStyle="light-content" />
-      <SafeAreaView />
-      {renderHeader()}
-      <ScrollView contentContainerStyle={styles.container} bounces={false}>
-        <Block
-          style={{flexGrow: 1}}
-          borderTopLeftRadius={20}
-          borderTopRightRadius={20}
-          padding={[hp(2), wp(3)]}
-          color="#F2EDFA">
-          {renderProfile()}
-          <Block margin={[hp(1), 0]} alignSelf="center" flex={false}>
-            <Text uppercase grey semibold center margin={[0, 0, hp(2)]}>
-              {name}
-            </Text>
-            <NeuInput
-              width={wp(75)}
-              height={hp(5)}
-              borderRadius={16}
-              containerStyle={{paddingVetical: hp(1)}}
-              color="#eef2f9"
-              onChangeText={(a) => setName(a)}
-              value={name}
-              placeholder="Enter Name"
-              placeholderTextColor="grey"
-            />
-          </Block>
-          <Block margin={[hp(1), 0]} alignSelf="center" flex={false}>
-            <NeuInput
-              width={wp(75)}
-              height={hp(5)}
-              borderRadius={16}
-              containerStyle={{paddingVetical: hp(1)}}
-              color="#eef2f9"
-              onChangeText={(a) => setEmail(a)}
-              value={email}
-              placeholder="Email"
-              placeholderTextColor="grey"
-              editable={false}
-            />
-          </Block>
-          <Block margin={[hp(1), 0]} alignSelf="center" flex={false}>
-            <NeuInput
-              width={wp(75)}
-              height={hp(15)}
-              borderRadius={16}
-              containerStyle={{paddingVetical: hp(1), height: hp(15)}}
-              color="#eef2f9"
-              onChangeText={(a) => setcompany(a)}
-              value={company}
-              placeholder="ex. UX/UI Designer at Atom 6"
-              placeholderTextColor="grey"
-              maxLength={280}
-              multiline={true}
-              style={{height: hp(15)}}
-              textAlignVertical={'top'}
-              textStyle={{height: hp(15)}}
-            />
-            <Text margin={[hp(1.5), 0, 0]} right regular size={14} purple>
-              {company.length}/280
-            </Text>
-          </Block>
+    <>
+      <Block linear>
+        <StatusBar barStyle="light-content" />
+        <SafeAreaView />
+        {renderHeader()}
+        <ScrollView contentContainerStyle={styles.container} bounces={false}>
+          <Block
+            style={{flexGrow: 1}}
+            borderTopLeftRadius={20}
+            borderTopRightRadius={20}
+            padding={[hp(2), wp(3)]}
+            color="#F2EDFA">
+            {renderProfile()}
+            <Block margin={[hp(1), 0]} alignSelf="center" flex={false}>
+              <Text uppercase grey semibold center margin={[0, 0, hp(2)]}>
+                {name}
+              </Text>
+              <NeuInput
+                width={wp(80)}
+                height={hp(5)}
+                borderRadius={16}
+                containerStyle={{paddingVetical: hp(1)}}
+                color="#eef2f9"
+                onChangeText={(a) => setName(a)}
+                value={name}
+                placeholder="Enter Name"
+                placeholderTextColor="grey"
+              />
+            </Block>
+            <Block margin={[hp(1), 0]} alignSelf="center" flex={false}>
+              <NeuInput
+                width={wp(80)}
+                height={hp(5)}
+                borderRadius={16}
+                containerStyle={{paddingVetical: hp(1)}}
+                color="#eef2f9"
+                onChangeText={(a) => setEmail(a)}
+                value={email}
+                placeholder="Email"
+                placeholderTextColor="grey"
+                editable={false}
+              />
+            </Block>
+            <Block margin={[hp(1), 0]} alignSelf="center" flex={false}>
+              <NeuInput
+                width={wp(80)}
+                height={hp(15)}
+                borderRadius={16}
+                containerStyle={{paddingVetical: hp(1), height: hp(15)}}
+                color="#eef2f9"
+                onChangeText={(a) => setcompany(a)}
+                value={company}
+                placeholder="ex. UX/UI Designer at Atom 6"
+                placeholderTextColor="grey"
+                maxLength={280}
+                multiline={true}
+                style={{height: hp(15)}}
+                textAlignVertical={'top'}
+                textStyle={{height: hp(15)}}
+              />
+              <Text margin={[hp(1.5), 0, 0]} right regular size={14} purple>
+                {company.length}/280
+              </Text>
+            </Block>
+            {/* <Block
+              flex={false}
+              margin={[0, 0, 0, wp(7)]}
+              style={{width: wp(80)}}>
+              <Text size={18} grey semibold>
+                Radius
+              </Text>
+              <Slider
+                minimumTrackTintColor={CommonColors.PurpleColor}
+                maximumValue={300}
+                minimumValue={0}
+                // style={{width: '100%'}}
+                onValueChange={(val) => setRadius(val)}
+                step={1}
+                value={radius}
+              />
+              <Block row space="between">
+                <Text size={18} margin={[hp(1), 0]} grey semibold>
+                  0km
+                </Text>
+                <Text size={18} margin={[hp(1), 0]} grey semibold>
+                  Selected Value : {radius}km
+                </Text>
+                <Text size={18} margin={[hp(1), 0]} grey semibold>
+                  300km
+                </Text>
+              </Block>
+            </Block> */}
 
-          {/* {renderOptions()}
-          <Text grey semibold center margin={[hp(2), 0]}>
-            Accounts
-          </Text>
-          {strictValidObjectWithKeys(profile) &&
-            strictValidArray(profile.social) &&
-            activeOptions === 'social' &&
-            renderSocialIcons(profile.social, 'social')}
-          {strictValidObjectWithKeys(profile) &&
-            strictValidArray(profile.business) &&
-            activeOptions === 'business' &&
-            renderSocialIcons(profile.business, 'business')} */}
+            {renderOptions()}
+            <Text grey semibold center margin={[hp(2), 0]}>
+              Accounts
+            </Text>
+            {strictValidObjectWithKeys(profile) &&
+              strictValidArray(profile.social) &&
+              activeOptions === 'social' &&
+              renderSocialIcons(profile.social, 'social')}
+            {strictValidObjectWithKeys(profile) &&
+              strictValidArray(profile.business) &&
+              activeOptions === 'business' &&
+              renderSocialIcons(profile.business, 'business')}
+          </Block>
+        </ScrollView>
+        <Block flex={false} color="#F2EDFA" padding={[0, wp(3), hp(4)]}>
+          <Button
+            isLoading={loading}
+            onPress={() => submitadata()}
+            color="primary"
+            linear>
+            Save
+          </Button>
         </Block>
-      </ScrollView>
-      <Block flex={false} color="#F2EDFA" padding={[0, wp(3), hp(4)]}>
-        <Button
-          isLoading={loading}
-          onPress={() => submitadata()}
-          color="primary"
-          linear>
-          Save
-        </Button>
       </Block>
-    </Block>
+      {deleteSocialLoading ? <LoadingView /> : null}
+    </>
   );
 };
 const styles = StyleSheet.create({
@@ -499,5 +564,11 @@ const styles = StyleSheet.create({
   },
   neoContainer: {flexDirection: 'row'},
   deleteAccountButton: {position: 'absolute', top: 0, right: 0},
+  flexStyle: {
+    flexGrow: 1,
+    paddingHorizontal: wp(1),
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
 });
 export default EditProfile;

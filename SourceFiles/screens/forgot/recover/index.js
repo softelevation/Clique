@@ -7,26 +7,9 @@ import {Block, Button, ImageComponent, Input, Text} from '../../../components';
 import {hp, wp} from '../../../components/responsive';
 import {Neomorph, Shadow} from 'react-native-neomorph-shadows';
 import NeoInputField from '../../../components/neo-input';
+import {renderValidationText} from '../../../utils/constants';
 
 const RecoverPassword = () => {
-  const renderValidationText = () => {
-    return (
-      <Block flex={false} margin={[hp(2), 0, 0]}>
-        <Text margin={[hp(0.5), 0]} grey size={14}>
-          {'- Use 6 to 64 characters.'}
-        </Text>
-        <Text margin={[hp(0.5), 0]} grey size={14}>
-          {'- Besides letters, include at least a number.'}
-        </Text>
-        <Text margin={[hp(0.5), 0]} size={14} grey>
-          {'- Password is case sensitive.'}
-        </Text>
-        <Text margin={[hp(0.5), 0]} size={14} grey>
-          {'- Avoid using the same password for different accounts.'}
-        </Text>
-      </Block>
-    );
-  };
   const renderIcons = () => {
     return (
       <Block row space={'between'} flex={false} margin={[hp(4), wp(2), 0]}>

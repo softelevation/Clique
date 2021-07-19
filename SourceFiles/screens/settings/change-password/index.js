@@ -8,27 +8,9 @@ import * as yup from 'yup';
 import {Formik} from 'formik';
 import {t1} from '../../../components/theme/fontsize';
 import {checkColor} from '../../../utils/mobile-utils';
+import {renderValidationText} from '../../../utils/constants';
 
 const ChangePasswordSettings = () => {
-  const renderValidationText = () => {
-    return (
-      <Block flex={false} margin={[hp(2), wp(5), 0]}>
-        <Text margin={[hp(0.5), 0]} grey size={14}>
-          {'- Use 6 to 64 characters.'}
-        </Text>
-        <Text margin={[hp(0.5), 0]} grey size={14}>
-          {'- Besides letters, include at least a number.'}
-        </Text>
-        <Text margin={[hp(0.5), 0]} size={14} grey>
-          {'- Password is case sensitive.'}
-        </Text>
-        <Text margin={[hp(0.5), 0]} size={14} grey>
-          {'- Avoid using the same password for different accounts.'}
-        </Text>
-      </Block>
-    );
-  };
-
   const errorText = (err) => {
     return (
       <Text
@@ -136,7 +118,7 @@ const ChangePasswordSettings = () => {
               />
             </Block>
 
-            {renderValidationText()}
+            <Block padding={[0, wp(3)]}>{renderValidationText()}</Block>
             <Block flex={false} padding={[hp(7), wp(5)]}>
               <Button
                 disabled={!isValid || !dirty}

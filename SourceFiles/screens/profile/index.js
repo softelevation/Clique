@@ -286,7 +286,7 @@ const Profile = () => {
                   margin={[hp(0.5), 0, 0]}
                   size={14}
                   white
-                  numberOfLines={2}
+                  numberOfLines={4}
                   regular>
                   {profile.bio}
                 </Text>
@@ -757,21 +757,21 @@ const Profile = () => {
                     value={field}
                   />
                 )}
-                <Block space="between" row flex={false} margin={[hp(2), 0, 0]}>
+                <Block flex={false} margin={[hp(2), 0, 0]}>
                   <Button
-                    style={{width: wp(32)}}
+                    // style={{width: wp(32)}}
                     linear
                     onPress={() => openLink(newState.link, newState.icone.name)}
                     color="primary">
                     Open Link
                   </Button>
-                  <Button
+                  {/* <Button
                     style={{width: wp(32)}}
                     onPress={() => deleteSocialAccount(newState)}
                     isLoading={deleteSocialLoading}
                     color="accent">
                     Delete
-                  </Button>
+                  </Button> */}
                 </Block>
                 <Button
                   disabled={!field}

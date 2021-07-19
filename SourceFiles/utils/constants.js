@@ -1,3 +1,6 @@
+import {Block, Text} from '../components';
+import {hp, wp} from '../components/responsive';
+import React from 'react';
 export const neomorph = {
   borderRadius: 20,
   shadowRadius: 100,
@@ -21,3 +24,21 @@ export const neomorph = {
 //      }}
 //    />
 //  </Neomorph>;
+export const renderValidationText = (values) => {
+  return (
+    <Block flex={false} margin={[hp(2), wp(2), 0]}>
+      <Text margin={[hp(0.5), 0]} grey size={14}>
+        {'- Min 8 characters.'}
+      </Text>
+      <Text margin={[hp(0.5), 0]} grey size={14}>
+        {'- Minimum 1 letter'}
+      </Text>
+      <Text margin={[hp(0.5), 0]} size={14} grey>
+        {'- Minimum 1 number'}
+      </Text>
+      <Text margin={[hp(0.5), 0]} size={14} grey>
+        {'- Avoid using the same password for different accounts.'}
+      </Text>
+    </Block>
+  );
+};

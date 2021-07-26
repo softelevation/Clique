@@ -1,5 +1,5 @@
 import React from 'react';
-import {Block, ImageComponent, Text} from '../../../components';
+import {Block, CustomButton, ImageComponent, Text} from '../../../components';
 import {
   TouchableOpacity,
   SafeAreaView,
@@ -34,8 +34,8 @@ const ProfileAnalytics = () => {
           contentContainerStyle={styles.container}
           bounces={false}>
           <Block
-            padding={[hp(3), wp(3), hp(10)]}
-            margin={[hp(2), wp(3), 0]}
+            padding={[hp(3), wp(4), hp(10)]}
+            margin={[hp(2), wp(5), 0]}
             shadow
             borderRadius={15}
             primary
@@ -54,6 +54,28 @@ const ProfileAnalytics = () => {
               </Text>
             </Block>
           </Block>
+          <CustomButton
+            onPress={() => navigate('UserMap')}
+            padding={[0, wp(4), hp(4)]}
+            margin={[hp(2), wp(5), 0]}
+            shadow
+            borderRadius={15}
+            primary
+            row
+            style={{overflow: 'hidden'}}
+            flex={false}>
+            <Block padding={[hp(3), 0]} style={{width: wp(45)}} flex={false}>
+              <Text purple semibold size={18}>
+                Pro Map
+              </Text>
+              <Text regular size={14} grey>
+                Unlock the most advanced digital business card in the world
+              </Text>
+            </Block>
+            <Block flex={false} margin={[-hp(2), 0, 0]}>
+              <ImageComponent name="map_pro_icon" height={200} width={350} />
+            </Block>
+          </CustomButton>
         </ScrollView>
       </Block>
     </Block>

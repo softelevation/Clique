@@ -422,8 +422,10 @@ const Profile = () => {
                   <ImageComponent
                     isURL
                     name={`${APIURL.iconUrl}${item.icone.url}`}
-                    height={hp(10)}
-                    width={wp(22)}
+                    // height={hp(10)}
+                    // width={wp(22)}
+                    height={Platform.OS === 'ios' ? 90 : 85}
+                    width={Platform.OS === 'ios' ? 90 : 85}
                   />
                 )}
               </TouchableOpacity>
@@ -825,10 +827,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   bgImage: {
-    height: hp(8.2),
-    width: wp(17.5),
-    //  height={hp(10)}
-    //                 width={wp(22)}
+    height: Platform.OS === 'ios' ? 72 : 67,
+    width: Platform.OS === 'ios' ? 72 : 67,
   },
   pro: {position: 'absolute', right: -10, top: -15, zIndex: 99},
   socialIcons: {

@@ -42,3 +42,30 @@ export const renderValidationText = (values) => {
     </Block>
   );
 };
+export const users = [
+  {
+    longitude: 76.76038,
+    latitude: 30.741083,
+  },
+  {
+    longitude: 76.778781,
+    latitude: 30.726326,
+  },
+  {
+    longitude: 76.762141,
+    latitude: 30.717925,
+  },
+  {
+    longitude: 76.761172,
+    latitude: 30.728748,
+  },
+
+  {
+    longitude: 30.722769,
+    latitude: 30.722769,
+  },
+  {
+    longitude: 76.768656,
+    latitude: 30.732078,
+  },
+];

@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import {
   Alert,
   FlatList,
+  Image,
+  Platform,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -79,8 +81,6 @@ const EditProfile = () => {
       });
   };
   const btnSelectImage = () => {
-    // this.setState({isloading: true});
-
     Alert.alert(
       ValidationMsg.AppName,
       'Choose your Suitable Option',
@@ -371,7 +371,7 @@ const EditProfile = () => {
     return (
       <FlatList
         contentContainerStyle={styles.flexStyle}
-        numColumns={5}
+        numColumns={4}
         bounces={false}
         data={data}
         renderItem={({item}) => {
@@ -385,8 +385,9 @@ const EditProfile = () => {
                   <ImageComponent
                     isURL
                     name={`${APIURL.iconUrl}${item.icone.url}`}
-                    height={hp(10)}
-                    width={wp(22)}
+                    height={Platform.OS === 'ios' ? 85 : 80}
+                    width={Platform.OS === 'ios' ? 85 : 80}
+                    resizeMode="contain"
                   />
                 )}
                 <TouchableOpacity

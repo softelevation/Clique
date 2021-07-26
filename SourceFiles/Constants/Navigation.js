@@ -61,6 +61,7 @@ import ScanTag from '../screens/own-products/scan-card/tag';
 import Payment from '../screens/payments';
 import Success from '../screens/success';
 import ProfileAnalytics from '../screens/pro/analytics';
+import UserMap from '../screens/pro/usermap';
 
 //Constant Variable for navigation
 const Stack = createStackNavigator();
@@ -263,10 +264,15 @@ function ProfileStackScreen() {
     </Stack.Navigator>
   );
 }
-function ChatStack() {
+function ProStack() {
   return (
-    <Stack.Navigator initialRouteName="Chat" headerMode="none">
-      <Stack.Screen name="Chat" component={Chat} />
+    <Stack.Navigator initialRouteName="Pro" headerMode="none">
+      <Stack.Screen name="Pro" component={ProfileAnalytics} />
+      <Stack.Screen
+        options={animationOptions}
+        name="UserMap"
+        component={UserMap}
+      />
     </Stack.Navigator>
   );
 }
@@ -281,7 +287,7 @@ function DashboardSubStack() {
       initialRouteName="Profile">
       <Tab.Screen name="Profile" component={Profile} />
       <Tab.Screen name="Nearby" component={NearByStackScreen} />
-      <Tab.Screen name="Pro" component={ProfileAnalytics} />
+      <Tab.Screen name="Pro" component={ProStack} />
       <Tab.Screen name="Chat" component={Contacts} />
       <Tab.Screen name="Setting" component={Settings} />
     </Tab.Navigator>
@@ -360,6 +366,11 @@ function DashboardStack() {
         name="ProfileAnalytics"
         component={ProfileAnalytics}
       />
+      {/* <Stack.Screen
+        options={animationOptions}
+        name="UserMap"
+        component={UserMap}
+      /> */}
     </Stack.Navigator>
   );
 }

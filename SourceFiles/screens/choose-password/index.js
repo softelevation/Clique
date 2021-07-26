@@ -18,6 +18,8 @@ import {useRoute} from '@react-navigation/native';
 import * as yup from 'yup';
 import {Formik} from 'formik';
 import {t1} from '../../components/theme/fontsize';
+import {checkColor} from '../../utils/mobile-utils';
+import {renderValidationText} from '../../utils/constants';
 
 const ChoosePassword = () => {
   const navigation = useNavigation();
@@ -27,37 +29,6 @@ const ChoosePassword = () => {
     password: null,
     confirm_pass: null,
   });
-
-  const renderValidationText = (values) => {
-    return (
-      <Block flex={false} margin={[hp(2), wp(2), 0]}>
-        <Text
-          // style={
-          //   values.password.length > 5
-          //     ? {
-          //         textDecorationLine: 'line-through',
-          //       }
-          //     : {
-          //         textDecorationLine: 'none',
-          //       }
-          // }
-          margin={[hp(0.5), 0]}
-          grey
-          size={14}>
-          {'- Use 6 to 64 characters.'}
-        </Text>
-        <Text margin={[hp(0.5), 0]} grey size={14}>
-          {'- Besides letters, include at least a number.'}
-        </Text>
-        <Text margin={[hp(0.5), 0]} size={14} grey>
-          {'- Password is case sensitive.'}
-        </Text>
-        <Text margin={[hp(0.5), 0]} size={14} grey>
-          {'- Avoid using the same password for different accounts.'}
-        </Text>
-      </Block>
-    );
-  };
 
   const onSubmit = (values) => {
     navigation.navigate('RegisterProfilePic', {
@@ -76,33 +47,6 @@ const ChoosePassword = () => {
         {err}
       </Text>
     );
-  };
-
-  const checkColor = (type) => {
-    switch (type) {
-      case 0:
-        return '#E3674B';
-      case 1:
-        return '#E3674B';
-      case 2:
-        return '#E3674B';
-      case 3:
-        return '#4BB6E3';
-      case 4:
-        return '#4BB6E3';
-      case 5:
-        return '#4BB6E3';
-      case 6:
-        return '#4BB6E3';
-      case 7:
-        return '#4BE351';
-      case 8:
-        return '#4BE351';
-      case '':
-        return '#E3674B';
-      default:
-        return '#4BE351';
-    }
   };
 
   return (
@@ -234,7 +178,7 @@ const ChoosePassword = () => {
                   />
                 </Block>
 
-                {renderValidationText(values)}
+                {renderValidationText()}
               </ScrollView>
               <Block flex={false} padding={[0, wp(3)]}>
                 <Button

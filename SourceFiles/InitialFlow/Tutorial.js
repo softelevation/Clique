@@ -47,39 +47,14 @@ const slides = [
 const Tutorial = () => {
   const introRef = useRef();
   const navigation = useNavigation();
+
   const goToLogin = () => {
     navigation.navigate('Login');
-    // navigation.dispatch(
-    //   CommonActions.reset({
-    //     index: 0,
-    //     routes: [
-    //       {
-    //         name: 'Login',
-    //         state: {
-    //           routes: [{name: 'Login'}],
-    //         },
-    //       },
-    //     ],
-    //   }),
-    // );
   };
 
   const goToRegister = () => {
     const props = props;
     navigation.navigate('RegisterName', {isFromTutorial: true});
-    // navigation.dispatch(
-    //   CommonActions.reset({
-    //     index: 0,
-    //     routes: [
-    //       {
-    //         name: 'Login',
-    //         state: {
-    //           routes: [{name: 'RegisterName', params: {isFromTutorial: true}}],
-    //         },
-    //       },
-    //     ],
-    //   }),
-    // );
   };
 
   const storeIsSkipValue = async (isLogin) => {
@@ -132,6 +107,7 @@ const Tutorial = () => {
           {slides.length > 1 &&
             slides.map((a, i) => (
               <TouchableOpacity
+                key={i}
                 style={[
                   styles.dot,
                   i === activeIndex
@@ -155,6 +131,7 @@ const Tutorial = () => {
         ref={introRef}
         renderItem={_renderItem}
         data={slides}
+        keyExtractor={(item, index) => index.toString()}
         showNextButton={false}
         showDoneButton={false}
         renderPagination={_renderPagination}

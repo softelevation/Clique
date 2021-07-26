@@ -8,13 +8,6 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
-  TextInput,
-  Keyboard,
-  Platform,
-  Alert,
-  Switch,
-  PermissionsAndroid,
-  FlatList,
   Dimensions,
 } from 'react-native';
 
@@ -23,20 +16,12 @@ import {CommonColors} from '../Constants/ColorConstant';
 import {IMG} from '../Constants/ImageConstant';
 import {SetFontSize} from '../Constants/FontSize';
 import {ConstantKeys} from '../Constants/ConstantKey';
-import ValidationMsg from '../Constants/ValidationMsg';
-import LoadingView from '../Constants/LoadingView';
-import {APIURL} from '../Constants/APIURL';
-import Webservice from '../Constants/API';
 
 //Third Party
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {CommonActions} from '@react-navigation/native';
-import Snackbar from 'react-native-snackbar';
-import {EventRegister} from 'react-native-event-listeners';
-import Geolocation from '@react-native-community/geolocation';
 import LinearGradient from 'react-native-linear-gradient';
 import FastImage from 'react-native-fast-image';
-import {TabActions} from '@react-navigation/native';
 
 export default class Congratulation extends Component {
   constructor(props) {

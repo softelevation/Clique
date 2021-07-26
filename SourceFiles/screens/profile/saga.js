@@ -14,7 +14,6 @@ export function* request(action) {
     const response = yield call(apiCall, 'POST', APIURL.getTempProfile, {
       user_id: action.payload,
     }); //Get request
-    console.log(response, 'response');
     if (response.status === true) {
       yield call(SaveToken, response.data);
       yield put(profileSuccess(response.data.user));
@@ -25,7 +24,9 @@ export function* request(action) {
     yield put(profileError());
   }
 }
+
 export function* profileWatcher() {
   yield all([takeLatest(ActionConstants.PROFILE_REQUEST, request)]);
 }
+
 export default profileWatcher;

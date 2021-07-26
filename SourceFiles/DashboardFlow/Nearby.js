@@ -32,6 +32,8 @@ import ValidationMsg from '../Constants/ValidationMsg';
 import FastImage from 'react-native-fast-image';
 import NeuView from '../common/neu-element/lib/NeuView';
 import {light} from '../components/theme/colors';
+import LottieView from 'lottie-react-native';
+
 const Nearby = () => {
   const [profile] = useSelector((v) => [v.profile.data]);
 
@@ -279,62 +281,68 @@ const Nearby = () => {
 
   const renderProfile = () => {
     return (
-      <Block center middle>
-        <Animatable.View
-          animation={logoanimation2}
-          delay={2000}
-          duration={2000}
-          iterationCount="infinite"
-          style={styles.animation4}
-          easing={easing}>
-          <Animatable.View
-            animation={logoanimation2}
-            delay={2000}
-            duration={2000}
-            iterationCount="infinite"
-            style={styles.animation}
-            easing={easing}>
-            <Animatable.View
-              animation={logoanimation2}
-              delay={2000}
-              duration={2000}
-              iterationCount="infinite"
-              style={styles.animation1}
-              easing={easing}>
-              <Animatable.View
-                animation={logoanimation2}
-                delay={2000}
-                duration={2000}
-                iterationCount="infinite"
-                style={styles.animation2}
-                easing={easing}>
-                <Animatable.View
-                  animation={logoanimation2}
-                  delay={2000}
-                  duration={2000}
-                  iterationCount="infinite"
-                  style={styles.animation3}
-                  easing={easing}>
-                  <ImageComponent
-                    isURL
-                    name={`${APIURL.ImageUrl}${profile.avatar}`}
-                    height={130}
-                    width={130}
-                    radius={130}
-                  />
-                </Animatable.View>
-              </Animatable.View>
-            </Animatable.View>
-          </Animatable.View>
-        </Animatable.View>
+      // <Block center middle>
+      //   <Animatable.View
+      //     animation={logoanimation2}
+      //     delay={2000}
+      //     duration={2000}
+      //     iterationCount="infinite"
+      //     style={styles.animation4}
+      //     easing={easing}>
+      //     <Animatable.View
+      //       animation={logoanimation2}
+      //       delay={2000}
+      //       duration={2000}
+      //       iterationCount="infinite"
+      //       style={styles.animation}
+      //       easing={easing}>
+      //       <Animatable.View
+      //         animation={logoanimation2}
+      //         delay={2000}
+      //         duration={2000}
+      //         iterationCount="infinite"
+      //         style={styles.animation1}
+      //         easing={easing}>
+      //         <Animatable.View
+      //           animation={logoanimation2}
+      //           delay={2000}
+      //           duration={2000}
+      //           iterationCount="infinite"
+      //           style={styles.animation2}
+      //           easing={easing}>
+      //           <Animatable.View
+      //             animation={logoanimation2}
+      //             delay={2000}
+      //             duration={2000}
+      //             iterationCount="infinite"
+      //             style={styles.animation3}
+      //             easing={easing}>
+      //             <ImageComponent
+      //               isURL
+      //               name={`${APIURL.ImageUrl}${profile.avatar}`}
+      //               height={130}
+      //               width={130}
+      //               radius={130}
+      //             />
+      //           </Animatable.View>
+      //         </Animatable.View>
+      //       </Animatable.View>
+      //     </Animatable.View>
+      //   </Animatable.View>
+      // </Block>
+      <Block center flex={false}>
+        <LottieView
+          source={require('../Assets/animation.json')}
+          autoPlay
+          loop
+        />
       </Block>
     );
   };
   return (
     <>
       <SafeAreaView style={styles.container}>
-        <SafeAreaView />
-        <Block flex={false} row padding={[0, wp(3)]}>
+        <Block flex={false} row padding={[hp(2), wp(3)]}>
           <TouchableOpacity onPress={() => goBack()}>
             <NeuView
               concave
@@ -360,8 +368,16 @@ const Nearby = () => {
         </Text>
         {arrNearbyPeople.length === 0 && loading === true ? (
           strictValidObjectWithKeys(profile) &&
-          strictValidString(profile.avatar) &&
-          renderProfile()
+          strictValidString(profile.avatar) && (
+            <LottieView
+              source={require('../Assets/animation.json')}
+              autoPlay
+              loop
+              style={{
+                marginTop: hp(5),
+              }}
+            />
+          )
         ) : (
           <FlatList
             data={arrNearbyPeople}

@@ -286,7 +286,7 @@ const Profile = () => {
                   margin={[hp(0.5), 0, 0]}
                   size={14}
                   white
-                  numberOfLines={2}
+                  numberOfLines={4}
                   regular>
                   {profile.bio}
                 </Text>
@@ -377,68 +377,7 @@ const Profile = () => {
       </Block>
     );
   };
-  const renderModalOptions = () => {
-    return (
-      <Block middle center margin={[hp(2), 0]} flex={false}>
-        <NeuView
-          color="#F2F0F7"
-          height={hp(5)}
-          width={wp(45)}
-          borderRadius={16}
-          containerStyle={styles.neoContainer}
-          inset>
-          {modalType === 'social' ? (
-            <NeuButton
-              color="#F2F0F7"
-              width={wp(20)}
-              height={hp(3.5)}
-              style={{marginHorizontal: wp(2)}}
-              borderRadius={6}>
-              <Text semibold purple size={13}>
-                Social
-              </Text>
-            </NeuButton>
-          ) : (
-            <Text
-              style={[styles.inactiveText, {marginRight: wp(1)}]}
-              onPress={() => setModalType('social')}
-              grey
-              regular
-              center
-              size={13}>
-              Social
-            </Text>
-          )}
-          {modalType === 'business' ? (
-            <NeuButton
-              color="#F2F0F7"
-              width={wp(20)}
-              height={hp(3.5)}
-              style={{marginRight: wp(2)}}
-              borderRadius={6}>
-              <Text
-                semibold
-                onPress={() => setModalType('business')}
-                purple
-                center
-                size={13}>
-                Business
-              </Text>
-            </NeuButton>
-          ) : (
-            <Text
-              style={[styles.inactiveText, {marginLeft: wp(1)}]}
-              onPress={() => setModalType('business')}
-              grey
-              regular
-              size={13}>
-              Business
-            </Text>
-          )}
-        </NeuView>
-      </Block>
-    );
-  };
+
   const onOpen = (type) => {
     if (type === 'business' && profile.is_pro === '0') {
       navigate('ProCard');
@@ -483,8 +422,10 @@ const Profile = () => {
                   <ImageComponent
                     isURL
                     name={`${APIURL.iconUrl}${item.icone.url}`}
-                    height={hp(10)}
-                    width={wp(22)}
+                    // height={hp(10)}
+                    // width={wp(22)}
+                    height={Platform.OS === 'ios' ? 90 : 85}
+                    width={Platform.OS === 'ios' ? 90 : 85}
                   />
                 )}
               </TouchableOpacity>
@@ -661,61 +602,11 @@ const Profile = () => {
       });
   };
 
-  const renderSectionHeader = ({section}) => {
-    return (
-      <>
-        <Text center bold margin={[t2, 0, 0]} capitalize grey size={20}>
-          Add {section.title}
-        </Text>
-        {strictValidArrayWithLength(section.data) && (
-          <FlatList
-            numColumns={5}
-            data={section.data}
-            renderItem={({item}) => {
-              return (
-                <>
-                  <TouchableOpacity
-                    onPress={() => {
-                      if (item.is_pro === '1') {
-                        navigate('ProCard');
-                        setAction('');
-                        modalizeRef.current?.close();
-                      } else {
-                        setAction('select_account');
-                        setNewState(item);
-                      }
-                    }}
-                    style={{paddingHorizontal: wp(1), marginTop: hp(2)}}>
-                    <ImageBackground
-                      source={{uri: `${APIURL.iconUrl}${item.url}`}}
-                      style={styles.bgImage}>
-                      {item.is_pro === '1' && (
-                        <Block style={styles.pro}>
-                          <ImageComponent
-                            name={'pro_icon'}
-                            height={40}
-                            width={40}
-                          />
-                        </Block>
-                      )}
-                    </ImageBackground>
-                  </TouchableOpacity>
-                </>
-              );
-            }}
-          />
-        )}
-      </>
-    );
-  };
-  const renderItem = () => {
-    return null;
-  };
   return (
     <Block linear>
       <SafeAreaView />
       {renderHeader()}
-      {renderProfile()}
+      {strictValidObjectWithKeys(profile) && renderProfile()}
 
       <Block
         borderTopLeftRadius={20}
@@ -742,28 +633,12 @@ const Profile = () => {
           </Block>
         </ScrollView>
       </Block>
-
-      {/* <Modalize
-        ref={modalizeRef}
-        childrenStyle={{
-          borderTopLeftRadius: 12,
-          borderTopRightRadius: 12,
-          overflow: 'hidden',
-        }}
-        sectionListProps={{
-          sections: Icons,
-          renderItem: renderItem,
-          renderSectionHeader: renderSectionHeader,
-          keyExtractor: (item, index) => `${item.title}-${index}`,
-          showsVerticalScrollIndicator: false,
-        }}
-      /> */}
       <Modalize
-        adjustToContentHeight={toggle}
+        adjustToContentHeight={action === 'add_account' ? !toggle : toggle}
         tapGestureEnabled={false}
         modalStyle={[
           {backgroundColor: '#F2F0F7'},
-          action === 'add_account' ? {flexGrow: 1} : {flexGrow: 0},
+          // action === 'add_account' ? {flexGrow: 1} : {flexGrow: 0},
         ]}
         scrollViewProps={{
           scrollEnabled: true,
@@ -772,13 +647,13 @@ const Profile = () => {
             paddingBottom: hp(3),
           },
         }}
+        ref={modalizeRef}
         onClose={() => {
           setNewState({});
           setField('');
         }}
         handleStyle={{backgroundColor: '#6B37C3', marginTop: hp(1)}}
-        handlePosition="inside"
-        ref={modalizeRef}>
+        handlePosition="inside">
         {action === 'add_account' && (
           <>
             <CustomButton
@@ -884,21 +759,21 @@ const Profile = () => {
                     value={field}
                   />
                 )}
-                <Block space="between" row flex={false} margin={[hp(2), 0, 0]}>
+                <Block flex={false} margin={[hp(2), 0, 0]}>
                   <Button
-                    style={{width: wp(32)}}
+                    // style={{width: wp(32)}}
                     linear
                     onPress={() => openLink(newState.link, newState.icone.name)}
                     color="primary">
                     Open Link
                   </Button>
-                  <Button
+                  {/* <Button
                     style={{width: wp(32)}}
                     onPress={() => deleteSocialAccount(newState)}
                     isLoading={deleteSocialLoading}
                     color="accent">
                     Delete
-                  </Button>
+                  </Button> */}
                 </Block>
                 <Button
                   disabled={!field}
@@ -952,10 +827,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   bgImage: {
-    height: hp(8.2),
-    width: wp(17.5),
-    //  height={hp(10)}
-    //                 width={wp(22)}
+    height: Platform.OS === 'ios' ? 72 : 67,
+    width: Platform.OS === 'ios' ? 72 : 67,
   },
   pro: {position: 'absolute', right: -10, top: -15, zIndex: 99},
   socialIcons: {

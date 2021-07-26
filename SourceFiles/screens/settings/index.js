@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {SafeAreaView, ScrollView, StyleSheet} from 'react-native';
 import HeaderSettings from '../../common/header-setting';
 import {hp, wp} from '../../components/responsive';
@@ -9,12 +9,16 @@ import {useNavigation} from '@react-navigation/core';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {LoginManager} from 'react-native-fbsdk';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Slider from '@react-native-community/slider';
+import {CommonColors} from '../../Constants/ColorConstant';
 
 const Settings = () => {
   const [card, setCard] = React.useState('Social');
   const [nfc, setNfc] = React.useState(true);
   const navigation = useNavigation();
-  const renderOptions = (value1, value2) => {
+  const [radius, setRadius] = useState(236);
+
+  const renderOptions = () => {
     return (
       <Block middle center margin={[hp(2), 0, 0]} flex={false}>
         <NeuView
@@ -77,7 +81,7 @@ const Settings = () => {
       </Block>
     );
   };
-  const renderNfcOptions = (value1, value2) => {
+  const renderNfcOptions = () => {
     return (
       <Block middle center margin={[hp(2), 0, 0]} flex={false}>
         <NeuView
@@ -143,7 +147,7 @@ const Settings = () => {
   const renderSelectType = (title, nav) => {
     return (
       <CustomButton
-        onPress={() => navigate(nav)}
+        onPress={() => navigation.navigate(nav)}
         activeOpacity={0.7}
         center
         margin={[hp(3), 0, 0]}
@@ -167,7 +171,6 @@ const Settings = () => {
     return (
       <CustomButton
         activeOpacity={0.7}
-        // onPress={() => navigate(nav)}
         center
         margin={[hp(3), 0, 0]}
         flex={false}>
@@ -189,12 +192,10 @@ const Settings = () => {
 
   const signOut = async () => {
     try {
-      // await GoogleSignin.revokeAccess();
       const keys = await AsyncStorage.getAllKeys();
       await AsyncStorage.multiRemove(keys);
       await GoogleSignin.signOut();
       await LoginManager.logOut();
-      // navigation.navigate('Login');
       navigation.reset({
         routes: [{name: 'Login'}],
       });
@@ -206,36 +207,62 @@ const Settings = () => {
     <Block color="#F2EDFA">
       <SafeAreaView />
       <HeaderSettings title="Settings" />
-      <ScrollView contentContainerStyle={{paddingBottom: hp(2)}}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{paddingBottom: hp(2)}}>
         <Block flex={false} padding={[0, wp(3)]}>
           <Text uppercase size={18} grey semibold>
             Card Settings
           </Text>
           {renderOptions('Enabled', 'Disabled')}
-          {renderSelectTypeView('Lost My Card')}
-          {renderSelectTypeView('Sync Card')}
+          {/* {renderSelectTypeView('Lost My Card')}
+          {renderSelectTypeView('Sync Card')} */}
           <Text uppercase size={18} margin={[hp(2), 0, 0]} grey semibold>
             Nfc Settings
           </Text>
           {renderNfcOptions('Enabled', 'Disabled')}
-          {renderSelectTypeView('Lost my NFC Tag')}
-          {renderSelectTypeView('Sync NFC Tag')}
+          {/* {renderSelectTypeView('Lost my NFC Tag')}
+          {renderSelectTypeView('Sync NFC Tag')} */}
           <Text size={18} margin={[hp(2), 0, 0]} grey semibold>
             Other Settings
           </Text>
           {renderSelectType('Change Password', 'ChangePasswordSettings')}
           {renderSelectType('Help and Tutorials', 'HelpAndTutorials')}
-
-          <Text
-            onPress={() => signOut()}
-            margin={[hp(2), 0, 0]}
-            size={18}
-            red
-            semibold>
-            Sign Out
+          <Text size={18} margin={[hp(2), 0, 0]} grey semibold>
+            Radius
           </Text>
+          <Slider
+            minimumTrackTintColor={CommonColors.PurpleColor}
+            maximumValue={300}
+            minimumValue={0}
+            style={{width: '100%'}}
+            onValueChange={(val) => setRadius(val)}
+            step={1}
+            value={radius}
+          />
+          <Block row space="between">
+            <Text size={18} margin={[hp(2), 0, 0]} grey semibold>
+              0
+            </Text>
+            <Text size={18} margin={[hp(2), 0, 0]} grey semibold>
+              Selected Value : {radius}
+            </Text>
+            <Text size={18} margin={[hp(2), 0, 0]} grey semibold>
+              300
+            </Text>
+          </Block>
         </Block>
       </ScrollView>
+      <Block flex={false} padding={[hp(2), wp(3)]}>
+        <Text
+          onPress={() => signOut()}
+          margin={[hp(2), 0, 0]}
+          size={18}
+          red
+          semibold>
+          Sign Out
+        </Text>
+      </Block>
     </Block>
   );
 };

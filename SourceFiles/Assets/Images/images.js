@@ -64,6 +64,8 @@ export const images = {
   expiry_icon: require('./icons/expiry.png'),
   cvv_icon: require('./icons/cvv.png'),
   user_verified_icon: require('./icons/check.png'),
+  map_pro_icon: require('./icons/map_pro.png'),
+  current_user_icon: require('./icons/cuser.png'),
 
   // Forgot
   forgotBg: require('./forgot/forgot.png'),

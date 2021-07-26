@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlatList, SafeAreaView, ScrollView, StyleSheet} from 'react-native';
+import {FlatList, SafeAreaView, StyleSheet} from 'react-native';
 import HeaderSettings from '../../../common/header-setting';
 import NeuButton from '../../../common/neu-element/lib/NeuButton';
 import NeuView from '../../../common/neu-element/lib/NeuView';
@@ -8,7 +8,6 @@ import NeoInputField from '../../../components/neo-input';
 import {hp, wp} from '../../../components/responsive';
 const HelpAndTutorials = () => {
   const [activeOptions, setactiveOptions] = React.useState('most');
-
   const renderOptions = (value1, value2) => {
     return (
       <Block middle center margin={[hp(4), 0, 0]} flex={false}>
@@ -114,7 +113,6 @@ const HelpAndTutorials = () => {
     <Block color="#F2EDFA">
       <SafeAreaView />
       <HeaderSettings title="Help And Tutorials" />
-      {/* <ScrollView> */}
       <Block margin={[hp(2), 0, 0]} flex={false} center>
         <NeoInputField
           leftIcon={'MinUserIcon'}
@@ -127,8 +125,8 @@ const HelpAndTutorials = () => {
         data={[1, 2]}
         renderItem={_renderItem}
         showsVerticalScrollIndicator={false}
+        bounces={false}
       />
-      {/* </ScrollView> */}
     </Block>
   );
 };
@@ -171,7 +169,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: wp(3),
   },
   helpView: {
-    // marginTop: hp(2),
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     flexDirection: 'row',

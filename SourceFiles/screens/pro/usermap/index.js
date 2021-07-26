@@ -17,6 +17,7 @@ import Geolocation from '@react-native-community/geolocation';
 import {useFocusEffect} from '@react-navigation/native';
 import {users} from '../../../utils/constants';
 import {strictValidArrayWithLength} from '../../../utils/commonUtils';
+import LottieView from 'lottie-react-native';
 
 const screen = Dimensions.get('window');
 const ASPECT_RATIO = screen.width / screen.height;
@@ -113,7 +114,15 @@ const UserMap = () => {
         // }}
       >
         <Marker coordinate={location}>
-          <ImageComponent name={'current_user_icon'} height={50} width={50} />
+          {/* <Block center flex={false}> */}
+          <LottieView
+            style={{height: 70, width: 70}}
+            source={require('../../../Assets/animation.json')}
+            autoPlay
+            loop
+          />
+          {/* </Block> */}
+          {/* <ImageComponent name={'current_user_icon'} height={50} width={50} /> */}
         </Marker>
         {strictValidArrayWithLength(users) &&
           users.map((item, index) => {

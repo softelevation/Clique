@@ -143,7 +143,7 @@ const UserMap = () => {
         padding={[hp(2), wp(3)]}
         right
         flex={false}>
-        <TouchableOpacity onPress={() => goBack()}>
+        <TouchableOpacity activeOpacity={1} onPress={() => goBack()}>
           <NeuView
             concave
             color="#BC60CB"

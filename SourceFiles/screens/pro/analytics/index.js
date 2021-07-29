@@ -73,7 +73,7 @@ const ProfileAnalytics = () => {
               </Text>
             </Block>
             <Block flex={false} margin={[-hp(2), 0, 0]}>
-              <ImageComponent name="map_pro_icon" height={200} width={350} />
+              <ImageComponent name="map_pro_icon" height={180} width={350} />
             </Block>
           </CustomButton>
         </ScrollView>

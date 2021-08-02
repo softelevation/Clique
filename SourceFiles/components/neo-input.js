@@ -24,6 +24,7 @@ const NeoInputField = ({
   secureTextEntry,
   error,
   errorText,
+  editable = true,
 }) => {
   const [toggleSecure, setToggleSecure] = useState(false);
   const isSecure = toggleSecure ? false : secure;
@@ -71,6 +72,7 @@ const NeoInputField = ({
       onBlur={onBlur}
       error={error}
       errorText={errorText}
+      editable={editable}
     />
   );
 };

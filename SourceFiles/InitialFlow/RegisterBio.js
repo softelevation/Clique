@@ -39,8 +39,9 @@ import FastImage from 'react-native-fast-image';
 import {images} from '../Assets/Images/images';
 import HeaderPreLogin from '../common/header';
 import NeoInputField from '../components/neo-input';
+import {connect} from 'react-redux';
 
-export default class RegisterName extends Component {
+class RegisterName extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -71,15 +72,6 @@ export default class RegisterName extends Component {
     });
   };
 
-  btnNextTap = () => {
-    this.props.navigation.navigate('OwnProducts', {
-      name: this.props.route.params.name,
-      email: this.props.route.params.email,
-      password: this.props.route.params.password,
-      profile: this.props.route.params.profile,
-      bio: this.state.txtBio,
-    });
-  };
   createAccount = () => {
     this.setState({
       isloading: true,
@@ -89,7 +81,11 @@ export default class RegisterName extends Component {
       email: this.props.route.params.email,
       password: this.props.route.params.password,
       avatar: this.props.route.params.profile,
+      gender: this.props.route.params.gender,
+      date_of_birth: this.props.route.params.dob,
       bio: this.state.txtBio,
+      current_lat: this.props.location.latitude,
+      current_long: this.props.location.longitude,
     })
       .then(async (response) => {
         if (response.data == null) {
@@ -151,7 +147,11 @@ export default class RegisterName extends Component {
       email: this.props.route.params.email,
       password: this.props.route.params.password,
       avatar: this.props.route.params.profile,
+      gender: this.props.route.params.gender,
+      date_of_birth: this.props.route.params.dob,
       bio: '',
+      current_lat: this.props.location.latitude,
+      current_long: this.props.location.longitude,
     })
       .then(async (response) => {
         if (response.data == null) {
@@ -226,6 +226,17 @@ export default class RegisterName extends Component {
   render() {
     let BackIcon = IMG.OtherFlow.BackIcon;
     let RedPlay = IMG.InitialFlow.RedPlay;
+    console.log(this.props.location, 'location');
+    const data = {
+      name: this.props.route.params.name,
+      email: this.props.route.params.email,
+      password: this.props.route.params.password,
+      avatar: this.props.route.params.profile,
+      gender: this.props.route.params.gender,
+      dob: this.props.route.params.dob,
+      bio: this.state.txtBio,
+    };
+    console.log(data);
 
     return (
       <Block linear>
@@ -442,3 +453,9 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
 });
+const mapStateToProps = (state, ownProps) => {
+  return {
+    location: state.location.data,
+  };
+};
+export default connect(mapStateToProps)(RegisterName);

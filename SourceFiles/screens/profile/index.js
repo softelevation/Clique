@@ -228,14 +228,20 @@ const Profile = () => {
               nfc: false,
             })
           }>
-          <LinearGradient colors={['#AF2DA5', '#BC60CB']} style={styles.linear}>
+          <NeuView
+            concave
+            color="#E866B6"
+            width={40}
+            height={40}
+            borderRadius={20}
+            customGradient={['#BD64CE', '#AE28A1']}>
             <ImageComponent
               resizeMode="contain"
               height={20}
               width={20}
               name={'nfc_icon'}
             />
-          </LinearGradient>
+          </NeuView>
         </TouchableOpacity>
       </Block>
     );
@@ -251,11 +257,6 @@ const Profile = () => {
               borderWidth={3}
               borderRadius={80}
               borderColor={profile.is_pro === '0' ? '#fff' : '#FFDF00'}>
-              {/* {profile.is_pro === '1' && (
-                <Block style={[styles.pro, {right: -15, top: -10}]}>
-                  <ImageComponent name={'pro_icon'} height={45} width={45} />
-                </Block>
-              )} */}
               <ImageComponent
                 isURL
                 name={`${APIURL.ImageUrl}${profile.avatar}`}
@@ -302,14 +303,21 @@ const Profile = () => {
               profile: profile,
             })
           }>
-          <LinearGradient colors={['#AF2DA5', '#BC60CB']} style={styles.linear}>
+          <NeuView
+            concave
+            color="#E866B6"
+            width={40}
+            height={40}
+            borderRadius={20}
+            customGradient={['#BD64CE', '#AE28A1']}>
             <ImageComponent
               resizeMode="contain"
-              height={18}
-              width={18}
+              height={20}
+              width={20}
               name={'edit_icon'}
+              color="#fff"
             />
-          </LinearGradient>
+          </NeuView>
         </TouchableOpacity>
       </Block>
     );

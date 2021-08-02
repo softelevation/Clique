@@ -7,6 +7,7 @@ import {
   PermissionsAndroid,
   Platform,
   Dimensions,
+  Alert,
 } from 'react-native';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import {Block, ImageComponent} from '../../../components';
@@ -16,9 +17,16 @@ import NeuView from '../../../common/neu-element/lib/NeuView';
 import Geolocation from '@react-native-community/geolocation';
 import {useFocusEffect} from '@react-navigation/native';
 import {users} from '../../../utils/constants';
-import {strictValidArrayWithLength} from '../../../utils/commonUtils';
+import {
+  strictValidArrayWithLength,
+  strictValidString,
+} from '../../../utils/commonUtils';
 import LottieView from 'lottie-react-native';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Webservice from '../../../Constants/API';
+import {APIURL} from '../../../Constants/APIURL';
+import {showAlert} from '../../../utils/mobile-utils';
+import LoadingView from '../../../Constants/LoadingView';
 const screen = Dimensions.get('window');
 const ASPECT_RATIO = screen.width / screen.height;
 const LATITUDE_DELTA = 0.04;
@@ -26,6 +34,8 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 const UserMap = () => {
   const {goBack} = useNavigation();
+  const [loading, setLoading] = useState(false);
+  const [arrNearbyPeople, setArNearbyPeople] = useState([]);
   const [location, setlocation] = useState({
     latitude: 0,
     longitude: 0,
@@ -33,6 +43,7 @@ const UserMap = () => {
     longitudeDelta: 0.027754828333854675,
   });
   const mapRef = useRef();
+  console.log(arrNearbyPeople, 'arrNearbyPeople');
 
   useFocusEffect(
     React.useCallback(() => {
@@ -63,7 +74,63 @@ const UserMap = () => {
       }
     }
   };
+  const API_NEARBY_USERS = async (isload) => {
+    // setArNearbyPeople([]);
+    setLoading(isload);
+    const user_id = await AsyncStorage.getItem('user_id');
+    const data = {
+      user_id: user_id,
+      lat: location.latitude,
+      long: location.longitude,
+      action: 'map',
+    };
+    console.log(data, 'kk');
+    Webservice.post(APIURL.nearbyUsers, {
+      user_id: user_id,
+      lat: location.latitude,
+      long: location.longitude,
+    })
 
+      .then((response) => {
+        if (response.data == null) {
+          setLoading(false);
+          // alert('error');
+          showAlert(response.originalError.message);
+          return;
+        }
+        console.log('Get Newrby users Response : ' + JSON.stringify(response));
+
+        if (response.data.status === true) {
+          // Already User
+          var nearByData = response.data.data;
+
+          setTimeout(() => {
+            setLoading(false);
+            setArNearbyPeople(nearByData);
+          }, 5000);
+        } else {
+          setLoading(false);
+          showAlert(response.data.message);
+        }
+      })
+      .catch((error) => {
+        console.log(error.message);
+        setLoading(false);
+        Alert.alert(
+          error.message,
+          '',
+          [
+            {
+              text: 'Try Again',
+              onPress: () => {
+                API_NEARBY_USERS(true);
+              },
+            },
+          ],
+          {cancelable: false},
+        );
+      });
+  };
   const getOneTimeLocation = async () => {
     Geolocation.getCurrentPosition(
       //Will give you the current location
@@ -77,6 +144,9 @@ const UserMap = () => {
         setTimeout(() => {
           onCenter(position.coords.latitude, position.coords.longitude);
         }, 500);
+        setTimeout(() => {
+          API_NEARBY_USERS(true);
+        }, 2000);
         console.log('Longitude : ' + position.coords.longitude);
         console.log('Latitude : ' + position.coords.latitude);
       },
@@ -85,7 +155,7 @@ const UserMap = () => {
         getOneTimeLocation();
       },
       {
-        enableHighAccuracy: true,
+        enableHighAccuracy: false,
         timeout: 100000,
         maximumAge: 3600000,
       },
@@ -115,24 +185,34 @@ const UserMap = () => {
       >
         <Marker coordinate={location}>
           {/* <Block center flex={false}> */}
-          <LottieView
+          {/* <LottieView
             style={{height: 70, width: 70}}
             source={require('../../../Assets/animation.json')}
             autoPlay
             loop
-          />
+          /> */}
           {/* </Block> */}
-          {/* <ImageComponent name={'current_user_icon'} height={50} width={50} /> */}
+          <ImageComponent name={'current_user_icon'} height={50} width={50} />
         </Marker>
-        {strictValidArrayWithLength(users) &&
-          users.map((item, index) => {
+        {strictValidArrayWithLength(arrNearbyPeople) &&
+          arrNearbyPeople.map((item, index) => {
             const marker = {
-              latitude: JSON.parse(item.latitude),
-              longitude: JSON.parse(item.longitude),
+              latitude: JSON.parse(item.current_lat),
+              longitude: JSON.parse(item.current_long),
             };
             return (
               <Marker coordinate={marker}>
-                <ImageComponent name={'demouser'} height={50} width={50} />
+                {strictValidString(item.avatar) ? (
+                  <ImageComponent
+                    isURL
+                    name={`${APIURL.ImageUrl}${item.avatar}`}
+                    height={50}
+                    width={50}
+                    radius={50}
+                  />
+                ) : (
+                  <ImageComponent name="demouser" height={100} width={100} />
+                )}
               </Marker>
             );
           })}
@@ -161,6 +241,7 @@ const UserMap = () => {
           </NeuView>
         </TouchableOpacity>
       </Block>
+      {loading ? <LoadingView /> : null}
     </View>
   );
 };

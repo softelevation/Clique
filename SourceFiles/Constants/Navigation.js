@@ -62,6 +62,7 @@ import Payment from '../screens/payments';
 import Success from '../screens/success';
 import ProfileAnalytics from '../screens/pro/analytics';
 import UserMap from '../screens/pro/usermap';
+import AnalyticsView from '../screens/pro/analytic-view';
 
 //Constant Variable for navigation
 const Stack = createStackNavigator();
@@ -273,10 +274,26 @@ function ProStack() {
         name="UserMap"
         component={UserMap}
       />
+      <Stack.Screen
+        options={animationOptions}
+        name="AnalyticsView"
+        component={AnalyticsView}
+      />
     </Stack.Navigator>
   );
 }
-
+function ChatStack() {
+  return (
+    <Stack.Navigator initialRouteName="Chat" headerMode="none">
+      <Stack.Screen name="Chat" component={Contacts} />
+      <Stack.Screen
+        name="UserProfile"
+        component={UserProfile}
+        options={{headerShown: false}}
+      />
+    </Stack.Navigator>
+  );
+}
 // Use For Hide Tab bar
 
 //Dashboard Stacks
@@ -288,7 +305,7 @@ function DashboardSubStack() {
       <Tab.Screen name="Profile" component={Profile} />
       <Tab.Screen name="Nearby" component={NearByStackScreen} />
       <Tab.Screen name="Pro" component={ProStack} />
-      <Tab.Screen name="Chat" component={Contacts} />
+      <Tab.Screen name="Chat" component={ChatStack} />
       <Tab.Screen name="Setting" component={Settings} />
     </Tab.Navigator>
   );

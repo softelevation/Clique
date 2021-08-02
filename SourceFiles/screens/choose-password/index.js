@@ -34,6 +34,8 @@ const ChoosePassword = () => {
     navigation.navigate('RegisterProfilePic', {
       name: params.name,
       email: params.email,
+      gender: params.gender,
+      dob: params.dob,
       password: values.password,
     });
   };

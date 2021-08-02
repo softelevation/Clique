@@ -62,6 +62,8 @@ export default class RegisterProfilePic extends Component {
       this.props.navigation.navigate('RegisterBio', {
         name: this.props.route.params.name,
         email: this.props.route.params.email,
+        gender: this.props.route.params.gender,
+        dob: this.props.route.params.dob,
         password: this.props.route.params.password,
         profile: this.state.ProfileImgData.base64,
       });
@@ -74,6 +76,8 @@ export default class RegisterProfilePic extends Component {
       email: this.props.route.params.email,
       password: this.props.route.params.password,
       profile: '',
+      gender: this.props.route.params.gender,
+      dob: this.props.route.params.dob,
     });
   };
 
@@ -220,6 +224,7 @@ export default class RegisterProfilePic extends Component {
   render() {
     console.log(this.state.ProfileImgData);
     const {ProfileImgData} = this.state;
+    console.log(this.props.route.params, ' this.props.route.params');
     return (
       <Block linear>
         <SafeAreaView />

@@ -43,6 +43,7 @@ import {
   strictValidString,
 } from '../utils/commonUtils';
 import {hp, wp} from '../components/responsive';
+import NeuView from '../common/neu-element/lib/NeuView';
 
 export default class UserProfile extends Component {
   constructor(props) {
@@ -421,12 +422,16 @@ export default class UserProfile extends Component {
   }
 
   renderHeader = () => {
-    //    gradientStart: '#E866B6',
-    // gradientEnd: '#6961FF',
     return (
       <Block center padding={[hp(2), wp(3)]} space="between" flex={false} row>
         <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-          <LinearGradient colors={['#5542B6', '#7653DB']} style={styles.linear}>
+          <NeuView
+            concave
+            color={'#775DF2'}
+            width={40}
+            height={40}
+            borderRadius={20}
+            customGradient={['#775DF2', '#5A28AE']}>
             <ImageComponent
               resizeMode="contain"
               height={14}
@@ -434,7 +439,7 @@ export default class UserProfile extends Component {
               name={'BackIcon'}
               color="#F2EDFA"
             />
-          </LinearGradient>
+          </NeuView>
         </TouchableOpacity>
       </Block>
     );

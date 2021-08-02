@@ -132,7 +132,7 @@ const Nearby = () => {
         getOneTimeLocation();
       },
       {
-        enableHighAccuracy: true,
+        enableHighAccuracy: false,
         timeout: 100000,
         maximumAge: 3600000,
       },
@@ -381,6 +381,7 @@ const Nearby = () => {
         ) : (
           <FlatList
             data={arrNearbyPeople}
+            showsVerticalScrollIndicator={false}
             numColumns={2}
             refreshControl={
               <RefreshControl
@@ -389,7 +390,7 @@ const Nearby = () => {
                 onRefresh={onRefresh}
               />
             }
-            contentContainerStyle={{flexGrow: 1}}
+            contentContainerStyle={{flexGrow: 1, paddingBottom: hp(4)}}
             ListEmptyComponent={<EmptyFile />}
             renderItem={({item}) => {
               return (

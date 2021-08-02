@@ -53,6 +53,14 @@ export const images = {
   data_analysis_icon: require('./icons/data-analysis.png'),
   swap_icon: require('./icons/swap.png'),
   pro_icon: require('./icons/pro_icon.png'),
+  user_verified_icon: require('./icons/check.png'),
+  map_pro_icon: require('./icons/map_pro.png'),
+  current_user_icon: require('./icons/cuser.png'),
+  down_arrow_icon: require('./icons/down_arrow.png'),
+  pro_analyics_icon: require('./icons/proanalytics.png'),
+  views_icon: require('./icons/views.png'),
+  clicks_icon: require('./icons/clicks.png'),
+  tejus_icon: require('./icons/tejus.jpeg'),
 
   //Card
   mastercard: require('./icons/mastercard.png'),
@@ -63,9 +71,6 @@ export const images = {
   amex: require('./icons/amex.png'),
   expiry_icon: require('./icons/expiry.png'),
   cvv_icon: require('./icons/cvv.png'),
-  user_verified_icon: require('./icons/check.png'),
-  map_pro_icon: require('./icons/map_pro.png'),
-  current_user_icon: require('./icons/cuser.png'),
 
   // Forgot
   forgotBg: require('./forgot/forgot.png'),

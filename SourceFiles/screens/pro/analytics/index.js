@@ -1,15 +1,10 @@
 import React from 'react';
 import {Block, CustomButton, ImageComponent, Text} from '../../../components';
-import {
-  TouchableOpacity,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-} from 'react-native';
+import {SafeAreaView, ScrollView, StyleSheet} from 'react-native';
 import NeuView from '../../../common/neu-element/lib/NeuView';
 import {useNavigation} from '@react-navigation/core';
 import {hp, wp} from '../../../components/responsive';
-import {t1, t2} from '../../../components/theme/fontsize';
+import {t1} from '../../../components/theme/fontsize';
 
 const ProfileAnalytics = () => {
   const {goBack, navigate} = useNavigation();
@@ -33,30 +28,35 @@ const ProfileAnalytics = () => {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.container}
           bounces={false}>
-          <Block
-            padding={[hp(3), wp(4), hp(10)]}
+          <CustomButton
+            style={{overflow: 'hidden'}}
+            onPress={() => navigate('AnalyticsView')}
+            padding={[hp(3), 0, 0]}
             margin={[hp(2), wp(5), 0]}
             shadow
             borderRadius={15}
             primary
             flex={false}>
-            <Block flex={false} row space="between">
-              <Text purple semibold size={18}>
-                Pro Analytics
-              </Text>
-              <Text purple regular size={14}>
-                + 300 Clicks
-              </Text>
+            <Block flex={false} padding={[0, wp(4)]}>
+              <Block flex={false} row space="between">
+                <Text purple semibold size={18}>
+                  Pro Analytics
+                </Text>
+                <Text purple regular size={14}>
+                  + 300 Clicks
+                </Text>
+              </Block>
+              <Block margin={[t1, 0, 0]} style={{width: wp(60)}} flex={false}>
+                <Text regular size={14} grey>
+                  Unlock the most advanced digital business card in the world
+                </Text>
+              </Block>
             </Block>
-            <Block margin={[t1, 0, 0]} style={{width: wp(60)}} flex={false}>
-              <Text regular size={14} grey>
-                Unlock the most advanced digital business card in the world
-              </Text>
-            </Block>
-          </Block>
+            <ImageComponent name="pro_analyics_icon" height={90} width={383} />
+          </CustomButton>
           <CustomButton
             onPress={() => navigate('UserMap')}
-            padding={[0, wp(4), hp(4)]}
+            padding={[0, wp(4), hp(0)]}
             margin={[hp(2), wp(5), 0]}
             shadow
             borderRadius={15}
@@ -64,16 +64,16 @@ const ProfileAnalytics = () => {
             row
             style={{overflow: 'hidden'}}
             flex={false}>
-            <Block padding={[hp(3), 0]} style={{width: wp(45)}} flex={false}>
+            <Block padding={[hp(3), 0]} style={{width: wp(35)}} flex={false}>
               <Text purple semibold size={18}>
                 Pro Map
               </Text>
-              <Text regular size={14} grey>
+              <Text margin={[t1, 0, 0]} regular size={14} grey>
                 Unlock the most advanced digital business card in the world
               </Text>
             </Block>
             <Block flex={false} margin={[-hp(2), 0, 0]}>
-              <ImageComponent name="map_pro_icon" height={180} width={350} />
+              <ImageComponent name="map_pro_icon" height={200} width={350} />
             </Block>
           </CustomButton>
         </ScrollView>

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {
   Alert,
   FlatList,
@@ -32,6 +32,9 @@ import {showAlert} from '../../../utils/mobile-utils';
 import LoadingView from '../../../Constants/LoadingView';
 import Slider from '@react-native-community/slider';
 import {CommonColors} from '../../../Constants/ColorConstant';
+import moment from 'moment';
+import {Modalize} from 'react-native-modalize';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 const EditProfile = () => {
   const {params} = useRoute();
@@ -41,11 +44,13 @@ const EditProfile = () => {
   const [name, setName] = useState(profile.name || '');
   const [company, setcompany] = useState(profile.bio || '');
   const [email, setEmail] = useState(profile.email || '');
+  const [dob, setDob] = useState(profile.date_of_birth || '');
+  const [gender, setGender] = useState(profile.gender || '');
+  const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
+  const modalizeRef = useRef();
   const [profileImage, setProfileImage] = useState('');
   const [loading, setloading] = useState(false);
   const [deleteSocialLoading, setDeleteSocialLoading] = useState(false);
-  const [radius, setRadius] = useState(236);
-
   const submitadata = async (values) => {
     const user_id = await AsyncStorage.getItem('user_id');
     setloading(true);
@@ -54,6 +59,8 @@ const EditProfile = () => {
       name: name,
       bio: company,
       avatar: profileImage.base64,
+      gender: gender,
+      date_of_birth: dob,
       // type: activeOptions,
     })
       .then(async (response) => {
@@ -133,8 +140,6 @@ const EditProfile = () => {
 
                       console.log(' Error :=>  ' + e);
                     });
-
-                  // this.setState({ ProfileImgData: response, isloading : false })
                 }
               },
             );
@@ -151,8 +156,6 @@ const EditProfile = () => {
               },
               (response) => {
                 console.log(JSON.stringify(response));
-
-                // this.setState({ isloading: false })
 
                 if (response.didCancel) {
                   console.log('User cancelled photo picker');
@@ -183,7 +186,6 @@ const EditProfile = () => {
                       dict.base64 = image.data;
                       dict.uri = image.path;
                       dict.type = image.mime;
-                      // this.setState({ProfileImgData: dict, isloading: false});
                       setProfileImage(dict);
                     })
                     .catch((e) => {
@@ -367,6 +369,23 @@ const EditProfile = () => {
       });
   };
 
+  const fomatDOB = (a) => {
+    return moment(a).format('MM/DD/YYYY');
+  };
+  const showDatePicker = () => {
+    setIsDatePickerVisible(true);
+  };
+
+  const hideDatePicker = () => {
+    setIsDatePickerVisible(false);
+  };
+
+  const handleConfirm = (date) => {
+    setDob(fomatDOB(date));
+    console.log('A date has been picked: ', date);
+    hideDatePicker();
+  };
+
   const renderSocialIcons = (data, type) => {
     return (
       <FlatList
@@ -406,6 +425,10 @@ const EditProfile = () => {
         }}
       />
     );
+  };
+  const closeModal = (val) => {
+    setGender(val);
+    modalizeRef.current?.close();
   };
   return (
     <>
@@ -451,6 +474,53 @@ const EditProfile = () => {
                 editable={false}
               />
             </Block>
+            <Block center flex={false} margin={[hp(1), 0]}>
+              <NeuButton
+                onPress={() => setIsDatePickerVisible(true)}
+                color="#eef2f9"
+                width={wp(80)}
+                height={hp(5)}
+                containerStyle={styles.buttonStyle}
+                borderRadius={16}>
+                <Text black size={14}>
+                  {strictValidString(dob) ? dob : 'MM/DD/YYYY'}
+                </Text>
+                <Block flex={false} margin={[0, wp(2), 0, 0]}>
+                  <ImageComponent
+                    name="down_arrow_icon"
+                    height={10}
+                    width={16}
+                  />
+                </Block>
+              </NeuButton>
+            </Block>
+            <DateTimePickerModal
+              isVisible={isDatePickerVisible}
+              mode="date"
+              inline
+              onConfirm={handleConfirm}
+              onCancel={hideDatePicker}
+            />
+            <Block center flex={false} margin={[hp(1), 0]}>
+              <NeuButton
+                onPress={() => modalizeRef.current?.open()}
+                color="#eef2f9"
+                width={wp(80)}
+                height={hp(5)}
+                containerStyle={styles.buttonStyle}
+                borderRadius={16}>
+                <Text capitalize black size={14}>
+                  {strictValidString(gender) ? gender : 'Select Gender'}
+                </Text>
+                <Block flex={false} margin={[0, wp(2), 0, 0]}>
+                  <ImageComponent
+                    name="down_arrow_icon"
+                    height={10}
+                    width={16}
+                  />
+                </Block>
+              </NeuButton>
+            </Block>
             <Block margin={[hp(1), 0]} alignSelf="center" flex={false}>
               <NeuInput
                 width={wp(80)}
@@ -472,34 +542,6 @@ const EditProfile = () => {
                 {company.length}/280
               </Text>
             </Block>
-            {/* <Block
-              flex={false}
-              margin={[0, 0, 0, wp(7)]}
-              style={{width: wp(80)}}>
-              <Text size={18} grey semibold>
-                Radius
-              </Text>
-              <Slider
-                minimumTrackTintColor={CommonColors.PurpleColor}
-                maximumValue={300}
-                minimumValue={0}
-                // style={{width: '100%'}}
-                onValueChange={(val) => setRadius(val)}
-                step={1}
-                value={radius}
-              />
-              <Block row space="between">
-                <Text size={18} margin={[hp(1), 0]} grey semibold>
-                  0km
-                </Text>
-                <Text size={18} margin={[hp(1), 0]} grey semibold>
-                  Selected Value : {radius}km
-                </Text>
-                <Text size={18} margin={[hp(1), 0]} grey semibold>
-                  300km
-                </Text>
-              </Block>
-            </Block> */}
 
             {renderOptions()}
             <Text grey semibold center margin={[hp(2), 0]}>
@@ -526,6 +568,62 @@ const EditProfile = () => {
         </Block>
       </Block>
       {deleteSocialLoading ? <LoadingView /> : null}
+      <Modalize
+        adjustToContentHeight={true}
+        tapGestureEnabled={false}
+        handlePosition="inside"
+        handleStyle={{backgroundColor: '#6B37C3'}}
+        modalStyle={[{backgroundColor: '#F2F0F7'}]}
+        ref={modalizeRef}>
+        <Block flex={false} margin={[hp(1), 0, 0]} padding={[hp(4)]}>
+          <Text semibold purple margin={[0, 0, hp(2)]} size={16} center>
+            Select Gender
+          </Text>
+          <Block flex={false} margin={[hp(1), 0, 0]} center>
+            <NeuButton
+              onPress={() => {
+                closeModal('male');
+              }}
+              color="#eef2f9"
+              width={wp(90)}
+              height={hp(5)}
+              // containerStyle={styles.buttonStyle}
+              borderRadius={16}>
+              <Text grey size={14}>
+                Male
+              </Text>
+            </NeuButton>
+          </Block>
+          <Block center flex={false} margin={[hp(2), 0, 0]}>
+            <NeuButton
+              onPress={() => {
+                closeModal('female');
+              }}
+              color="#eef2f9"
+              width={wp(90)}
+              height={hp(5)}
+              borderRadius={16}>
+              <Text grey size={14}>
+                Female
+              </Text>
+            </NeuButton>
+          </Block>
+          <Block center flex={false} margin={[hp(2), 0, 0]}>
+            <NeuButton
+              onPress={() => {
+                closeModal('transgender');
+              }}
+              color="#eef2f9"
+              width={wp(90)}
+              height={hp(5)}
+              borderRadius={16}>
+              <Text grey size={14}>
+                Transgender
+              </Text>
+            </NeuButton>
+          </Block>
+        </Block>
+      </Modalize>
     </>
   );
 };
@@ -570,6 +668,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: wp(1),
     flexDirection: 'row',
     flexWrap: 'wrap',
+  },
+  buttonStyle: {
+    justifyContent: 'space-between',
+    paddingHorizontal: wp(2),
+    flexDirection: 'row',
   },
 });
 export default EditProfile;

@@ -13,26 +13,64 @@ import {CommonColors} from '../Constants/ColorConstant';
 import LoadingView from '../Constants/LoadingView';
 import Snackbar from 'react-native-snackbar';
 import LinearGradient from 'react-native-linear-gradient';
-import {Block, Button, ImageComponent, Input} from '../components';
+import {
+  Block,
+  Button,
+  CustomButton,
+  ImageComponent,
+  Input,
+  Text,
+} from '../components';
 import {hp, wp} from '../components/responsive';
 import {IMG} from '../Constants/ImageConstant';
 import ValidationMsg from '../Constants/ValidationMsg';
 import HeaderPreLogin from '../common/header';
 import NeuInput from '../common/neu-element/lib/NeuInput';
 import NeoInputField from '../components/neo-input';
-let currentCount = 0;
+import NeuSpinner from '../common/neu-element/lib/NeuSpinner';
+import NeuProgressBar from '../common/neu-element/lib/NeuProgressBar';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import NeuButton from '../common/neu-element/lib/NeuButton';
+import moment from 'moment';
+import {strictValidString} from '../utils/commonUtils';
+import {Modalize} from 'react-native-modalize';
 export default class RegisterName extends Component {
   constructor(props) {
     super(props);
+    this.modalizeRef = React.createRef();
     this.state = {
       isloading: false,
       txtFullName: '',
       isDisable: true,
       NameBorderColor: CommonColors.GhostColor,
       isFromTutorial: props.route.params.isFromTutorial,
+      isDatePickerVisible: false,
+      dob: null,
+      gender: null,
     };
   }
+  fomatDOB = (a) => {
+    return moment(a).format('MM/DD/YYYY');
+  };
+  showDatePicker = () => {
+    this.setState({
+      isDatePickerVisible: true,
+    });
+  };
 
+  hideDatePicker = () => {
+    this.setState({
+      isDatePickerVisible: false,
+    });
+  };
+
+  handleConfirm = (date) => {
+    this.setState({
+      dob: this.fomatDOB(date),
+    });
+    console.log('A date has been picked: ', date);
+    this.hideDatePicker();
+  };
   showAlert(text) {
     Snackbar.show({
       text: text,
@@ -56,6 +94,8 @@ export default class RegisterName extends Component {
       } else {
         this.props.navigation.navigate('RegisterEmail', {
           name: this.state.txtFullName,
+          dob: this.state.dob,
+          gender: this.state.gender,
         });
       }
     });
@@ -75,6 +115,7 @@ export default class RegisterName extends Component {
   }
 
   render() {
+    console.log(this.state.dob);
     return (
       <Block linear>
         <SafeAreaView />
@@ -121,7 +162,6 @@ export default class RegisterName extends Component {
               title={'Create Account'}
               subtitle={"What's your name?"}
             />
-
             <Block center flex={false} margin={[hp(1), 0, 0]}>
               <NeoInputField
                 value={this.state.txtFullName}
@@ -132,10 +172,60 @@ export default class RegisterName extends Component {
                 fontColor="#707070"
               />
             </Block>
+            <Block center flex={false} margin={[hp(2), 0, 0]}>
+              <NeuButton
+                onPress={() =>
+                  this.setState({
+                    isDatePickerVisible: true,
+                  })
+                }
+                color="#eef2f9"
+                width={wp(90)}
+                height={hp(5)}
+                containerStyle={styles.buttonStyle}
+                borderRadius={16}>
+                <Text grey size={14}>
+                  {strictValidString(this.state.dob)
+                    ? this.state.dob
+                    : 'MM/DD/YYYY'}
+                </Text>
+                <Block flex={false} margin={[0, wp(2), 0, 0]}>
+                  <ImageComponent
+                    name="down_arrow_icon"
+                    height={10}
+                    width={16}
+                  />
+                </Block>
+              </NeuButton>
+            </Block>
+            <Block center flex={false} margin={[hp(2), 0, 0]}>
+              <NeuButton
+                onPress={() => this.modalizeRef.current?.open()}
+                color="#eef2f9"
+                width={wp(90)}
+                height={hp(5)}
+                containerStyle={styles.buttonStyle}
+                borderRadius={16}>
+                <Text capitalize grey size={14}>
+                  {strictValidString(this.state.gender)
+                    ? this.state.gender
+                    : 'Select Gender'}
+                </Text>
+                <Block flex={false} margin={[0, wp(2), 0, 0]}>
+                  <ImageComponent
+                    name="down_arrow_icon"
+                    height={10}
+                    width={16}
+                  />
+                </Block>
+              </NeuButton>
+            </Block>
           </ScrollView>
           <Block flex={false} margin={[0, 0, hp(3), 0]}>
             <Button
-              disabled={!this.state.txtFullName}
+              disabled={
+                !this.state.txtFullName || !this.state.dob || !this.state.gender
+              }
               onPress={() => this.btnNextTap()}
               linear
               color="primary">
@@ -145,6 +235,78 @@ export default class RegisterName extends Component {
         </Block>
 
         {this.state.isloading ? <LoadingView /> : null}
+        <DateTimePickerModal
+          isVisible={this.state.isDatePickerVisible}
+          mode="date"
+          inline
+          onConfirm={this.handleConfirm}
+          onCancel={this.hideDatePicker}
+        />
+        <Modalize
+          adjustToContentHeight={true}
+          tapGestureEnabled={false}
+          handlePosition="inside"
+          handleStyle={{backgroundColor: '#6B37C3'}}
+          modalStyle={[{backgroundColor: '#F2F0F7'}]}
+          ref={this.modalizeRef}>
+          <Block flex={false} margin={[hp(1), 0, 0]} padding={[hp(4)]}>
+            <Text semibold purple margin={[0, 0, hp(2)]} size={16} center>
+              Select Gender
+            </Text>
+            <Block flex={false} margin={[hp(1), 0, 0]} center>
+              <NeuButton
+                onPress={() => {
+                  this.setState({
+                    gender: 'male',
+                  });
+                  this.modalizeRef.current?.close();
+                }}
+                color="#eef2f9"
+                width={wp(90)}
+                height={hp(5)}
+                // containerStyle={styles.buttonStyle}
+                borderRadius={16}>
+                <Text grey size={14}>
+                  Male
+                </Text>
+              </NeuButton>
+            </Block>
+            <Block center flex={false} margin={[hp(2), 0, 0]}>
+              <NeuButton
+                onPress={() => {
+                  this.setState({
+                    gender: 'female',
+                  });
+                  this.modalizeRef.current?.close();
+                }}
+                color="#eef2f9"
+                width={wp(90)}
+                height={hp(5)}
+                borderRadius={16}>
+                <Text grey size={14}>
+                  Female
+                </Text>
+              </NeuButton>
+            </Block>
+            <Block center flex={false} margin={[hp(2), 0, 0]}>
+              <NeuButton
+                onPress={() => {
+                  this.setState({
+                    gender: 'transgender',
+                  });
+                  this.modalizeRef.current?.close();
+                }}
+                color="#eef2f9"
+                width={wp(90)}
+                height={hp(5)}
+                borderRadius={16}>
+                <Text grey size={14}>
+                  Transgender
+                </Text>
+              </NeuButton>
+            </Block>
+          </Block>
+        </Modalize>
       </Block>
     );
   }
@@ -187,5 +349,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 20,
+  },
+  buttonStyle: {
+    justifyContent: 'space-between',
+    paddingHorizontal: wp(2),
+    flexDirection: 'row',
   },
 });

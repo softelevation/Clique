@@ -88,6 +88,8 @@ export default class RegisterEmail extends Component {
 
           this.props.navigation.navigate('ChoosePassword', {
             name: this.props.route.params.name,
+            dob: this.props.route.params.dob,
+            gender: this.props.route.params.gender,
             email: this.state.txtEmail,
           });
         } else {

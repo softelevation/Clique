@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useRef} from 'react';
 import {
   View,
@@ -6,6 +7,9 @@ import {
   StyleSheet,
   TouchableOpacity,
   ImageBackground,
+  PermissionsAndroid,
+  Linking,
+  Platform,
 } from 'react-native';
 
 //Constant Files
@@ -22,6 +26,11 @@ import AppIntroSlider from 'react-native-app-intro-slider';
 import {images} from '../Assets/Images/images';
 import {Button} from '../components';
 import {wp} from '../components/responsive';
+import {useEffect} from 'react';
+import {showAlert} from '../utils/mobile-utils';
+import Geolocation from '@react-native-community/geolocation';
+import {locationRequest} from '../redux/location/action';
+import {useDispatch} from 'react-redux';
 
 const slides = [
   {
@@ -47,6 +56,7 @@ const slides = [
 const Tutorial = () => {
   const introRef = useRef();
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const goToLogin = () => {
     navigation.navigate('Login');
@@ -56,20 +66,63 @@ const Tutorial = () => {
     const props = props;
     navigation.navigate('RegisterName', {isFromTutorial: true});
   };
-
-  const storeIsSkipValue = async (isLogin) => {
+  const getLocation = () => {
+    Geolocation.getCurrentPosition(
+      (position) => {
+        dispatch(locationRequest(position.coords));
+      },
+      (error) => {},
+      {
+        enableHighAccuracy: false,
+        timeout: 15000,
+      },
+    );
+  };
+  const requestCameraPermission = async () => {
     try {
-      await AsyncStorage.setItem(ConstantKeys.IS_SKIP_TUTORIAL, 'true');
-
-      if (isLogin) {
-        goToLogin();
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          title: 'Clique App Location Permission',
+          message:
+            'Clique App App needs access to your location ' +
+            'so you can access the geolocation service.',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        getLocation();
+      } else if (granted === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
+        console.log('never ask again');
+        showAlert(
+          "You can't acess the Geolocation Service. Please give access to Location service from the app settings",
+        );
+        setTimeout(() => {
+          Linking.openSettings();
+        }, 2000);
       } else {
-        goToRegister();
+        console.log('never ask again 2');
+        showAlert(
+          "You can't acess the Geolocation Service. Please give access to Location service",
+        );
+        requestCameraPermission();
+        console.log('Location permission denied');
       }
-    } catch (e) {
-      // saving error
+    } catch (err) {
+      console.log('never ask again 3', err);
+      console.warn(err);
     }
   };
+
+  useEffect(() => {
+    if (Platform.OS === 'ios') {
+      getLocation();
+    } else {
+      requestCameraPermission();
+    }
+    callProfile();
+  }, []);
 
   const _renderItem = ({item}) => {
     return (
@@ -80,24 +133,33 @@ const Tutorial = () => {
         source={item.image}
         style={styles.slide}>
         <View style={{paddingBottom: 40, marginHorizontal: wp(5)}}>
-          <Button
-            onPress={() => storeIsSkipValue(false)}
-            linear
-            color="primary">
+          <Button onPress={() => goToRegister()} linear color="primary">
             Sign Up
           </Button>
 
           <Text style={styles.txtAlreadyAccount}>
             Already have an account?{' '}
-            <Text
-              style={styles.txtLogin}
-              onPress={() => storeIsSkipValue(true)}>
+            <Text style={styles.txtLogin} onPress={() => goToLogin()}>
               Log In
             </Text>
           </Text>
         </View>
       </ImageBackground>
     );
+  };
+
+  const callProfile = async () => {
+    try {
+      const value = await AsyncStorage.getItem('user_id');
+      if (value !== null) {
+        // value previously stored
+        navigation.navigate('Dashboard');
+      } else {
+        console.log('User Data: null ' + value);
+      }
+    } catch (e) {
+      console.log('Error : ' + e);
+    }
   };
 
   const _renderPagination = (activeIndex) => {

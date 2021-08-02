@@ -237,6 +237,7 @@ const Settings = () => {
             minimumValue={0}
             style={{width: '100%'}}
             onValueChange={(val) => setRadius(val)}
+            thumbTintColor="#fff"
             step={1}
             value={radius}
           />

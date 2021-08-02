@@ -163,6 +163,8 @@ const BottomTab = ({state, descriptors, navigation}) => {
               ) : (
                 !isFocused && (
                   <NeuView
+                    // convex
+                    concave
                     color="#F2F0F7"
                     height={40}
                     width={40}

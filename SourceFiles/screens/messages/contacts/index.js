@@ -3,29 +3,44 @@ import {
   TouchableOpacity,
   StyleSheet,
   SafeAreaView,
-  ScrollView,
   FlatList,
 } from 'react-native';
 import HeaderPostLogin from '../../../common/header-post-login';
 import Neomorph from '../../../common/shadow-src/Neomorph';
 import {Block, ImageComponent, Text} from '../../../components';
 import {hp, wp} from '../../../components/responsive';
+import {useNavigation} from '@react-navigation/native';
 
 const Contacts = () => {
+  const {navigate} = useNavigation();
+  const selectProfileTap = (item) => {
+    requestAnimationFrame(() => {
+      navigate('UserProfile', {profile_id: 395});
+    });
+  };
   const _renderItem = () => {
     return (
-      <TouchableOpacity style={{alignSelf: 'center'}}>
+      <TouchableOpacity
+        onPress={() => {
+          selectProfileTap();
+        }}
+        style={{alignSelf: 'center'}}>
         <Neomorph style={styles.neoSubContainer}>
           <Block padding={[0, wp(3)]} row center flex={false}>
             <ImageComponent
-              name="demouser"
-              height={60}
-              width={60}
-              radius={60}
+              name="tejus_icon"
+              height={70}
+              width={70}
+              radius={70}
             />
-            <Text semibold margin={[0, 0, 0, wp(3)]} grey size={16}>
-              Tejus V Reddy
-            </Text>
+            <Block margin={[0, 0, 0, wp(3)]} flex={false}>
+              <Text semibold grey size={18}>
+                Tejus V Reddy
+              </Text>
+              <Text height={26} regular grey size={14}>
+                Founder
+              </Text>
+            </Block>
           </Block>
         </Neomorph>
       </TouchableOpacity>
@@ -59,9 +74,10 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     backgroundColor: '#F2F0F7',
     width: wp(90),
-    height: hp(8),
+    height: hp(10),
     justifyContent: 'center',
     marginTop: hp(1),
+    borderRadius: 10,
   },
 });
 

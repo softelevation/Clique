@@ -32,8 +32,9 @@ import {
   GraphRequest,
   GraphRequestManager,
 } from 'react-native-fbsdk';
+import {connect} from 'react-redux';
 
-export default class Login extends Component {
+class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -81,6 +82,8 @@ export default class Login extends Component {
       email: values.email,
       password: values.password,
       social_type: 'N',
+      current_lat: this.props.location.latitude,
+      current_long: this.props.location.longitude,
     })
       .then(async (response) => {
         if (response.data == null) {
@@ -158,6 +161,8 @@ export default class Login extends Component {
         email: email,
         avatar: photo || null,
         password: '12345678',
+        current_lat: this.props.location.latitude,
+        current_long: this.props.location.longitude,
       };
       console.log(data, 'data');
       this.setState({isloading: true});
@@ -277,6 +282,8 @@ export default class Login extends Component {
                 email: result.email || `${result.id}@facebook.com`,
                 password: '12345678',
                 avatar: result.picture.data.url || null,
+                current_lat: this.props.location.latitude,
+                current_long: this.props.location.longitude,
               };
               console.log('Success fetching data: ', data);
               Webservice.post(APIURL.userLogin, data)
@@ -530,3 +537,9 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
 });
+const mapStateToProps = (state, ownProps) => {
+  return {
+    location: state.location.data,
+  };
+};
+export default connect(mapStateToProps)(Login);

@@ -1,3 +1,4 @@
+import {Linking, Platform} from 'react-native';
 import Snackbar from 'react-native-snackbar';
 import {images} from '../Assets/Images/images';
 import {CommonColors} from '../Constants/ColorConstant';
@@ -151,4 +152,58 @@ export const checkColor = (type) => {
     default:
       return '#4BE351';
   }
+};
+
+export const OpenLinks = (item, url) => {
+  console.log(item, url, 'url');
+  const separator = Platform.OS === 'ios' ? '&' : '?';
+  requestAnimationFrame(() => {
+    if (item === 'Phone' || item === 'workNumber' || item === 'otherNumber') {
+      Linking.openURL(`tel:${url}`);
+    } else if (item === 'Messanger' || item === 'Email') {
+      Linking.openURL(`mailto:${url}`);
+    } else if (item === 'Facetime') {
+      Linking.openURL(`facetime:${url}`);
+    } else if (item === 'Messages') {
+      Linking.openURL(`sms:${url}${separator}body=${'Hi'}`);
+    } else if (item === 'Instagram') {
+      Linking.openURL(`instagram://user?username=${url}`).catch(() => {
+        Linking.openURL('https://www.instagram.com/' + url);
+      });
+    } else if (item === 'Facebook') {
+      console.log(`fb://${url}`, 'facebook');
+      Linking.openURL(`fb://profile?app_scoped_user_id=%@${url}`).catch(() => {
+        console.log('catch', url);
+        Linking.openURL('https://www.facebook.com/' + url);
+      });
+    } else if (item === 'Youtube') {
+      Linking.openURL(`vnd.youtube://${url}`).catch(() => {
+        Linking.openURL('https://www.youtube.com/' + url);
+      });
+    } else if (item === 'Linkdin') {
+      Linking.openURL(`linkedin://profile?id=${url}`).catch(() => {
+        Linking.openURL('https://www.linkedin.com/in/' + url);
+      });
+    } else if (item === 'Twitter') {
+      Linking.openURL('twitter://user?screen_name=' + url).catch(() => {
+        Linking.openURL('https://www.twitter.com/' + url);
+      });
+    } else if (item === 'Tiktok') {
+      Linking.openURL('https://www.tiktok.com/@' + url);
+    } else if (item === 'Whatsapp') {
+      Linking.openURL('https://wa.me//' + url);
+    } else if (item === 'Paypal') {
+      Linking.openURL('paypal://' + url);
+    } else if (item === 'Amazon music') {
+      Linking.openURL('https://www.primevideo.com/' + url);
+    } else if (item === 'Paytm') {
+      Linking.openURL('http://m.p-y.tm/' + url);
+    } else if (item === 'Snapchat') {
+      Linking.openURL('https://story.snapchat.com/u/' + url);
+    } else if (item === 'Zomato') {
+      Linking.openURL(url);
+    } else {
+      Linking.openURL('http://' + url);
+    }
+  });
 };

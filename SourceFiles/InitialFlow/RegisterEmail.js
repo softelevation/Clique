@@ -26,6 +26,7 @@ import {APIURL} from '../Constants/APIURL';
 import Webservice from '../Constants/API';
 import HeaderPreLogin from '../common/header';
 import NeoInputField from '../components/neo-input';
+import NeuView from '../common/neu-element/lib/NeuView';
 
 export default class RegisterEmail extends Component {
   constructor(props) {
@@ -160,16 +161,21 @@ export default class RegisterEmail extends Component {
 
         <Block padding={[hp(2), 0, 0]} space="between" flex={false} row>
           <TouchableOpacity onPress={() => this.btnBackTap()}>
-            <LinearGradient
-              colors={['#5542B6', '#7653DB']}
-              style={styles.linear}>
+            <NeuView
+              style={styles.linear}
+              concave
+              color={'#775DF2'}
+              width={40}
+              height={40}
+              borderRadius={20}
+              customGradient={['#5542B6', '#7653DB']}>
               <ImageComponent
                 resizeMode="contain"
                 height={14}
                 width={14}
                 name={'BackIcon'}
               />
-            </LinearGradient>
+            </NeuView>
           </TouchableOpacity>
 
           <ImageComponent
@@ -315,11 +321,6 @@ const styles = StyleSheet.create({
   },
   linear: {
     marginLeft: 20,
-    height: 40,
-    width: 40,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 20,
   },
   rightIcon: {
     alignSelf: 'flex-end',

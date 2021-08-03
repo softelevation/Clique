@@ -34,6 +34,7 @@ import NeuButton from '../common/neu-element/lib/NeuButton';
 import moment from 'moment';
 import {strictValidString} from '../utils/commonUtils';
 import {Modalize} from 'react-native-modalize';
+import NeuView from '../common/neu-element/lib/NeuView';
 export default class RegisterName extends Component {
   constructor(props) {
     super(props);
@@ -121,16 +122,21 @@ export default class RegisterName extends Component {
         <SafeAreaView />
         <Block padding={[hp(2), 0, 0]} space={'between'} row flex={false}>
           <TouchableOpacity onPress={() => this.btnBackTap()}>
-            <LinearGradient
-              colors={['#5542B6', '#7653DB']}
-              style={styles.linear}>
+            <NeuView
+              style={styles.linear}
+              concave
+              color={'#775DF2'}
+              width={40}
+              height={40}
+              borderRadius={20}
+              customGradient={['#5542B6', '#7653DB']}>
               <ImageComponent
                 resizeMode="contain"
                 height={14}
                 width={14}
                 name={'BackIcon'}
               />
-            </LinearGradient>
+            </NeuView>
           </TouchableOpacity>
 
           <View style={{alignItems: 'center', flex: 1}}>
@@ -344,11 +350,6 @@ const styles = StyleSheet.create({
   },
   linear: {
     marginLeft: 20,
-    height: 40,
-    width: 40,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 20,
   },
   buttonStyle: {
     justifyContent: 'space-between',

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {useNavigation} from '@react-navigation/core';
 import React, {useEffect, useState} from 'react';
 import {
@@ -19,6 +20,7 @@ import {useRoute} from '@react-navigation/native';
 import LoadingView from '../../../Constants/LoadingView';
 import {showAlert} from '../../../utils/mobile-utils';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import NeuView from '../../../common/neu-element/lib/NeuView';
 
 const ScanTag = () => {
   const {goBack, navigate} = useNavigation();
@@ -174,16 +176,20 @@ const ScanTag = () => {
           flex={false}
           row>
           <TouchableOpacity onPress={() => goBack()}>
-            <LinearGradient
-              colors={['#DCC8FA', '#FAF8F8']}
-              style={styles.linear}>
+            <NeuView
+              concave
+              color="#eef2f9"
+              width={40}
+              height={40}
+              borderRadius={20}
+              customGradient={['#FAF8F8', '#DCC8FA']}>
               <ImageComponent
                 resizeMode="contain"
                 height={14}
                 width={14}
                 name={'close_icon'}
               />
-            </LinearGradient>
+            </NeuView>
           </TouchableOpacity>
         </Block>
         <Block flex={false} margin={[hp(4), 0, 0]}>

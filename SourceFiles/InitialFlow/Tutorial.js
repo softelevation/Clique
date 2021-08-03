@@ -10,6 +10,7 @@ import {
   PermissionsAndroid,
   Linking,
   Platform,
+  Dimensions,
 } from 'react-native';
 
 //Constant Files
@@ -127,9 +128,9 @@ const Tutorial = () => {
   const _renderItem = ({item}) => {
     return (
       <ImageBackground
-        imageStyle={{
-          resizeMode: 'stretch', // works only here!
-        }}
+        // imageStyle={{
+        //   resizeMode: 'stretch', // works only here!
+        // }}
         source={item.image}
         style={styles.slide}>
         <View style={{paddingBottom: 40, marginHorizontal: wp(5)}}>
@@ -204,7 +205,11 @@ const Tutorial = () => {
 
 const styles = StyleSheet.create({
   slide: {
-    flex: 1,
+    height:
+      Platform.OS === 'ios'
+        ? Dimensions.get('window').height
+        : Dimensions.get('window').height,
+    width: Dimensions.get('screen').width,
     justifyContent: 'flex-end',
     // backgroundColor: CommonColors.primaryColor,
   },

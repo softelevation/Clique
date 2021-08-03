@@ -8,6 +8,7 @@ import {
   ScrollView,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import NeuView from '../../../common/neu-element/lib/NeuView';
 import {Block, Button, ImageComponent, Text} from '../../../components';
 import {hp, wp} from '../../../components/responsive';
 import {t1} from '../../../components/theme/fontsize';
@@ -21,18 +22,22 @@ const ActivatedCard = () => {
     <Block linear>
       <SafeAreaView />
       <ScrollView bounces={false} contentContainerStyle={styles.container}>
-        <Block padding={[hp(2), wp(3), 0]} space="between" flex={false}>
+        <Block row padding={[hp(2), wp(3), 0]} space="between" flex={false}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
-            <LinearGradient
-              colors={['#5542B6', '#7653DB']}
-              style={styles.linear}>
+            <NeuView
+              concave
+              color={'#775DF2'}
+              width={40}
+              height={40}
+              borderRadius={20}
+              customGradient={['#5542B6', '#7653DB']}>
               <ImageComponent
                 resizeMode="contain"
                 height={14}
                 width={14}
                 name={'BackIcon'}
               />
-            </LinearGradient>
+            </NeuView>
           </TouchableOpacity>
         </Block>
         <Block center flex={false} margin={[hp(4), 0, 0]}>

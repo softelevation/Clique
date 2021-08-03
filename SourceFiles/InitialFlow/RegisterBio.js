@@ -40,6 +40,7 @@ import {images} from '../Assets/Images/images';
 import HeaderPreLogin from '../common/header';
 import NeoInputField from '../components/neo-input';
 import {connect} from 'react-redux';
+import NeuView from '../common/neu-element/lib/NeuView';
 
 class RegisterName extends Component {
   constructor(props) {
@@ -244,16 +245,20 @@ class RegisterName extends Component {
 
         <Block padding={[hp(2), wp(3), 0]} space="between" flex={false} row>
           <TouchableOpacity onPress={() => this.btnBackTap()}>
-            <LinearGradient
-              colors={['#5542B6', '#7653DB']}
-              style={styles.linear}>
+            <NeuView
+              concave
+              color={'#775DF2'}
+              width={40}
+              height={40}
+              borderRadius={20}
+              customGradient={['#5542B6', '#7653DB']}>
               <ImageComponent
                 resizeMode="contain"
                 height={14}
                 width={14}
                 name={'BackIcon'}
               />
-            </LinearGradient>
+            </NeuView>
           </TouchableOpacity>
 
           <ImageComponent
@@ -263,9 +268,14 @@ class RegisterName extends Component {
             name={'nameBg'}
           />
           <TouchableOpacity onPress={() => this.btnSkipTap()}>
-            <LinearGradient
-              colors={['#AF2DA5', '#BC60CB']}
-              style={styles.linear}>
+            <NeuView
+              style={styles.linear}
+              concave
+              color={'#BC60CB'}
+              width={40}
+              height={40}
+              borderRadius={20}
+              customGradient={['#AF2DA5', '#BC60CB']}>
               <Text
                 style={{
                   fontSize: SetFontSize.ts12,
@@ -274,7 +284,7 @@ class RegisterName extends Component {
                 }}>
                 Skip
               </Text>
-            </LinearGradient>
+            </NeuView>
           </TouchableOpacity>
         </Block>
         <Block

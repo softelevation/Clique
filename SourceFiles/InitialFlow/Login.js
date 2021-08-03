@@ -2,9 +2,7 @@ import React, {Component} from 'react';
 import {
   StyleSheet,
   ScrollView,
-  Keyboard,
   Alert,
-  ImageBackground,
   SafeAreaView,
   Platform,
 } from 'react-native';
@@ -18,7 +16,6 @@ import LoadingView from '../Constants/LoadingView';
 import Webservice from '../Constants/API';
 import {APIURL} from '../Constants/APIURL';
 import Snackbar from 'react-native-snackbar';
-import {images} from '../Assets/Images/images';
 import {Block, Button, ImageComponent, Input, Text} from '../components';
 import {hp, wp} from '../components/responsive';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -402,6 +399,7 @@ class Login extends Component {
                   onChangeText={handleChange('email')}
                   onBlur={() => setFieldTouched('email')}
                   error={touched.email && errors.email}
+                  email
                 />
                 <Input
                   placeholder="Password"

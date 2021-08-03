@@ -29,7 +29,7 @@ import NeoInputField from '../../components/neo-input';
 import Webservice from '../../Constants/API';
 import {APIURL} from '../../Constants/APIURL';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {showAlert} from '../../utils/mobile-utils';
+import {OpenLinks, showAlert} from '../../utils/mobile-utils';
 import LoadingView from '../../Constants/LoadingView';
 import {
   strictValidArray,
@@ -283,7 +283,6 @@ const Profile = () => {
               strictValidString(profile.bio) && (
                 <Text
                   style={{width: wp(55)}}
-                  capitalize
                   margin={[hp(0.5), 0, 0]}
                   size={14}
                   white
@@ -423,7 +422,7 @@ const Profile = () => {
                   modalizeRef.current?.open();
                   setAction('open_link');
                   setNewState(item);
-                  setField(item.link);
+                  setField(item.username);
                 }}
                 style={{paddingHorizontal: wp(1), marginTop: hp(2)}}>
                 {strictValidObjectWithKeys(item.icone) && (
@@ -771,7 +770,9 @@ const Profile = () => {
                   <Button
                     // style={{width: wp(32)}}
                     linear
-                    onPress={() => openLink(newState.link, newState.icone.name)}
+                    onPress={() =>
+                      OpenLinks(newState.icone.name, newState.username)
+                    }
                     color="primary">
                     Open Link
                   </Button>

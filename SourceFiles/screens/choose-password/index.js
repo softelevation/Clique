@@ -20,6 +20,7 @@ import {Formik} from 'formik';
 import {t1} from '../../components/theme/fontsize';
 import {checkColor} from '../../utils/mobile-utils';
 import {renderValidationText} from '../../utils/constants';
+import NeuView from '../../common/neu-element/lib/NeuView';
 
 const ChoosePassword = () => {
   const navigation = useNavigation();
@@ -64,7 +65,7 @@ const ChoosePassword = () => {
           password: yup
             .string()
             .required('Please Enter your password')
-            .min(6, 'Password is too short - should be 6 chars minimum.')
+            .min(8, 'Password must be at least 8 characters')
             .matches(
               // eslint-disable-next-line prettier/prettier
               '^(?=.*[a-z])(?=.*[0-9])(?=.{8,})',
@@ -97,16 +98,21 @@ const ChoosePassword = () => {
           <ScrollView contentContainerStyle={styles.container} bounces={false}>
             <Block padding={[hp(2), 0, 0]} space="between" flex={false} row>
               <TouchableOpacity onPress={() => navigation.goBack()}>
-                <LinearGradient
-                  colors={['#5542B6', '#7653DB']}
-                  style={styles.linear}>
+                <NeuView
+                  style={styles.linear}
+                  concave
+                  color={'#775DF2'}
+                  width={40}
+                  height={40}
+                  borderRadius={20}
+                  customGradient={['#5542B6', '#7653DB']}>
                   <ImageComponent
                     resizeMode="contain"
                     height={14}
                     width={14}
                     name={'BackIcon'}
                   />
-                </LinearGradient>
+                </NeuView>
               </TouchableOpacity>
               {console.log(errors, 'errors')}
               <ImageComponent
@@ -229,11 +235,6 @@ const styles = StyleSheet.create({
   },
   linear: {
     marginLeft: 20,
-    height: 40,
-    width: 40,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 20,
   },
   customButton: {
     height: 40,

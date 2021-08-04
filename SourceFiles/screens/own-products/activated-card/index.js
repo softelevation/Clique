@@ -7,7 +7,6 @@ import {
   SafeAreaView,
   ScrollView,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import NeuView from '../../../common/neu-element/lib/NeuView';
 import {Block, Button, ImageComponent, Text} from '../../../components';
 import {hp, wp} from '../../../components/responsive';

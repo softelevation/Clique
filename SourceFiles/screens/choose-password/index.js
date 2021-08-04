@@ -10,7 +10,6 @@ import {
 //Constant Files
 import {Block, Button, ImageComponent, Input, Text} from '../../components';
 import {hp, wp} from '../../components/responsive';
-import LinearGradient from 'react-native-linear-gradient';
 import HeaderPreLogin from '../../common/header';
 import {useNavigation} from '@react-navigation/core';
 import NeoInputField from '../../components/neo-input';

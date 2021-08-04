@@ -8,7 +8,6 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import {Block, ImageComponent, Text} from '../../../components';
 import {hp, wp} from '../../../components/responsive';
 import {StyleSheet} from 'react-native';

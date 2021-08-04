@@ -14,7 +14,6 @@ import {SetFontSize} from '../../Constants/FontSize';
 import {ConstantKeys} from '../../Constants/ConstantKey';
 import LoadingView from '../../Constants/LoadingView';
 import Snackbar from 'react-native-snackbar';
-import LinearGradient from 'react-native-linear-gradient';
 import {images} from '../../Assets/Images/images';
 import {Block, Button, ImageComponent, Input, Text} from '../../components';
 import {hp, wp} from '../../components/responsive';

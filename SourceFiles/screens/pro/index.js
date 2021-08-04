@@ -31,11 +31,11 @@ const Pro = () => {
           <TouchableOpacity onPress={() => goBack()}>
             <NeuView
               concave
-              color="#BC60CB"
+              color="#E866B6"
               width={40}
               height={40}
               borderRadius={20}
-              customGradient={['#AF2DA5', '#BC60CB']}>
+              customGradient={['#BD64CE', '#AE28A1']}>
               <ImageComponent
                 resizeMode="contain"
                 height={14}

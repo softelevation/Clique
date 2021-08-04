@@ -2,6 +2,7 @@ import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {TouchableOpacity, SafeAreaView, StyleSheet} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import NeuView from '../../common/neu-element/lib/NeuView';
 import {Block, Button, ImageComponent} from '../../components';
 import {hp, wp} from '../../components/responsive';
 
@@ -15,14 +16,20 @@ const Success = () => {
 
       <Block padding={[hp(2), wp(3), 0]} space="between" flex={false} row>
         <TouchableOpacity onPress={() => goBack()}>
-          <LinearGradient colors={['#5542B6', '#7653DB']} style={styles.linear}>
+          <NeuView
+            concave
+            color={'#775DF2'}
+            width={40}
+            height={40}
+            borderRadius={20}
+            customGradient={['#5542B6', '#7653DB']}>
             <ImageComponent
               resizeMode="contain"
               height={14}
               width={14}
               name={'BackIcon'}
             />
-          </LinearGradient>
+          </NeuView>
         </TouchableOpacity>
 
         <ImageComponent

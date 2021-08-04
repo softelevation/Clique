@@ -9,7 +9,6 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import {Block, Text, ImageComponent, Button} from '../../../components';
 import {hp, wp} from '../../../components/responsive';
 import NeuView from '../../../common/neu-element/lib/NeuView';
@@ -213,7 +212,13 @@ const EditProfile = () => {
           {'Edit your profile'}
         </Text>
         <TouchableOpacity onPress={() => goBack()}>
-          <LinearGradient colors={['#AF2DA5', '#BC60CB']} style={styles.linear}>
+          <NeuView
+            concave
+            color="#E866B6"
+            width={40}
+            height={40}
+            borderRadius={20}
+            customGradient={['#BD64CE', '#AE28A1']}>
             <ImageComponent
               resizeMode="contain"
               height={14}
@@ -221,7 +226,7 @@ const EditProfile = () => {
               name={'close_icon'}
               color="#F2EDFA"
             />
-          </LinearGradient>
+          </NeuView>
         </TouchableOpacity>
       </Block>
     );

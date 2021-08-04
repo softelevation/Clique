@@ -19,6 +19,7 @@ import {APIURL} from '../../Constants/APIURL';
 import LoadingView from '../../Constants/LoadingView';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {showAlert} from '../../utils/mobile-utils';
+import NeuView from '../../common/neu-element/lib/NeuView';
 
 const OwnProducts = () => {
   const [activeCard, setActiveCard] = useState(false);
@@ -53,14 +54,20 @@ const OwnProducts = () => {
 
       <Block padding={[hp(2), wp(3), 0]} space="between" flex={false} row>
         <TouchableOpacity onPress={() => goBack()}>
-          <LinearGradient colors={['#5542B6', '#7653DB']} style={styles.linear}>
+          <NeuView
+            concave
+            color={'#775DF2'}
+            width={40}
+            height={40}
+            borderRadius={20}
+            customGradient={['#5542B6', '#7653DB']}>
             <ImageComponent
               resizeMode="contain"
               height={14}
               width={14}
               name={'BackIcon'}
             />
-          </LinearGradient>
+          </NeuView>
         </TouchableOpacity>
 
         <ImageComponent

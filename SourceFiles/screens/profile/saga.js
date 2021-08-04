@@ -14,6 +14,7 @@ export function* request(action) {
     const response = yield call(apiCall, 'POST', APIURL.getTempProfile, {
       user_id: action.payload,
     }); //Get request
+    console.log(response, 'response');
     if (response.status === true) {
       yield call(SaveToken, response.data);
       yield put(profileSuccess(response.data.user));

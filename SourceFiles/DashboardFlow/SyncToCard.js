@@ -32,7 +32,6 @@ import Snackbar from 'react-native-snackbar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import FastImage from 'react-native-fast-image';
 import {CommonActions} from '@react-navigation/native';
-import RBSheet from 'react-native-raw-bottom-sheet';
 import NfcManager, {
   NfcEvents,
   NfcAdapter,
@@ -41,7 +40,6 @@ import NfcManager, {
 } from 'react-native-nfc-manager';
 import {Neomorph, Shadow, NeomorphFlex} from 'react-native-neomorph-shadows';
 import LinearGradient from 'react-native-linear-gradient';
-import Video from 'react-native-video';
 
 function buildUrlPayload(valueToWrite) {
   return Ndef.encodeMessage([Ndef.uriRecord(valueToWrite)]);

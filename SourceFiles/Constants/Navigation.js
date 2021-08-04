@@ -16,10 +16,8 @@ import {navigationRef, isReadyRef} from './NavigationService';
 import Tutorial from '../InitialFlow/Tutorial';
 import AutoLogin from '../InitialFlow/AutoLogin';
 import Login from '../InitialFlow/Login';
-import OTPView from '../InitialFlow/OTPView';
 import RegisterName from '../InitialFlow/RegisterName';
 import RegisterMobile from '../InitialFlow/RegisterMobile';
-import RegisterOTPView from '../InitialFlow/RegisterOTPView';
 import RegisterEmail from '../InitialFlow/RegisterEmail';
 import RegisterProfilePic from '../InitialFlow/RegisterProfilePic';
 import RegisterBio from '../InitialFlow/RegisterBio';
@@ -103,10 +101,8 @@ function InitialFlow() {
       <Stack.Screen name="Tutorial" component={Tutorial} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="AutoLogin" component={AutoLogin} />
-      <Stack.Screen name="OTPView" component={OTPView} />
       <Stack.Screen name="RegisterName" component={RegisterName} />
       <Stack.Screen name="RegisterMobile" component={RegisterMobile} />
-      <Stack.Screen name="RegisterOTPView" component={RegisterOTPView} />
       <Stack.Screen name="RegisterEmail" component={RegisterEmail} />
       <Stack.Screen name="RegisterProfilePic" component={RegisterProfilePic} />
       <Stack.Screen name="RegisterBio" component={RegisterBio} />

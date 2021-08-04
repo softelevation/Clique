@@ -7,7 +7,7 @@ import {light} from '../../../components/theme/colors';
 import NeuView from '../../../common/neu-element/lib/NeuView';
 import {Text as TextSVG} from 'react-native-svg';
 import {CustomLineChart} from '../../common/lineChart';
-import PieChart from 'react-native-pie-chart';
+import PieChart from '../../../common/PieChart/index';
 import {AvertaBold, t1, t2, w3} from '../../../components/theme/fontsize';
 
 const barData = {

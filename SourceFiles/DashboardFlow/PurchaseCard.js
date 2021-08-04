@@ -32,7 +32,6 @@ import Snackbar from 'react-native-snackbar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import FastImage from 'react-native-fast-image';
 import {CommonActions} from '@react-navigation/native';
-import RBSheet from 'react-native-raw-bottom-sheet';
 import {Neomorph, Shadow, NeomorphFlex} from 'react-native-neomorph-shadows';
 import LinearGradient from 'react-native-linear-gradient';
 import CountryPicker from '../components/country-picker/CountryPicker';
@@ -685,7 +684,7 @@ export default class PurchaseCard extends Component {
               {this.state.isloading ? <LoadingView /> : null}
             </View>
 
-            <RBSheet
+            {/* <RBSheet
               ref={(ref) => {
                 this.RBSheet = ref;
               }}
@@ -741,7 +740,7 @@ export default class PurchaseCard extends Component {
                   )}
                 />
               </View>
-            </RBSheet>
+            </RBSheet> */}
           </View>
         </SafeAreaView>
       </>

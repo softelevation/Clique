@@ -32,7 +32,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {CommonActions} from '@react-navigation/native';
 import Snackbar from 'react-native-snackbar';
 // import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
-import {EventRegister} from 'react-native-event-listeners';
 import {Neomorph, Shadow, NeomorphFlex} from 'react-native-neomorph-shadows';
 import LinearGradient from 'react-native-linear-gradient';
 import FastImage from 'react-native-fast-image';

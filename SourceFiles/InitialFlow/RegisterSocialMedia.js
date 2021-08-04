@@ -32,7 +32,6 @@ import Webservice from '../Constants/API';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {CommonActions} from '@react-navigation/native';
 import Snackbar from 'react-native-snackbar';
-import {EventRegister} from 'react-native-event-listeners';
 import Geolocation from '@react-native-community/geolocation';
 import FastImage from 'react-native-fast-image';
 import LinearGradient from 'react-native-linear-gradient';

@@ -2,7 +2,6 @@ import React, {useRef, useState} from 'react';
 import {
   Alert,
   FlatList,
-  Image,
   Platform,
   SafeAreaView,
   ScrollView,
@@ -30,8 +29,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Webservice from '../../../Constants/API';
 import {showAlert} from '../../../utils/mobile-utils';
 import LoadingView from '../../../Constants/LoadingView';
-import Slider from '@react-native-community/slider';
-import {CommonColors} from '../../../Constants/ColorConstant';
 import moment from 'moment';
 import {Modalize} from 'react-native-modalize';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
@@ -42,7 +39,7 @@ const EditProfile = () => {
   const [activeOptions, setactiveOptions] = useState('social');
   const {goBack} = useNavigation();
   const [name, setName] = useState(profile.name || '');
-  const [company, setcompany] = useState(profile.bio || '');
+  const [bio, setBio] = useState(profile.bio || '');
   const [email, setEmail] = useState(profile.email || '');
   const [dob, setDob] = useState(profile.date_of_birth || '');
   const [gender, setGender] = useState(profile.gender || '');
@@ -57,7 +54,7 @@ const EditProfile = () => {
     Webservice.post(APIURL.userprofileupdate, {
       user_id: user_id,
       name: name,
-      bio: company,
+      bio: bio,
       avatar: profileImage.base64,
       gender: gender,
       date_of_birth: dob,
@@ -162,8 +159,8 @@ const EditProfile = () => {
                 } else if (response.errorCode) {
                   console.log('ImagePicker Error: ', response.error);
 
-                  if (response.errorCode == 'permission') {
-                    alert('Please allow Camera permission from Setting');
+                  if (response.errorCode === 'permission') {
+                    showAlert('Please allow Camera permission from Setting');
                   }
                 } else if (response.customButton) {
                   console.log(
@@ -528,8 +525,8 @@ const EditProfile = () => {
                 borderRadius={16}
                 containerStyle={{paddingVetical: hp(1), height: hp(15)}}
                 color="#eef2f9"
-                onChangeText={(a) => setcompany(a)}
-                value={company}
+                onChangeText={(a) => setBio(a)}
+                value={bio}
                 placeholder="ex. UX/UI Designer at Atom 6"
                 placeholderTextColor="grey"
                 maxLength={280}
@@ -539,7 +536,7 @@ const EditProfile = () => {
                 textStyle={{height: hp(15)}}
               />
               <Text margin={[hp(1.5), 0, 0]} right regular size={14} purple>
-                {company.length}/280
+                {bio.length}/280
               </Text>
             </Block>
 
